@@ -1,7 +1,9 @@
+import LoginView from "@/sections/auth/LoginView";
+
 export const metadata = {
   title: "Login",
 };
 
 export default function Login() {
-  return <p>Login</p>;
+  return <LoginView />;
 }
