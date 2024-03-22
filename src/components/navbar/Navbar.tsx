@@ -1,8 +1,9 @@
 "use client";
 
 import { paths } from "@/routes/paths";
+import { LogOut, User } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 function Navbar() {
   const push = useRouter().push;
@@ -70,15 +71,21 @@ function Navbar() {
         </div>
       </div>
 
-      {/* TODO: adjust popover later */}
-      <div className="w-10 h-10">
-        <button onClick={() => {}}>
-          <img
-            className="w-10 h-10 rounded-full hover:brightness-50 transition-all"
-            src="/assets/dummy.png"
-          />
-        </button>
-        <div className="absolute right-[116px] drop-shadow-md"></div>
+      <div className="group w-10 h-10 cursor-pointer">
+        <img
+          className="w-10 h-10 rounded-full hover:brightness-50 transition-all"
+          src="/assets/dummy.png"
+        />
+        <div className="invisible group-hover:visible duration-300 absolute mt-2 right-[116px] p-4 w-[212px] gap-2 flex flex-col bg-slate-white border-2 rounded-lg shadow-md">
+          <button className="flex items-center gap-2 bg-transparent hover:bg-[#1C1C1C] text-sm text-[#1C1C1C] hover:text-white font-medium py-2 px-4 rounded-md transition ease-in">
+            <User />
+            <span>Profile</span>
+          </button>
+          <button className="flex items-center gap-2 bg-transparent border-red-600 text-red-600 hover:bg-red-600 text-sm text-red-bg-red-600 hover:text-white font-medium border py-2 px-4 rounded-md transition ease-in">
+            <LogOut />
+            <span>Logout</span>
+          </button>
+        </div>
       </div>
     </nav>
   );
