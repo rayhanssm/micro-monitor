@@ -77,7 +77,10 @@ function Navbar() {
           src="/assets/dummy.png"
         />
         <div className="invisible group-hover:visible duration-300 absolute mt-2 right-[116px] p-4 w-[212px] gap-2 flex flex-col bg-slate-white border-2 rounded-lg shadow-md">
-          <button className="flex items-center gap-2 bg-transparent hover:bg-[#1C1C1C] text-sm text-[#1C1C1C] hover:text-white font-medium py-2 px-4 rounded-md transition ease-in">
+          <button
+            className="flex items-center gap-2 bg-transparent hover:bg-[#1C1C1C] text-sm text-[#1C1C1C] hover:text-white font-medium py-2 px-4 rounded-md transition ease-in"
+            onClick={() => push(paths.profile)}
+          >
             <User />
             <span>Profile</span>
           </button>

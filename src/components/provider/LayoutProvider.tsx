@@ -1,6 +1,6 @@
 "use client";
 
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/customize/organisms/navbar/Navbar";
 import { usePathname } from "next/dist/client/components/navigation";
 import React from "react";
 
