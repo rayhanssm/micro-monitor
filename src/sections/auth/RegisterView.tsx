@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button/Button";
+import Button from "@/components/customize/atoms/button/Button";
 import AuthTemplate from "@/components/customize/templates/AuthTemplate";
 import { paths } from "@/routes/paths";
 import { useRouter } from "next/navigation";
