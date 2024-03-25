@@ -6,8 +6,17 @@ import React, { useState } from "react";
 function ProfileField() {
   const [profile, setProfile] = useState("");
 
+  // TODO: adjust later
   const handleUploadProfile = (e: any) => {
-    setProfile(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+
+    if (file) {
+      try {
+        setProfile(URL.createObjectURL(file));
+      } catch (error) {
+        console.error("Error");
+      }
+    }
   };
 
   return (
@@ -26,7 +35,7 @@ function ProfileField() {
         type="file"
         name=""
         id=""
-        className="opacity-0 w-full h-full rounded-full cursor-pointer"
+        className="opacity-0 w-full h-full cursor-pointer"
         onChange={handleUploadProfile}
       />
     </div>
