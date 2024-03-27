@@ -2,7 +2,7 @@ import DropdownButton from "@/components/customize/atoms/button/DropdownButton";
 import TargetTable from "@/components/customize/organisms/tables/TargetTable";
 import React from "react";
 
-function TargetsView() {
+function TargetView() {
   // TODO: adjust later
   const optionsDummy = ["2024", "2023", "2022"];
 
@@ -17,4 +17,4 @@ function TargetsView() {
   );
 }
 
-export default TargetsView;
+export default TargetView;
