@@ -17,8 +17,8 @@ export default function Button({
     <button
       className={
         type === "filled"
-          ? `bg-teal-700 hover:bg-teal-700/70 text-sm text-white hover:text-gray-200 font-medium border py-2 px-4 rounded-lg transition-all ${additionClassname}`
-          : `bg-transparent hover:bg-teal-700 text-sm text-teal-700 hover:text-white font-medium border py-2 px-4 rounded-lg transition-all ${additionClassname}`
+          ? `bg-teal-700 hover:bg-teal-700/70 text-sm text-white hover:text-gray-200 font-medium border py-2 px-4 rounded-lg transition-colors ${additionClassname}`
+          : `bg-transparent hover:bg-slate-50 text-sm text-teal-700 font-medium border py-2 px-4 rounded-lg transition-colors ${additionClassname}`
       }
       onClick={onClick}
     >

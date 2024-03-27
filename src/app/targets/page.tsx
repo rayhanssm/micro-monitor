@@ -1,3 +1,4 @@
+import TargetsView from "@/sections/TargetsView";
 import React from "react";
 
 export const metadata = {
@@ -5,7 +6,7 @@ export const metadata = {
 };
 
 function Targets() {
-  return <div className="px-[116px] pt-[88px]">Targets page</div>;
+  return <TargetsView />;
 }
 
 export default Targets;

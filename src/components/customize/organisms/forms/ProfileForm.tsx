@@ -1,6 +1,6 @@
 import React from "react";
-import CustomTextField from "../../molecules/cutom-text-field/CustomTextField";
-import ProfileField from "../../molecules/profile-field/ProfileField";
+import CustomTextField from "../../molecules/input-field/CustomTextField";
+import ProfileField from "../../molecules/input-field/ProfileField";
 
 function ProfileForm() {
   return (
