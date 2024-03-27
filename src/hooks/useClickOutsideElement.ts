@@ -1,16 +1,12 @@
 import { useEffect, useRef } from "react";
 
-type IProps = {
-  setIsOpen: (value: boolean) => void;
-};
-
-function useClickOutsideElement({ setIsOpen }: IProps) {
+function useClickOutsideElement(callback: (value: boolean) => void) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClose = (e: any) => {
       if (!ref.current?.contains(e.target)) {
-        setIsOpen(false);
+        callback(false);
       }
     };
 
@@ -18,7 +14,7 @@ function useClickOutsideElement({ setIsOpen }: IProps) {
     return () => {
       document.removeEventListener("mousedown", handleClose);
     };
-  }, [setIsOpen]);
+  }, [callback]);
 
   return ref;
 }

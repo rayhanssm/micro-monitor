@@ -12,7 +12,7 @@ function Navbar() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const menuRef = useClickOutsideElement({ setIsOpen });
+  const menuRef = useClickOutsideElement(setIsOpen);
 
   return (
     <nav className="px-[116px] py-4 w-full bg-white fixed backdrop-blur-2xl flex items-center justify-between">

@@ -1,5 +1,10 @@
+"use client";
+
 import { CirclePlus, Pencil, Trash2 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import TargetForm from "../forms/TargetForm";
+import Button from "../../atoms/button/Button";
+import ModalCard from "../modal-card/ModalCard";
 
 // TODO: delete later
 const tableDummies = [
@@ -53,10 +58,11 @@ const tableDummies = [
   },
 ];
 
-const options = ["2024", "2023", "2022"];
-
 function CustomTable() {
   const lastItem = tableDummies.length - 1;
+  const [isShowAddModal, setIsShowAddModal] = useState(false);
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 
   return (
     <div className="border rounded-md p-6">
@@ -86,16 +92,16 @@ function CustomTable() {
               >
                 {content.target ? (
                   <div className="flex gap-2">
-                    <button>
+                    <button onClick={() => setIsShowEditModal(true)}>
                       <Pencil size={20} color="#0F766E" />
                     </button>
-                    <button>
+                    <button onClick={() => setIsShowDeleteModal(true)}>
                       <Trash2 size={20} color="#0F766E" />
                     </button>
                   </div>
                 ) : (
                   <div className="flex">
-                    <button>
+                    <button onClick={() => setIsShowAddModal(true)}>
                       <CirclePlus size={20} color="#0F766E" />
                     </button>
                   </div>
@@ -105,6 +111,66 @@ function CustomTable() {
           ))}
         </tbody>
       </table>
+
+      {/* Add target modal */}
+      <ModalCard open={isShowAddModal} setOpen={setIsShowAddModal}>
+        <p className="text-2xl font-semibold mb-4 flex justify-center">
+          Add Target
+        </p>
+        <TargetForm />
+
+        <div className="flex gap-2 justify-end">
+          <Button
+            text="Cancel"
+            type="outlined"
+            additionClassname="w-full"
+            onClick={() => setIsShowAddModal(false)}
+          />
+          <Button text="Add" type="filled" additionClassname="w-full" />
+        </div>
+      </ModalCard>
+
+      {/* Edit target modal */}
+      <ModalCard open={isShowEditModal} setOpen={setIsShowEditModal}>
+        <p className="text-2xl font-semibold mb-4 flex justify-center">
+          Edit Target
+        </p>
+        <TargetForm />
+
+        <div className="flex gap-2 justify-end">
+          <Button
+            text="Cancel"
+            type="outlined"
+            additionClassname="w-full"
+            onClick={() => setIsShowEditModal(false)}
+          />
+          <Button text="Edit" type="filled" additionClassname="w-full" />
+        </div>
+      </ModalCard>
+
+      {/* Delete target modal */}
+      <ModalCard open={isShowDeleteModal} setOpen={setIsShowDeleteModal}>
+        <div className="flex flex-col gap-4">
+          <p className="text-lg font-semibold flex">
+            Are you sure want to delete Transaction?
+          </p>
+
+          <p className="text-sm font-medium text-slate-500">
+            This will permanently delete target and remove the data from our
+            servers.
+          </p>
+
+          <div className="flex gap-2 justify-end">
+            <Button
+              text="Cancel"
+              type="outlined"
+              additionClassname="w-full"
+              onClick={() => setIsShowDeleteModal(false)}
+            />
+            <Button text="Delete" type="filled" additionClassname="w-full" />
+          </div>
+        </div>
+      </ModalCard>
     </div>
   );
 }

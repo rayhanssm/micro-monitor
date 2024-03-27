@@ -2,7 +2,7 @@
 
 import useClickOutsideElement from "@/hooks/useClickOutsideElement";
 import { ChevronDown } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 
 export type IProps = {
   options: string[];
@@ -12,7 +12,7 @@ function DropdownButton({ options }: IProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
 
-  const optionMenuRef = useClickOutsideElement({ setIsOpen });
+  const optionMenuRef = useClickOutsideElement(setIsOpen);
 
   return (
     <div>
@@ -31,6 +31,7 @@ function DropdownButton({ options }: IProps) {
         >
           {options.map((option, index) => (
             <button
+              key={index}
               onClick={() => {
                 setSelectedOption(option);
                 setIsOpen(false);

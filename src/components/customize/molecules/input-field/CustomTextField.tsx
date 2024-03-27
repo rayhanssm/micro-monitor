@@ -15,7 +15,7 @@ function CustomTextField({ label, type = "text", name }: IProps) {
       <input
         type={type}
         name={name}
-        className="w-full bg-white border border-slate-300 text-slate-900 text-sm rounded-lg px-3 py-2 transition-all"
+        className="w-full bg-white border border-slate-300 text-slate-900 text-sm rounded-lg px-3 py-2"
         required
       />
     </div>
