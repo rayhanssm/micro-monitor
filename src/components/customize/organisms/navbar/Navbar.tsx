@@ -6,9 +6,32 @@ import { LogOut, User } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+const navItems = [
+  {
+    menu: "Dashboard",
+    path: paths.dashboard,
+  },
+  {
+    menu: "Product",
+    path: paths.product,
+  },
+  {
+    menu: "Transaction",
+    path: paths.transaction,
+  },
+  {
+    menu: "Expense",
+    path: paths.expense,
+  },
+  {
+    menu: "Target",
+    path: paths.tagret,
+  },
+];
+
 function Navbar() {
   const push = useRouter().push;
-  const path = usePathname();
+  const currPath = usePathname();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,56 +46,19 @@ function Navbar() {
           alt="Micro Monitor logo"
         />
         <div className="flex gap-10">
-          <button
-            className={
-              path === paths.dashboard
-                ? "px-4 py-2 bg-gradient-to-t from-slate-100 border-b-2 border-slate-950 transition-all"
-                : "px-4 py-2 hover:text-slate-400 transition-all"
-            }
-            onClick={() => push(paths.dashboard)}
-          >
-            Dashboard
-          </button>
-          <button
-            className={
-              path === paths.products
-                ? "px-4 py-2 bg-gradient-to-t from-slate-100 border-b-2 border-slate-950 transition-all"
-                : "px-4 py-2 hover:text-slate-400 transition-all"
-            }
-            onClick={() => push(paths.products)}
-          >
-            Products
-          </button>
-          <button
-            className={
-              path === paths.transactions
-                ? "px-4 py-2 bg-gradient-to-t from-slate-100 border-b-2 border-slate-950 transition-all"
-                : "px-4 py-2 hover:text-slate-400 transition-all"
-            }
-            onClick={() => push(paths.transactions)}
-          >
-            Transactions
-          </button>
-          <button
-            className={
-              path === paths.expenses
-                ? "px-4 py-2 bg-gradient-to-t from-slate-100 border-b-2 border-slate-950 transition-all"
-                : "px-4 py-2 hover:text-slate-400 transition-all"
-            }
-            onClick={() => push(paths.expenses)}
-          >
-            Expenses
-          </button>
-          <button
-            className={
-              path === paths.tagrets
-                ? "px-4 py-2 bg-gradient-to-t from-slate-100 border-b-2 border-slate-950 transition-all"
-                : "px-4 py-2 hover:text-slate-400 transition-all"
-            }
-            onClick={() => push(paths.tagrets)}
-          >
-            Targets
-          </button>
+          {navItems.map((item, index) => (
+            <button
+              key={index}
+              className={
+                currPath === item.path
+                  ? "px-4 py-2 bg-gradient-to-t from-slate-100 border-b-2 border-slate-950 transition-all"
+                  : "px-4 py-2 hover:text-slate-400 transition-all"
+              }
+              onClick={() => push(item.path)}
+            >
+              {item.menu}
+            </button>
+          ))}
         </div>
       </div>
 
