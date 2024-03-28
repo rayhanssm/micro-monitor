@@ -1,3 +1,4 @@
+import ExpenseView from "@/sections/ExpenseView";
 import React from "react";
 
 export const metadata = {
@@ -5,7 +6,7 @@ export const metadata = {
 };
 
 function Expense() {
-  return <div className="px-[116px] pt-[88px]">Expense page</div>;
+  return <ExpenseView/>;
 }
 
 export default Expense;

@@ -15,11 +15,11 @@ export default function Button({
 }: IButton) {
   return (
     <button
-      className={
+      className={`font-medium border py-2 px-4 rounded-lg transition-colors text-sm ${
         type === "filled"
-          ? `bg-teal-700 hover:bg-teal-700/70 text-sm text-white hover:text-gray-200 font-medium border py-2 px-4 rounded-lg transition-colors ${additionClassname}`
-          : `bg-transparent hover:bg-slate-50 text-sm text-teal-700 font-medium border py-2 px-4 rounded-lg transition-colors ${additionClassname}`
-      }
+          ? `bg-teal-700 hover:bg-teal-700/70 text-white hover:text-gray-200`
+          : `bg-transparent hover:bg-slate-50 text-teal-700`
+      } ${additionClassname}`}
       onClick={onClick}
     >
       {text}
