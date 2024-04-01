@@ -58,7 +58,7 @@ const tableDummies = [
   },
 ];
 
-function CustomTable() {
+function TargetTable() {
   const lastItem = tableDummies.length - 1;
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
@@ -113,39 +113,23 @@ function CustomTable() {
       </table>
 
       {/* Add target modal */}
-      <ModalCard open={isShowAddModal} setOpen={setIsShowAddModal}>
-        <p className="text-2xl font-semibold mb-4 flex justify-center">
-          Add Target
-        </p>
+      <ModalCard
+        open={isShowAddModal}
+        setOpen={setIsShowAddModal}
+        title="Add Target"
+        buttonText="Add"
+      >
         <TargetForm />
-
-        <div className="flex gap-2 justify-end">
-          <Button
-            text="Cancel"
-            type="outlined"
-            additionClassname="w-full"
-            onClick={() => setIsShowAddModal(false)}
-          />
-          <Button text="Add" type="filled" additionClassname="w-full" />
-        </div>
       </ModalCard>
 
       {/* Edit target modal */}
-      <ModalCard open={isShowEditModal} setOpen={setIsShowEditModal}>
-        <p className="text-2xl font-semibold mb-4 flex justify-center">
-          Edit Target
-        </p>
+      <ModalCard
+        open={isShowEditModal}
+        setOpen={setIsShowEditModal}
+        title="Edit Target"
+        buttonText="Edit"
+      >
         <TargetForm />
-
-        <div className="flex gap-2 justify-end">
-          <Button
-            text="Cancel"
-            type="outlined"
-            additionClassname="w-full"
-            onClick={() => setIsShowEditModal(false)}
-          />
-          <Button text="Edit" type="filled" additionClassname="w-full" />
-        </div>
       </ModalCard>
 
       {/* Delete target modal */}
@@ -156,8 +140,7 @@ function CustomTable() {
           </p>
 
           <p className="text-sm font-medium text-slate-500">
-            This will permanently delete target and remove the data from our
-            servers.
+            This will permanently remove the data from our servers.
           </p>
 
           <div className="flex gap-2 justify-end">
@@ -175,4 +158,4 @@ function CustomTable() {
   );
 }
 
-export default CustomTable;
+export default TargetTable;

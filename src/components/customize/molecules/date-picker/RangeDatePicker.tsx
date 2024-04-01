@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import IconButton from "../../atoms/button/IconButton";
 import { Calendar } from "lucide-react";
 import "react-day-picker/dist/style.css";
-import { format } from "date-fns";
 import { DateRange, DayPicker } from "react-day-picker";
 import useClickOutsideElement from "@/hooks/useClickOutsideElement";
 import Button from "../../atoms/button/Button";
+import { fDateSlash } from "@/utils/formatDate";
 
 type IProps = {
   selected: any;
@@ -53,8 +53,8 @@ function RangeDatePicker({ selected, setSelected }: IProps) {
         icon={<Calendar />}
         text={
           selected
-            ? `${format(selected?.from, "dd/MM/yyyy")} - ${
-                selected.to ? format(selected?.to, "dd/MM/yyyy") : ""
+            ? `${fDateSlash(selected?.from)} - ${
+                selected.to ? fDateSlash(selected?.to) : ""
               }`
             : "Select a date"
         }
@@ -66,7 +66,7 @@ function RangeDatePicker({ selected, setSelected }: IProps) {
         ref={datePickerRef}
         className={`${
           isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 invisible"
-        } p-3 mt-2 bg-white shadow-lg rounded-lg transition-all`}
+        } p-3 mt-12 bg-white absolute shadow-lg rounded-lg transition-all`}
       >
         {/* TODO: adjust styling later */}
         <DayPicker
@@ -75,6 +75,9 @@ function RangeDatePicker({ selected, setSelected }: IProps) {
           onSelect={setSelected}
           numberOfMonths={2}
           showOutsideDays
+          captionLayout="dropdown-buttons"
+          fromYear={2010}
+          toYear={new Date().getFullYear()}
         />
         {footer}
       </div>
