@@ -17,7 +17,7 @@ function LoginView() {
             <p className="text-slate-500 text-base">Not a user yet?</p>
             <Button
               text="Register"
-              type="outlined"
+              btnStyle="outlined"
               onClick={() => push(paths.auth.register)}
             />
           </div>
@@ -56,7 +56,7 @@ function LoginView() {
                   />
                 </div>
               </form>
-              <Button text="Login" type="filled" />
+              <Button text="Login" btnStyle="filled" />
             </div>
           </div>
         </div>

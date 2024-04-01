@@ -1,6 +1,6 @@
 import React from "react";
-import CustomTextField from "../../molecules/input-field/CustomTextField";
 import ProfileField from "../../molecules/input-field/ProfileField";
+import TextField from "../../molecules/input-field/TextField";
 
 function ProfileForm() {
   return (
@@ -9,8 +9,8 @@ function ProfileForm() {
         <ProfileField />
       </div>
 
-      <CustomTextField label="Store Name" name="storeName" type="text" />
-      <CustomTextField label="Username" name="userName" type="text" />
+      <TextField label="Store Name" name="storeName" />
+      <TextField label="Username" name="userName" />
     </form>
   );
 }

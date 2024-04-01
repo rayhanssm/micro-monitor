@@ -68,27 +68,27 @@ function Navbar() {
           className="w-10 h-10 rounded-full bg-cover bg-no-repeat bg-center hover:brightness-50 transition-all"
           src="/assets/image-placeholder.png"
         />
-        {isOpen && (
-          <div
-            ref={menuRef}
-            className="duration-300 absolute z-50 mt-2 right-[116px] p-4 w-[212px] gap-2 flex flex-col bg-white border-2 rounded-lg shadow-md"
+        <div
+          ref={menuRef}
+          className={`${
+            isOpen ? "scale-100 opacity-100" : "scale-90 invisible"
+          } absolute z-50 mt-2 right-[116px] p-4 w-[212px] gap-2 flex flex-col bg-white border-2 rounded-lg shadow-md transition-all`}
+        >
+          <button
+            className="flex items-center gap-2 bg-transparent hover:bg-[#1C1C1C] text-sm text-[#1C1C1C] hover:text-white font-medium py-2 px-4 rounded-md transition ease-in"
+            onClick={() => {
+              push(paths.profile);
+              setIsOpen(false);
+            }}
           >
-            <button
-              className="flex items-center gap-2 bg-transparent hover:bg-[#1C1C1C] text-sm text-[#1C1C1C] hover:text-white font-medium py-2 px-4 rounded-md transition ease-in"
-              onClick={() => {
-                push(paths.profile);
-                setIsOpen(false);
-              }}
-            >
-              <User />
-              <span>Profile</span>
-            </button>
-            <button className="flex items-center gap-2 bg-transparent border-red-600 text-red-600 hover:bg-red-600 text-sm text-red-bg-red-600 hover:text-white font-medium border py-2 px-4 rounded-md transition ease-in">
-              <LogOut />
-              <span>Logout</span>
-            </button>
-          </div>
-        )}
+            <User />
+            <span>Profile</span>
+          </button>
+          <button className="flex items-center gap-2 bg-transparent border-red-600 text-red-600 hover:bg-red-600 text-sm text-red-bg-red-600 hover:text-white font-medium border py-2 px-4 rounded-md transition ease-in">
+            <LogOut />
+            <span>Logout</span>
+          </button>
+        </div>
       </div>
     </nav>
   );

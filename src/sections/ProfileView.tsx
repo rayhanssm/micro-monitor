@@ -10,7 +10,7 @@ function ProfileView() {
       <div className="p-[25px] w-[400px] border border-slate-200 rounded-lg shadow">
         <ProfileForm />
 
-        <Button text="Save" type="filled" additionClassname="w-full" />
+        <Button text="Save" btnStyle="filled" additionClassname="w-full" />
       </div>
     </div>
   );

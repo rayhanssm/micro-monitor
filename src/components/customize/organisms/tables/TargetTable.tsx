@@ -3,8 +3,8 @@
 import { CirclePlus, Pencil, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import TargetForm from "../forms/TargetForm";
-import Button from "../../atoms/button/Button";
 import ModalCard from "../modal-card/ModalCard";
+import { fCurrency } from "@/utils/formatNumber";
 
 // TODO: delete later
 const tableDummies = [
@@ -45,7 +45,7 @@ const tableDummies = [
     target: 6000000,
   },
   {
-    month: "Oktober",
+    month: "October",
     target: 6000000,
   },
   {
@@ -53,16 +53,17 @@ const tableDummies = [
     target: 6000000,
   },
   {
-    month: "Desember",
+    month: "December",
     target: 6000000,
   },
 ];
 
-function CustomTable() {
+function TargetTable() {
   const lastItem = tableDummies.length - 1;
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [deleteItem, setDeleteItem] = useState<string>();
 
   return (
     <div className="border rounded-md p-6">
@@ -85,7 +86,7 @@ function CustomTable() {
               <td
                 className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
               >
-                {content.target ? content.target : "-"}
+                {content.target ? fCurrency(content.target) : "-"}
               </td>
               <td
                 className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
@@ -95,7 +96,12 @@ function CustomTable() {
                     <button onClick={() => setIsShowEditModal(true)}>
                       <Pencil size={20} color="#0F766E" />
                     </button>
-                    <button onClick={() => setIsShowDeleteModal(true)}>
+                    <button
+                      onClick={() => {
+                        setIsShowDeleteModal(true);
+                        setDeleteItem(content.month);
+                      }}
+                    >
                       <Trash2 size={20} color="#0F766E" />
                     </button>
                   </div>
@@ -113,66 +119,33 @@ function CustomTable() {
       </table>
 
       {/* Add target modal */}
-      <ModalCard open={isShowAddModal} setOpen={setIsShowAddModal}>
-        <p className="text-2xl font-semibold mb-4 flex justify-center">
-          Add Target
-        </p>
+      <ModalCard
+        open={isShowAddModal}
+        setOpen={setIsShowAddModal}
+        title="Add Target"
+        buttonText="Add"
+      >
         <TargetForm />
-
-        <div className="flex gap-2 justify-end">
-          <Button
-            text="Cancel"
-            type="outlined"
-            additionClassname="w-full"
-            onClick={() => setIsShowAddModal(false)}
-          />
-          <Button text="Add" type="filled" additionClassname="w-full" />
-        </div>
       </ModalCard>
 
       {/* Edit target modal */}
-      <ModalCard open={isShowEditModal} setOpen={setIsShowEditModal}>
-        <p className="text-2xl font-semibold mb-4 flex justify-center">
-          Edit Target
-        </p>
+      <ModalCard
+        open={isShowEditModal}
+        setOpen={setIsShowEditModal}
+        title="Edit Target"
+        buttonText="Edit"
+      >
         <TargetForm />
-
-        <div className="flex gap-2 justify-end">
-          <Button
-            text="Cancel"
-            type="outlined"
-            additionClassname="w-full"
-            onClick={() => setIsShowEditModal(false)}
-          />
-          <Button text="Edit" type="filled" additionClassname="w-full" />
-        </div>
       </ModalCard>
 
       {/* Delete target modal */}
-      <ModalCard open={isShowDeleteModal} setOpen={setIsShowDeleteModal}>
-        <div className="flex flex-col gap-4">
-          <p className="text-lg font-semibold flex">
-            Are you sure want to delete Transaction?
-          </p>
-
-          <p className="text-sm font-medium text-slate-500">
-            This will permanently delete target and remove the data from our
-            servers.
-          </p>
-
-          <div className="flex gap-2 justify-end">
-            <Button
-              text="Cancel"
-              type="outlined"
-              additionClassname="w-full"
-              onClick={() => setIsShowDeleteModal(false)}
-            />
-            <Button text="Delete" type="filled" additionClassname="w-full" />
-          </div>
-        </div>
-      </ModalCard>
+      <ModalCard
+        open={isShowDeleteModal}
+        setOpen={setIsShowDeleteModal}
+        deleteTitle={deleteItem + " target"}
+      />
     </div>
   );
 }
 
-export default CustomTable;
+export default TargetTable;
