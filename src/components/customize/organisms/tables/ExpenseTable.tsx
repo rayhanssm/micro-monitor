@@ -79,6 +79,7 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
 
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [deleteItem, setDeleteItem] = useState<string>();
 
   return (
     <div>
@@ -119,7 +120,12 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
                     <button onClick={() => setIsShowEditModal(true)}>
                       <Pencil size={20} color="#0F766E" />
                     </button>
-                    <button onClick={() => setIsShowDeleteModal(true)}>
+                    <button
+                      onClick={() => {
+                        setIsShowDeleteModal(true);
+                        setDeleteItem(fDateSlash(content.date));
+                      }}
+                    >
                       <Trash2 size={20} color="#0F766E" />
                     </button>
                   </div>
@@ -135,7 +141,7 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
         total={Math.ceil(tableDummies.length / 10)}
       />
 
-      {/* Add target modal */}
+      {/* Add expense modal */}
       <ModalCard
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
@@ -144,6 +150,23 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
       >
         <ExpenseForm />
       </ModalCard>
+
+      {/* Edit expense modal */}
+      <ModalCard
+        open={isShowEditModal}
+        setOpen={setIsShowEditModal}
+        title="Edit Expense"
+        buttonText="Edit"
+      >
+        <ExpenseForm />
+      </ModalCard>
+
+      {/* Delete expense modal */}
+      <ModalCard
+        open={isShowDeleteModal}
+        setOpen={setIsShowDeleteModal}
+        deleteTitle={" an expenses on " + deleteItem}
+      />
     </div>
   );
 }

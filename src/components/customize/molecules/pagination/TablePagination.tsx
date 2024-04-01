@@ -13,8 +13,8 @@ function TablePagination({ current, total }: IProps) {
         Page {current} of {total}
       </p>
       <div className="flex gap-4">
-        <Button text="Previous" type="outlined" disabled={current === 1} />
-        <Button text="Next" type="outlined" disabled={current === total} />
+        <Button text="Previous" btnStyle="outlined" disabled={current === 1} />
+        <Button text="Next" btnStyle="outlined" disabled={current === total} />
       </div>
     </div>
   );

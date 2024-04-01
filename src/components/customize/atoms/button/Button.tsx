@@ -2,23 +2,25 @@ import React from "react";
 
 type IProps = {
   text: string;
-  type: "filled" | "outlined";
+  btnStyle: "filled" | "outlined";
   additionClassname?: string;
   onClick?: () => void;
   disabled?: boolean;
+  type?: "button" | "reset" | "submit";
 };
 
 export default function Button({
   text,
-  type,
+  btnStyle,
   additionClassname,
   onClick,
   disabled = false,
+  type = "button",
 }: IProps | any) {
   return (
     <button
       className={`font-medium border py-2 px-4 rounded-lg transition-colors text-sm ${
-        type === "filled"
+        btnStyle === "filled"
           ? `bg-teal-700 hover:bg-teal-700/70 text-white hover:text-gray-200`
           : `bg-transparent ${
               disabled
@@ -28,6 +30,7 @@ export default function Button({
       } ${additionClassname}`}
       disabled={disabled}
       onClick={onClick}
+      type={type}
     >
       {text}
     </button>

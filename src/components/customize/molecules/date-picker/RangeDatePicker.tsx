@@ -24,7 +24,7 @@ function RangeDatePicker({ selected, setSelected }: IProps) {
     <div className="mt-3 flex gap-2 justify-end">
       <Button
         text="Cancel"
-        type="outlined"
+        btnStyle="outlined"
         onClick={() => {
           setIsOpen(false);
           setSelected(undefined);
@@ -32,14 +32,14 @@ function RangeDatePicker({ selected, setSelected }: IProps) {
       />
       <Button
         text="Reset"
-        type="outlined"
+        btnStyle="outlined"
         onClick={() => {
           setSelected(undefined);
         }}
       />
       <Button
         text="Filter"
-        type="filled"
+        btnStyle="filled"
         onClick={() => {
           setIsOpen(false);
         }}
