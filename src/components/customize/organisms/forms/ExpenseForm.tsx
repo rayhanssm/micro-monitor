@@ -7,7 +7,7 @@ function ExpenseForm() {
   return (
     <form className="space-y-2 s mb-[30px]">
       <TextAreaField label="Description" name="description" />
-      <NumberField label="Amount" name="amount" />
+      <NumberField label="Amount" name="amount" type="currency" />
       <DateField label="Date" name="date" />
     </form>
   );

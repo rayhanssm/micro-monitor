@@ -6,7 +6,7 @@ function TargetForm() {
   return (
     <form className="space-y-2 s mb-[30px]">
       <TextField label="Month" name="month" />
-      <NumberField label="Target" name="target" />
+      <NumberField label="Target" name="target" type="currency" />
     </form>
   );
 }

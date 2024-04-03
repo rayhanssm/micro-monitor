@@ -1,3 +1,5 @@
+"use client";
+
 import { Search } from "lucide-react";
 import React from "react";
 
@@ -14,7 +16,7 @@ function SearchField({ name }: IProps) {
         name={name}
         id="search-field"
         placeholder="Type and enter to search..."
-        className="block w-56 outline-none placeholder-slate-400 text-sm place"
+        className="block w-56 outline-none placeholder-slate-400 text-sm"
       />
     </div>
   );
