@@ -21,6 +21,17 @@ function SelectField({ label, name, options }: IProps) {
     setSearchTxt(valueToLowerCase);
   };
 
+  const filteredOptions = options.filter((item) => {
+    if (searchTxt) {
+      return (
+        item.name.toLowerCase().includes(searchTxt.toLowerCase()) ||
+        item.name === searchTxt
+      );
+    } else {
+      return true;
+    }
+  });
+
   return (
     <div>
       <label className="w-fit text-slate-900 text-sm font-medium">
@@ -60,33 +71,25 @@ function SelectField({ label, name, options }: IProps) {
         <div
           className={`mt-2 max-w-full max-h-60 overflow-auto flex flex-col gap-1 p-1.5 border rounded-md`}
         >
-          {options
-            .filter((item) => {
-              if (searchTxt) {
-                return (
-                  item.name.toLowerCase().includes(searchTxt.toLowerCase()) ||
-                  item.name === searchTxt
-                );
-              } else {
-                return true;
-              }
-            })
-            .map((item) => (
-              <button
-                type="button"
-                key={item.value}
-                className={`py-2 px-3 rounded-md text-left text-sm hover:bg-slate-100 ${
-                  selected?.value === item.value ? "bg-slate-100" : ""
-                }`}
-                onClick={() => {
-                  setSelected(item);
-                  setSearchTxt("");
-                  setIsOpen(false);
-                }}
-              >
-                {item.name}
-              </button>
-            ))}
+          {filteredOptions.length === 0 && (
+            <p className="py-2 px-3 text-sm">Not found</p>
+          )}
+          {filteredOptions.map((item) => (
+            <button
+              type="button"
+              key={item.value}
+              className={`py-2 px-3 rounded-md text-left text-sm hover:bg-slate-100 ${
+                selected?.value === item.value ? "bg-slate-100" : ""
+              }`}
+              onClick={() => {
+                setSelected(item);
+                setSearchTxt("");
+                setIsOpen(false);
+              }}
+            >
+              {item.name}
+            </button>
+          ))}
         </div>
       </div>
     </div>
