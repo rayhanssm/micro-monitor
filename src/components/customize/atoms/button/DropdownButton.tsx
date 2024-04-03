@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 
 export type IProps = {
+  // TODO: change to IOptions later
   options: string[];
 };
 

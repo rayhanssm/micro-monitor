@@ -1,3 +1,4 @@
+import TransactionView from "@/sections/TransactionView";
 import React from "react";
 
 export const metadata = {
@@ -5,7 +6,7 @@ export const metadata = {
 };
 
 function Transaction() {
-  return <div className="px-[116px] pt-[88px]">Transaction page</div>;
-} 
+  return <TransactionView />;
+}
 
 export default Transaction;
