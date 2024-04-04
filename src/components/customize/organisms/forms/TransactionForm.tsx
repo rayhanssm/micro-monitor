@@ -12,7 +12,7 @@ function TransactionForm() {
         name="productName"
         options={transactionOptions}
       />
-      <div className="flex gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <NumberField label="Quantity" name="quantity" type="number" />
         <NumberField label="Amount" name="amount" type="currency" />
       </div>

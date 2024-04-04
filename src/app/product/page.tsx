@@ -1,3 +1,4 @@
+import ProductView from "@/sections/ProductView";
 import React from "react";
 
 export const metadata = {
@@ -5,7 +6,7 @@ export const metadata = {
 };
 
 function Product() {
-  return <div className="px-[116px] pt-[88px]">Product page</div>;
+  return <ProductView />;
 }
 
 export default Product;
