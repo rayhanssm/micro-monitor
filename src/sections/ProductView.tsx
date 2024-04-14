@@ -12,7 +12,8 @@ import React, { useState } from "react";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
-  const [currPage, setCurrPage] = useState<number>(1);
+  const dataLength = productList.length;
+  const pageCount = Math.ceil(dataLength / 12);
 
   return (
     <div className="px-[116px] py-[112px]">
@@ -36,11 +37,7 @@ function ProductView() {
       </div>
 
       <div className="flex justify-center mt-14">
-        <Pagination
-          current={currPage}
-          setCurrent={setCurrPage}
-          total={Math.ceil(productList.length / 12)}
-        />
+        <Pagination pageCount={pageCount} />
       </div>
 
       <ModalCard
