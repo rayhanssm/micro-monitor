@@ -3,7 +3,7 @@
 import { CirclePlus, Pencil, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import TargetForm from "../forms/TargetForm";
-import ModalCard from "../modal-card/ModalCard";
+import ModalCard from "../cards/ModalCard";
 import { fCurrency } from "@/utils/formatNumber";
 
 // TODO: delete later

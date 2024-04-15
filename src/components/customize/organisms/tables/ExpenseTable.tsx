@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ModalCard from "../modal-card/ModalCard";
+import ModalCard from "../cards/ModalCard";
 import { fDateSlash } from "@/utils/formatDate";
 import { fCurrency } from "@/utils/formatNumber";
 import TablePagination from "../../molecules/pagination/TablePagination";

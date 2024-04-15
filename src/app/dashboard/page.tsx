@@ -1,3 +1,4 @@
+import DashboardView from "@/sections/DashboardView";
 import React from "react";
 
 export const metadata = {
@@ -5,7 +6,7 @@ export const metadata = {
 };
 
 function Dashboard() {
-  return <div className="px-[116px] pt-[88px]">Dashboard page</div>;
+  return <DashboardView />;
 }
 
 export default Dashboard;
