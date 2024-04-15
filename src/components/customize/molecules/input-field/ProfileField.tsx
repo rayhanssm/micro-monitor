@@ -35,6 +35,7 @@ function ProfileField() {
         type="file"
         name=""
         id=""
+        accept="image/*"
         className="opacity-0 w-full h-full cursor-pointer"
         onChange={handleUploadProfile}
       />
