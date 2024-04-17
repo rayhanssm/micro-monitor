@@ -4,7 +4,7 @@ import { IProductList } from "@/types/responses/productResponse";
 import { fCurrency, fNum } from "@/utils/formatNumber";
 import { Pencil, Trash2 } from "lucide-react";
 import React, { useState } from "react";
-import ModalCard from "../modal-card/ModalCard";
+import ModalCard from "./ModalCard";
 import ProductForm from "../forms/ProductForm";
 
 type IProps = {

@@ -5,8 +5,8 @@ import IconButton from "@/components/customize/atoms/button/IconButton";
 import SearchField from "@/components/customize/molecules/input-field/SearchField";
 import Pagination from "@/components/customize/molecules/pagination/Pagination";
 import ProductForm from "@/components/customize/organisms/forms/ProductForm";
-import ModalCard from "@/components/customize/organisms/modal-card/ModalCard";
-import ProductCard from "@/components/customize/organisms/product-card/ProductCard";
+import ModalCard from "@/components/customize/organisms/cards/ModalCard";
+import ProductCard from "@/components/customize/organisms/cards/ProductCard";
 import { CirclePlus } from "lucide-react";
 import React, { useState } from "react";
 

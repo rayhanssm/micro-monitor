@@ -5,7 +5,7 @@ import { fCurrency, fNum } from "@/utils/formatNumber";
 import { Pencil, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import TablePagination from "../../molecules/pagination/TablePagination";
-import ModalCard from "../modal-card/ModalCard";
+import ModalCard from "../cards/ModalCard";
 import TransactionForm from "../forms/TransactionForm";
 import { transactionTableDummies } from "@/_dummyData/transaction";
 
