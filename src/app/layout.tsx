@@ -1,4 +1,5 @@
 import "./globals.css";
+import LayoutProvider from "@/components/provider/LayoutProvider";
 
 export default function RootLayout({
   children,
@@ -6,8 +7,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+    <LayoutProvider>{children}</LayoutProvider>
   );
 }

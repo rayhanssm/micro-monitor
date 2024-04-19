@@ -1,9 +1,11 @@
 "use client";
 
+import { paths } from "@/routes/paths";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 export default function Home() {
-  return (
-    <main className="m-10">
-      <p className="text-3xl">Welcome to Micro Monitor!</p>
-    </main>
-  );
+  const redirect = useRouter().push;
+
+  useEffect(() => redirect(paths.dashboard), []);
 }
