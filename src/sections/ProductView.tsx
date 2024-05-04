@@ -9,11 +9,27 @@ import ModalCard from "@/components/customize/organisms/cards/ModalCard";
 import ProductCard from "@/components/customize/organisms/cards/ProductCard";
 import { CirclePlus } from "lucide-react";
 import React, { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { productField, productSchema } from "@/data/ProductData";
+import { IProductRequest } from "@/types/requests/ProductRequest";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const dataLength = productList.length;
   const pageCount = Math.ceil(dataLength / 12);
+
+  const methods = useForm({
+    resolver: yupResolver(productSchema),
+    defaultValues: productField(),
+    mode: "onChange",
+  });
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = (data: IProductRequest) => {
+    console.log(data);
+  };
 
   return (
     <div className="px-[116px] py-[112px]">
@@ -45,8 +61,11 @@ function ProductView() {
         setOpen={setIsShowAddModal}
         title="Add Product"
         buttonText="Add"
+        onClick={handleSubmit(onSubmit)}
       >
-        <ProductForm />
+        <FormProvider {...methods}>
+          <ProductForm onSubmit={handleSubmit(onSubmit)} />
+        </FormProvider>
       </ModalCard>
     </div>
   );

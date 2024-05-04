@@ -1,13 +1,30 @@
 "use client";
 
 import Button from "@/components/customize/atoms/button/Button";
+import RegisterForm from "@/components/customize/organisms/forms/RegisterForm";
 import AuthTemplate from "@/components/customize/templates/AuthTemplate";
+import { registerField, registerSchema } from "@/data/AuthData";
 import { paths } from "@/routes/paths";
+import { IRegisterRequest } from "@/types/requests/AuthRequest";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
 function RegisterView() {
   const push = useRouter().push;
+
+  const methods = useForm({
+    resolver: yupResolver(registerSchema),
+    defaultValues: registerField(),
+    mode: "onChange",
+  });
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = (data: IRegisterRequest) => {
+    console.log(data);
+  };
 
   return (
     <AuthTemplate
@@ -34,49 +51,14 @@ function RegisterView() {
 
             {/* TODO: integrate later */}
             <div>
-              <form className="space-y-6 mb-[30px]">
-                <div>
-                  <label className="text-slate-900 text-sm font-medium">
-                    Store Name
-                  </label>
-                  <input
-                    type="text"
-                    className="bg-white border border-slate-300 text-slate-900 focus:border-teal-600 text-sm rounded-lg block w-full px-3 py-2 transition-all"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-900 text-sm font-medium">
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    className="bg-white border border-slate-300 text-slate-900 focus:border-teal-600 text-sm rounded-lg block w-full px-3 py-2 transition-all"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-900 text-sm font-medium">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="bg-white border border-slate-300 text-slate-900 focus:border-teal-600 text-sm rounded-lg block w-full px-3 py-2 transition-all"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-900 text-sm font-medium">
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    className="bg-white border border-slate-300 text-slate-900 focus:border-teal-600 text-sm rounded-lg block w-full px-3 py-2 transition-all"
-                    required
-                  />
-                </div>
-              </form>
-              <Button text="Sign Up" btnStyle="filled" />
+              <FormProvider {...methods}>
+                <RegisterForm onSubmit={handleSubmit(onSubmit)} />
+              </FormProvider>
+              <Button
+                text="Sign Up"
+                btnStyle="filled"
+                onClick={handleSubmit(onSubmit)}
+              />
             </div>
           </div>
         </div>

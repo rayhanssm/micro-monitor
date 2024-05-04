@@ -1,6 +1,6 @@
 "use client";
 
-import { IProductList } from "@/types/responses/productResponse";
+import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { fCurrency, fNum } from "@/utils/formatNumber";
 import { Pencil, Trash2 } from "lucide-react";
 import React, { useState } from "react";
@@ -8,7 +8,7 @@ import ModalCard from "./ModalCard";
 import ProductForm from "../forms/ProductForm";
 
 type IProps = {
-  data: IProductList;
+  data: IProductListResponse;
 };
 
 function ProductCard({ data }: IProps) {
@@ -26,7 +26,9 @@ function ProductCard({ data }: IProps) {
         />
         <p className="text-sm font-semibold">{data.name}</p>
         <div className="flex justify-between">
-          <p className="text-xs text-slate-500">{fCurrency(data.price)}</p>
+          <p className="text-xs text-slate-500 lining-nums">
+            {fCurrency(data.price)}
+          </p>
           <div className="flex gap-2">
             <button onClick={() => setIsShowEditModal(true)}>
               <Pencil size={16} color="#0F766E" />
@@ -41,7 +43,6 @@ function ProductCard({ data }: IProps) {
             </button>
           </div>
         </div>
-        <p className="text-xs text-slate-500">Stock: {fNum(data.stock)}</p>
       </div>
 
       {/* Edit product modal */}
@@ -51,7 +52,7 @@ function ProductCard({ data }: IProps) {
         title="Edit Expense"
         buttonText="Edit"
       >
-        <ProductForm />
+        <ProductForm onSubmit={() => {}} />
       </ModalCard>
 
       {/* Delete product modal */}

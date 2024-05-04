@@ -38,7 +38,7 @@ function Navbar() {
   const menuRef = useClickOutsideElement(setIsOpen);
 
   return (
-    <nav className="px-[116px] py-4 w-full bg-white fixed backdrop-blur-2xl flex items-center justify-between z-50">
+    <nav className="px-[116px] py-4 w-full bg-white fixed backdrop-blur-2xl flex items-center justify-between z-10">
       <div className="flex gap-14 items-center">
         <img
           className="w-14 h-14"
