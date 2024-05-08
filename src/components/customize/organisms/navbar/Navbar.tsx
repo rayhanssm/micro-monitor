@@ -5,6 +5,7 @@ import { paths } from "@/routes/paths";
 import { LogOut, User } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 
 const navItems = [
   {
@@ -33,9 +34,18 @@ function Navbar() {
   const push = useRouter().push;
   const currPath = usePathname();
 
+  const [cookies, removeCookie] = useCookies(["token"]);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const menuRef = useClickOutsideElement(setIsOpen);
+
+  const handleLogout = () => {
+    removeCookie("token", {
+      expires: new Date(0),
+    });
+    push(paths.auth.login);
+  };
 
   return (
     <nav className="px-[116px] py-4 w-full bg-white fixed backdrop-blur-2xl flex items-center justify-between z-10">
@@ -84,7 +94,10 @@ function Navbar() {
             <User />
             <span>Profile</span>
           </button>
-          <button className="flex items-center gap-2 bg-transparent border-red-600 text-red-600 hover:bg-red-600 text-sm text-red-bg-red-600 hover:text-white font-medium border py-2 px-4 rounded-md transition ease-in">
+          <button
+            className="flex items-center gap-2 bg-transparent border-red-600 text-red-600 hover:bg-red-600 text-sm text-red-bg-red-600 hover:text-white font-medium border py-2 px-4 rounded-md transition ease-in"
+            onClick={handleLogout}
+          >
             <LogOut />
             <span>Logout</span>
           </button>

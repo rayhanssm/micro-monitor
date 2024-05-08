@@ -8,16 +8,20 @@ import ProductForm from "@/components/customize/organisms/forms/ProductForm";
 import ModalCard from "@/components/customize/organisms/cards/ModalCard";
 import ProductCard from "@/components/customize/organisms/cards/ProductCard";
 import { CirclePlus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { productField, productSchema } from "@/data/ProductData";
 import { IProductRequest } from "@/types/requests/ProductRequest";
+import { ProductRepository } from "@/repositories/ProductRepositories";
+import { IProductListResponse } from "@/types/responses/ProductResponse";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const dataLength = productList.length;
   const pageCount = Math.ceil(dataLength / 12);
+
+  const [data, setData] = useState<IProductListResponse[] | null>([]);
 
   const methods = useForm({
     resolver: yupResolver(productSchema),
@@ -30,6 +34,20 @@ function ProductView() {
   const onSubmit = (data: IProductRequest) => {
     console.log(data);
   };
+
+  const getData = async () => {
+    try {
+      const res = await ProductRepository.GetProductList();
+      setData(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+    console.log(data);
+  }, []);
 
   return (
     <div className="px-[116px] py-[112px]">

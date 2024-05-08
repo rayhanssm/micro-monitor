@@ -6,7 +6,7 @@ type IProps = {
 
 function RegisterForm({ onSubmit }: IProps) {
   return (
-    <form className="space-y-6 mb-[30px]" onSubmit={onSubmit}>
+    <form className="space-y-3 mb-[30px]" onSubmit={onSubmit}>
       <TextField label="Store Name" name="storeName" />
       <TextField label="Username" name="userName" />
       <TextField label="Password" name="password" type="password" />

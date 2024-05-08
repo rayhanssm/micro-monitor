@@ -4,15 +4,18 @@ import Button from "@/components/customize/atoms/button/Button";
 import LoginForm from "@/components/customize/organisms/forms/LoginForm";
 import AuthTemplate from "@/components/customize/templates/AuthTemplate";
 import { loginField, loginSchema } from "@/data/AuthData";
+import { AuthRepository } from "@/repositories/AuthRepositories";
 import { paths } from "@/routes/paths";
 import { ILoginRequest } from "@/types/requests/AuthRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useCookies } from "react-cookie";
 import { FormProvider, useForm } from "react-hook-form";
 
 function LoginView() {
   const push = useRouter().push;
+  const [cookies, setCookie] = useCookies(["token"]);
 
   const methods = useForm({
     resolver: yupResolver(loginSchema),
@@ -22,8 +25,15 @@ function LoginView() {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = (data: ILoginRequest) => {
-    console.log(data);
+  const onSubmit = async (data: ILoginRequest) => {
+    try {
+      const res = await AuthRepository.PostLogin(data);
+      const token = res.data.data.token;
+      setCookie("token", token);
+      push(paths.dashboard);
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (

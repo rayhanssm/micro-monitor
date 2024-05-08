@@ -1,11 +1,16 @@
 "use client";
 
 import { IProductListResponse } from "@/types/responses/ProductResponse";
-import { fCurrency, fNum } from "@/utils/formatNumber";
+import { fCurrency } from "@/utils/formatNumber";
 import { Pencil, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalCard from "./ModalCard";
 import ProductForm from "../forms/ProductForm";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { productField, productSchema } from "@/data/ProductData";
+import { IProductRequest } from "@/types/requests/ProductRequest";
+import { FormProvider, useForm } from "react-hook-form";
+import CustomAxios from "@/utils/axios";
 
 type IProps = {
   data: IProductListResponse;
@@ -15,6 +20,18 @@ function ProductCard({ data }: IProps) {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
   const [deleteItem, setDeleteItem] = useState<string>();
+
+  const methods = useForm({
+    resolver: yupResolver(productSchema),
+    defaultValues: productField(),
+    mode: "onChange",
+  });
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = (data: IProductRequest) => {
+    console.log(data);
+  };
 
   return (
     <div className="p-4 border rounded-md shadow-md">
@@ -52,7 +69,9 @@ function ProductCard({ data }: IProps) {
         title="Edit Expense"
         buttonText="Edit"
       >
-        <ProductForm onSubmit={() => {}} />
+        <FormProvider {...methods}>
+          <ProductForm onSubmit={handleSubmit(onSubmit)} />
+        </FormProvider>
       </ModalCard>
 
       {/* Delete product modal */}
