@@ -3,14 +3,15 @@
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { fCurrency } from "@/utils/formatNumber";
 import { Pencil, Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ModalCard from "./ModalCard";
 import ProductForm from "../forms/ProductForm";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { productField, productSchema } from "@/data/ProductData";
+import { productSchema } from "@/data/ProductData";
 import { IProductRequest } from "@/types/requests/ProductRequest";
 import { FormProvider, useForm } from "react-hook-form";
-import CustomAxios from "@/utils/axios";
+import { ProductRepository } from "@/repositories/ProductRepository";
+import { toast, ToastContainer } from "react-toastify";
 
 type IProps = {
   data: IProductListResponse;
@@ -19,18 +20,46 @@ type IProps = {
 function ProductCard({ data }: IProps) {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
-  const [deleteItem, setDeleteItem] = useState<string>();
+  const [deleteItem, setDeleteItem] = useState<{ id: string; name: string }>();
+
+  const successToast = () => {
+    toast("Product successfully updated!");
+  };
+
+  const errorToast = () => {
+    toast("Error updating data");
+  };
 
   const methods = useForm({
     resolver: yupResolver(productSchema),
-    defaultValues: productField(),
+    defaultValues: {
+      name: data.name,
+      price: data.price,
+    },
     mode: "onChange",
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmit = (data: IProductRequest) => {
-    console.log(data);
+  const onSubmit = async (payload: IProductRequest) => {
+    try {
+      if (!data.id) return;
+      await ProductRepository.EditProduct(payload, data.id);
+      successToast();
+    } catch (e: any) {
+      errorToast();
+      console.log(e);
+    }
+  };
+
+  const onDelete = async (id: string) => {
+    try {
+      if (!id) return;
+      await ProductRepository.DeleteProduct(id);
+      setIsShowDeleteModal(false);
+    } catch (e: any) {
+      console.log(e);
+    }
   };
 
   return (
@@ -47,12 +76,17 @@ function ProductCard({ data }: IProps) {
             {fCurrency(data.price)}
           </p>
           <div className="flex gap-2">
-            <button onClick={() => setIsShowEditModal(true)}>
+            <button
+              onClick={() => {
+                setIsShowEditModal(true);
+                successToast();
+              }}
+            >
               <Pencil size={16} color="#0F766E" />
             </button>
             <button
               onClick={() => {
-                setDeleteItem(data.name);
+                setDeleteItem({ id: data.id, name: data.name });
                 setIsShowDeleteModal(true);
               }}
             >
@@ -66,8 +100,9 @@ function ProductCard({ data }: IProps) {
       <ModalCard
         open={isShowEditModal}
         setOpen={setIsShowEditModal}
-        title="Edit Expense"
+        title="Edit Product"
         buttonText="Edit"
+        onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>
           <ProductForm onSubmit={handleSubmit(onSubmit)} />
@@ -78,7 +113,8 @@ function ProductCard({ data }: IProps) {
       <ModalCard
         open={isShowDeleteModal}
         setOpen={setIsShowDeleteModal}
-        deleteTitle={deleteItem}
+        deleteTitle={deleteItem?.name}
+        onDelete={() => onDelete(deleteItem?.id!)}
       />
     </div>
   );

@@ -9,3 +9,8 @@ export type ILoginRequest = {
   userName: string;
   password: string;
 };
+
+export type IProfileRequest = {
+  storeName: string;
+  userName: string;
+};

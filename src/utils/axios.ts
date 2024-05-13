@@ -1,7 +1,14 @@
 import axios from "axios";
+import { Cookies } from "react-cookie";
+
+const cookies = new Cookies();
+const token = cookies.get("token");
 
 const customAxios = axios.create({
-  baseURL: "https://micromonitor.com",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
 });
 
 export default class CustomAxios {
@@ -10,8 +17,17 @@ export default class CustomAxios {
     return customAxios.get(newPath, { params: params });
   };
 
-  static Post = (path: string, data: any, params?: any, id?: string) => {
+  static Post = (path: string, data: any, params?: any) => {
+    return customAxios.post(path, data, { params: params });
+  };
+
+  static Put = (path: string, data: any, params?: {}, id?: string) => {
     const newPath = id ? path.replace("{}", id) : path;
-    return customAxios.post(newPath, data, { params: params });
+    return customAxios.put(newPath, data, { params: params });
+  };
+
+  static Delete = (path: string, id: string) => {
+    const newPath = path.replace("{}", id);
+    return customAxios.delete(newPath);
   };
 }

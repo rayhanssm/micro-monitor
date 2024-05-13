@@ -17,6 +17,7 @@ function LayoutProvider({ children }: IProps) {
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
+    if (path === "/login" || path == "/register") return;
     redirect(!cookies.token ? paths.auth.login : path!);
   }, [path, cookies.token]);
 

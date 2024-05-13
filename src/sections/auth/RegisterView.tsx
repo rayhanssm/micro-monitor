@@ -4,6 +4,7 @@ import Button from "@/components/customize/atoms/button/Button";
 import RegisterForm from "@/components/customize/organisms/forms/RegisterForm";
 import AuthTemplate from "@/components/customize/templates/AuthTemplate";
 import { registerField, registerSchema } from "@/data/AuthData";
+import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
 import { IRegisterRequest } from "@/types/requests/AuthRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,10 +21,18 @@ function RegisterView() {
     mode: "onChange",
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
-  const onSubmit = (data: IRegisterRequest) => {
-    console.log(data);
+  const onSubmit = async (data: IRegisterRequest) => {
+    try {
+      await AuthRepository.PostRegister(data);
+      console.log("success");
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (
@@ -55,7 +64,7 @@ function RegisterView() {
                 <RegisterForm onSubmit={handleSubmit(onSubmit)} />
               </FormProvider>
               <Button
-                text="Sign Up"
+                text={isSubmitting ? "Loading..." : "Sign Up"}
                 btnStyle="filled"
                 onClick={handleSubmit(onSubmit)}
               />

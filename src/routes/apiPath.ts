@@ -2,6 +2,7 @@ export const apiPath = {
   auth: {
     login: "/login",
     register: "/register",
+    profile: "/profile",
   },
   product: {
     list: "/products",

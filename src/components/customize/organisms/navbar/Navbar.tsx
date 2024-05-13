@@ -5,7 +5,7 @@ import { paths } from "@/routes/paths";
 import { LogOut, User } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 const navItems = [
   {
@@ -34,16 +34,14 @@ function Navbar() {
   const push = useRouter().push;
   const currPath = usePathname();
 
-  const [cookies, removeCookie] = useCookies(["token"]);
+  const cookies = new Cookies();
 
   const [isOpen, setIsOpen] = useState(false);
 
   const menuRef = useClickOutsideElement(setIsOpen);
 
   const handleLogout = () => {
-    removeCookie("token", {
-      expires: new Date(0),
-    });
+    cookies.remove("token");
     push(paths.auth.login);
   };
 

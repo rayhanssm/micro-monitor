@@ -4,7 +4,7 @@ import Button from "@/components/customize/atoms/button/Button";
 import LoginForm from "@/components/customize/organisms/forms/LoginForm";
 import AuthTemplate from "@/components/customize/templates/AuthTemplate";
 import { loginField, loginSchema } from "@/data/AuthData";
-import { AuthRepository } from "@/repositories/AuthRepositories";
+import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
 import { ILoginRequest } from "@/types/requests/AuthRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,12 +23,16 @@ function LoginView() {
     mode: "onChange",
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
   const onSubmit = async (data: ILoginRequest) => {
     try {
       const res = await AuthRepository.PostLogin(data);
-      const token = res.data.data.token;
+      const token = res.data.token;
+      
       setCookie("token", token);
       push(paths.dashboard);
     } catch (error: any) {
@@ -65,7 +69,7 @@ function LoginView() {
                 <LoginForm onSubmit={handleSubmit(onSubmit)} />
               </FormProvider>
               <Button
-                text="Login"
+                text={isSubmitting ? "Loading..." : "Login"}
                 btnStyle="filled"
                 onClick={handleSubmit(onSubmit)}
               />
