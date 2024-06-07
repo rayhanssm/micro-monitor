@@ -2,6 +2,7 @@ import useClickOutsideElement from "@/hooks/useClickOutsideElement";
 import { IOption } from "@/types/options";
 import { ChevronDown, ChevronUp, Search } from "lucide-react";
 import React, { useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
 type IProps = {
   label: string;
@@ -10,6 +11,8 @@ type IProps = {
 };
 
 function SelectField({ label, name, options }: IProps) {
+  const { control, setValue, trigger } = useFormContext();
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<IOption>();
   const [searchTxt, setSearchTxt] = useState<string>();
@@ -33,66 +36,81 @@ function SelectField({ label, name, options }: IProps) {
   });
 
   return (
-    <div>
-      <label className="w-fit text-slate-900 text-sm font-medium">
-        {label}
-      </label>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <div>
+          <label className="w-fit text-slate-900 text-sm font-medium">
+            {label}
+          </label>
 
-      <button
-        type="button"
-        className="w-full flex justify-between items-center bg-white border border-slate-300 text-slate-400 text-sm rounded-lg px-3 py-2 text-left"
-        onClick={() => setIsOpen(true)}
-      >
-        {selected?.name ? selected.name : "Select..."}
-        {isOpen ? (
-          <ChevronUp size={16} color="#CBD5E1" />
-        ) : (
-          <ChevronDown size={16} color="#CBD5E1" />
-        )}
-      </button>
+          {/* <button
+            type="button"
+            className="w-full flex justify-between items-center bg-white border border-slate-300 text-slate-400 text-sm rounded-lg px-3 py-2 text-left"
+            onClick={() => setIsOpen(true)}
+          >
+            {selected?.name ? selected.name : "Select..."}
+            {isOpen ? (
+              <ChevronUp size={16} color="#CBD5E1" />
+            ) : (
+              <ChevronDown size={16} color="#CBD5E1" />
+            )}
+          </button> */}
 
-      <div
-        ref={optionRef}
-        className={`absolute w-full mt-2 p-3 rounded-md bg-white border shadow-lg ${
-          isOpen ? "opacity-100" : "invisible opacity-0"
-        }`}
-      >
-        <div className="flex items-center gap-2 w-full border border-slate-300 text-slate-900 text-md rounded-md px-3 py-2">
-          <Search color="#94a3b8" size={16} />
           <input
-            type="search"
-            name={name}
-            placeholder="Search"
-            className="w-full outline-none"
-            onChange={handleChangeValue}
-            value={searchTxt}
+            {...field}
+            className="w-full flex justify-between items-center bg-white border border-slate-300 text-slate-400 text-sm rounded-lg px-3 py-2 text-left cursor-pointer"
+            onClick={() => setIsOpen(true)}
+            value={selected?.name ? selected.name : "Select..."}
           />
-        </div>
-        <div
-          className={`mt-2 max-w-full max-h-60 overflow-auto flex flex-col gap-1 p-1.5 border rounded-md`}
-        >
-          {filteredOptions.length === 0 && (
-            <p className="py-2 px-3 text-sm">Not found</p>
-          )}
-          {filteredOptions.map((item) => (
-            <button
-              type="button"
-              key={item.value}
-              className={`py-2 px-3 rounded-md text-left text-sm hover:bg-slate-100 ${
-                selected?.value === item.value ? "bg-slate-100" : ""
-              }`}
-              onClick={() => {
-                setSelected(item);
-                setSearchTxt("");
-                setIsOpen(false);
-              }}
+
+          <div
+            ref={optionRef}
+            className={`absolute w-full mt-2 p-3 rounded-md bg-white border shadow-lg ${
+              isOpen ? "opacity-100" : "invisible opacity-0"
+            }`}
+          >
+            <div className="flex items-center gap-2 w-full border border-slate-300 text-slate-900 text-md rounded-md px-3 py-2">
+              <Search color="#94a3b8" size={16} />
+              <input
+                type="search"
+                placeholder="Search"
+                className="w-full outline-none"
+                onChange={handleChangeValue}
+                value={searchTxt}
+              />
+            </div>
+            <div
+              className={`mt-2 max-w-full max-h-60 overflow-auto flex flex-col gap-1 p-1.5 border rounded-md`}
             >
-              {item.name}
-            </button>
-          ))}
+              {filteredOptions.length === 0 && (
+                <p className="py-2 px-3 text-sm">Not found</p>
+              )}
+              {filteredOptions.map((item) => (
+                <button
+                  type="button"
+                  key={item.value}
+                  className={`py-2 px-3 rounded-md text-left text-sm hover:bg-slate-100 ${
+                    selected?.value === item.value ? "bg-slate-100" : ""
+                  }`}
+                  onClick={() => {
+                    setSelected(item);
+                    setSearchTxt("");
+                    setValue(name, item.value ? item.value : "");
+                    setIsOpen(false);
+                    trigger(name)
+                  }}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="text-sm text-red-500 mt-1">{error?.message}</p>
         </div>
-      </div>
-    </div>
+      )}
+    />
   );
 }
 

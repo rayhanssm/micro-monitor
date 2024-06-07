@@ -29,9 +29,9 @@ function NumberField({ label, name, type = "number" }: IProps) {
             />
           ) : (
             <div className="flex bg-white text-slate-900">
-              <div className=" border border-slate-300 rounded-l-lg px-3 py-2">
-                <p className="text-sm font-medium inline-block">IDR</p>
-              </div>
+              <p className="text-sm font-medium inline-block border border-slate-300 rounded-l-lg px-3 py-2">
+                IDR
+              </p>
               <NumericFormat
                 {...field}
                 getInputRef={field.ref}
