@@ -9,6 +9,8 @@ type IProps = {
   title?: string;
   buttonText?: string;
   deleteTitle?: string;
+  onClick?: () => void;
+  onDelete?: () => void;
 };
 
 function ModalCard({
@@ -18,6 +20,8 @@ function ModalCard({
   title,
   buttonText,
   deleteTitle,
+  onClick,
+  onDelete,
 }: IProps) {
   const modalRef = useClickOutsideElement(setOpen);
 
@@ -25,7 +29,7 @@ function ModalCard({
     <div
       className={`${
         open ? "visible bg-black/30" : "invisible"
-      } fixed inset-0 backdrop-blur-lg flex items-center justify-center transition-colors`}
+      } fixed inset-0 backdrop-blur-lg flex items-center justify-center transition-colors z-30`}
     >
       <div
         ref={modalRef}
@@ -60,6 +64,7 @@ function ModalCard({
                 text="Delete"
                 btnStyle="filled"
                 additionClassname="w-full"
+                onClick={onDelete}
               />
             </div>
           </div>
@@ -79,6 +84,7 @@ function ModalCard({
               text={buttonText}
               btnStyle="filled"
               additionClassname="w-full"
+              onClick={onClick}
             />
           </div>
         )}

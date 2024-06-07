@@ -5,6 +5,9 @@ import React, { useState } from "react";
 import TargetForm from "../forms/TargetForm";
 import ModalCard from "../cards/ModalCard";
 import { fCurrency } from "@/utils/formatNumber";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { targetField, targetSchema } from "@/data/TargetData";
 
 // TODO: delete later
 const tableDummies = [
@@ -64,6 +67,12 @@ function TargetTable() {
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [deleteItem, setDeleteItem] = useState<string>();
+
+  const methods = useForm({
+    resolver: yupResolver(targetSchema),
+    defaultValues: targetField(),
+    mode: "onSubmit",
+  });
 
   return (
     <div className="border rounded-md p-6">
@@ -125,7 +134,9 @@ function TargetTable() {
         title="Add Target"
         buttonText="Add"
       >
-        <TargetForm />
+        <FormProvider {...methods}>
+          <TargetForm />
+        </FormProvider>
       </ModalCard>
 
       {/* Edit target modal */}
@@ -135,7 +146,9 @@ function TargetTable() {
         title="Edit Target"
         buttonText="Edit"
       >
-        <TargetForm />
+        <FormProvider {...methods}>
+          <TargetForm />
+        </FormProvider>
       </ModalCard>
 
       {/* Delete target modal */}

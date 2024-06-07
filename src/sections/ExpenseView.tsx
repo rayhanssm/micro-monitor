@@ -15,7 +15,7 @@ function ExpenseView() {
   return (
     <div className="px-[116px] py-[112px]">
       <div className="flex justify-between mb-6">
-        <SearchField name="expenseSearch" />
+        <SearchField name="expenseSearch" setSearchText={() => {}} />
 
         <div className="flex gap-6">
           <RangeDatePicker selected={selected} setSelected={setSelected} />

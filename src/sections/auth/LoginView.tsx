@@ -1,13 +1,44 @@
 "use client";
 
 import Button from "@/components/customize/atoms/button/Button";
+import LoginForm from "@/components/customize/organisms/forms/LoginForm";
 import AuthTemplate from "@/components/customize/templates/AuthTemplate";
+import { loginField, loginSchema } from "@/data/AuthData";
+import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
+import { ILoginRequest } from "@/types/requests/AuthRequest";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useCookies } from "react-cookie";
+import { FormProvider, useForm } from "react-hook-form";
 
 function LoginView() {
   const push = useRouter().push;
+  const [cookies, setCookie] = useCookies(["token"]);
+
+  const methods = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: loginField(),
+    mode: "onChange",
+  });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = async (data: ILoginRequest) => {
+    try {
+      const res = await AuthRepository.PostLogin(data);
+      const token = res.data.token;
+      
+      setCookie("token", token);
+      push(paths.dashboard);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   return (
     <AuthTemplate
@@ -34,29 +65,14 @@ function LoginView() {
 
             {/* TODO: integrate later */}
             <div>
-              <form className="space-y-6 mb-[30px]">
-                <div>
-                  <label className="text-slate-900 text-sm font-medium">
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    className="bg-white border border-slate-300 text-slate-900 focus:border-teal-600 text-sm rounded-lg block w-full px-3 py-2 transition-all"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-900 text-sm font-medium">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="bg-white border border-slate-300 text-slate-900 focus:border-teal-600 text-sm rounded-lg block w-full px-3 py-2 transition-all"
-                    required
-                  />
-                </div>
-              </form>
-              <Button text="Login" btnStyle="filled" />
+              <FormProvider {...methods}>
+                <LoginForm onSubmit={handleSubmit(onSubmit)} />
+              </FormProvider>
+              <Button
+                text={isSubmitting ? "Loading..." : "Login"}
+                btnStyle="filled"
+                onClick={handleSubmit(onSubmit)}
+              />
             </div>
           </div>
         </div>

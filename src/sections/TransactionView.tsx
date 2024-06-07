@@ -15,7 +15,7 @@ function TransactionView() {
   return (
     <div className="px-[116px] py-[112px]">
       <div className="flex justify-between mb-6">
-        <SearchField name="transactionSearch" />
+        <SearchField name="transactionSearch" setSearchText={() => {}} />
 
         <div className="flex gap-6">
           <RangeDatePicker selected={selected} setSelected={setSelected} />

@@ -1,4 +1,4 @@
-export type IProductList = {
+export type IProductListResponse = {
   id: string;
   name: string;
   image: string;

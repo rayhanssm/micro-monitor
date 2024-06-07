@@ -1,7 +1,14 @@
-import { IProductList } from "@/types/responses/productResponse";
+import { IProductListResponse } from "@/types/responses/ProductResponse";
 
-export const productList: IProductList[] = [
-  { id: "1", name: "Product 1", price: 100000, stock: 10, image: "" },
+export const productList: IProductListResponse[] = [
+  {
+    id: "1",
+    name: "Product 1",
+    price: 100000,
+    stock: 10,
+    image:
+      "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
+  },
   { id: "2", name: "Product 2", price: 50000, stock: 1, image: "" },
   { id: "3", name: "Product 3", price: 900000, stock: 5, image: "" },
   { id: "4", name: "Product 4", price: 100000, stock: 10, image: "" },
