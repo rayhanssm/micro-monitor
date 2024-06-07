@@ -3,6 +3,9 @@ export type IRegisterRequest = {
   userName: string;
   password: string;
   confirmPassword: string;
+  flagProduct: boolean;
+  flagExpense: boolean;
+  flagTarget: boolean;
 };
 
 export type ILoginRequest = {
