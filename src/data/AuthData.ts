@@ -19,7 +19,7 @@ export const registerSchema = object({
   userName: string()
     .typeError("Masukkan username")
     .required("Masukkan username")
-    .matches(/^\S+$/, "Username tidak boleh menggunakan spasi"),
+    .matches(/^\S+$/, "Username tidak boleh mangandung spasi"),
   storeName: string()
     .typeError("Masukkan nama UMKM")
     .required("Masukkan nama UMKM"),
@@ -47,8 +47,8 @@ export const loginField = (): ILoginRequest => ({
 
 export const loginSchema = object({
   userName: string()
-    .typeError("Please insert user name")
-    .required("Please insert user name")
+    .typeError("Masukkan username")
+    .required("Masukkan username")
     .matches(/^\S+$/, "Username cannot contain spaces"),
   password: string()
     .typeError("Please insert password")
