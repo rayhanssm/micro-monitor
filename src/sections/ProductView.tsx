@@ -81,7 +81,7 @@ function ProductView() {
         <div className="flex gap-6">
           <IconButton
             icon={<CirclePlus />}
-            text="Add"
+            text="Tambah"
             type="filled"
             onClick={() => setIsShowAddModal(true)}
           />
@@ -96,7 +96,7 @@ function ProductView() {
         <>
           <div className="grid grid-cols-4 gap-x-10 gap-y-5">
             {productList.map((product) => (
-              <ProductCard key={product.id} data={product} />
+              <ProductCard key={product.id} productData={product} />
             ))}
           </div>
 
@@ -113,8 +113,8 @@ function ProductView() {
       <ModalCard
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
-        title="Add Product"
-        buttonText={isSubmitting ? "Loading..." : "Add"}
+        title="Tambah Produk"
+        buttonText={isSubmitting ? "Loading..." : "Tambah"}
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>

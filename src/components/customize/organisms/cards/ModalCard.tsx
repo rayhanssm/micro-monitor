@@ -55,13 +55,13 @@ function ModalCard({
 
             <div className="flex gap-2 justify-end">
               <Button
-                text="Cancel"
+                text="Batal"
                 btnStyle="outlined"
                 additionClassname="w-full"
                 onClick={() => setOpen(false)}
               />
               <Button
-                text="Delete"
+                text="Hapus"
                 btnStyle="filled"
                 additionClassname="w-full"
                 onClick={onDelete}
@@ -75,7 +75,7 @@ function ModalCard({
         {buttonText && (
           <div className="flex gap-2 justify-end">
             <Button
-              text="Cancel"
+              text="Batal"
               btnStyle="outlined"
               additionClassname="w-full"
               onClick={() => setOpen(false)}

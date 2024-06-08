@@ -11,44 +11,35 @@ import { productSchema } from "@/data/ProductData";
 import { IProductRequest } from "@/types/requests/ProductRequest";
 import { FormProvider, useForm } from "react-hook-form";
 import { ProductRepository } from "@/repositories/ProductRepository";
-import { toast, ToastContainer } from "react-toastify";
 
 type IProps = {
-  data: IProductListResponse;
+  productData: IProductListResponse;
 };
 
-function ProductCard({ data }: IProps) {
+function ProductCard({ productData }: IProps) {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
   const [deleteItem, setDeleteItem] = useState<{ id: string; name: string }>();
 
-  const successToast = () => {
-    toast("Product successfully updated!");
-  };
-
-  const errorToast = () => {
-    toast("Error updating data");
-  };
-
   const methods = useForm({
     resolver: yupResolver(productSchema),
     defaultValues: {
-      name: data.name,
-      price: data.price,
+      name: productData.name,
+      price: productData.price,
+      stock: productData.stock,
     },
     mode: "onChange",
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async (payload: IProductRequest) => {
+  const onSubmit = async (data: IProductRequest) => {
     try {
-      if (!data.id) return;
-      await ProductRepository.EditProduct(payload, data.id);
-      successToast();
+      if (!productData.id) return;
+      await ProductRepository.EditProduct(data, productData.id);
     } catch (e: any) {
-      errorToast();
       console.log(e);
+      console.log(data);
     }
   };
 
@@ -65,28 +56,22 @@ function ProductCard({ data }: IProps) {
   return (
     <div className="p-4 border rounded-md shadow-md">
       <div className="flex flex-col gap-1">
-        <img
-          src={data.image ? data.image : "/assets/product-placeholder.png"}
-          className="h-[133px] rounded-md object-cover"
-          draggable={false}
-        />
-        <p className="text-sm font-semibold">{data.name}</p>
+        <p className="text-sm font-semibold">{productData.name}</p>
         <div className="flex justify-between">
-          <p className="text-xs text-slate-500 lining-nums">
-            {fCurrency(data.price)}
+          <p className="text-xs text-slate-500 font-medium lining-nums">
+            {fCurrency(productData.price)}
           </p>
           <div className="flex gap-2">
             <button
               onClick={() => {
                 setIsShowEditModal(true);
-                successToast();
               }}
             >
               <Pencil size={16} color="#0F766E" />
             </button>
             <button
               onClick={() => {
-                setDeleteItem({ id: data.id, name: data.name });
+                setDeleteItem({ id: productData.id, name: productData.name });
                 setIsShowDeleteModal(true);
               }}
             >
@@ -94,13 +79,16 @@ function ProductCard({ data }: IProps) {
             </button>
           </div>
         </div>
+        <p className="text-xs text-slate-500 lining-nums">
+          Stok: {productData.stock}
+        </p>
       </div>
 
       {/* Edit product modal */}
       <ModalCard
         open={isShowEditModal}
         setOpen={setIsShowEditModal}
-        title="Edit Product"
+        title="Edit Produk"
         buttonText="Edit"
         onClick={handleSubmit(onSubmit)}
       >
