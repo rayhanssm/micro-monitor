@@ -9,19 +9,19 @@ import { Cookies } from "react-cookie";
 
 const navItems = [
   {
-    menu: "Dashboard",
+    menu: "Dasbor",
     path: paths.dashboard,
   },
   {
-    menu: "Product",
+    menu: "Produk",
     path: paths.product,
   },
   {
-    menu: "Transaction",
+    menu: "Transaksi",
     path: paths.transaction,
   },
   {
-    menu: "Expense",
+    menu: "Pengeluaran",
     path: paths.expense,
   },
   {

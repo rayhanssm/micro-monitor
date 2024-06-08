@@ -21,10 +21,16 @@ function NumberField({ label, name, type = "number" }: IProps) {
             {label}
           </label>
           {type === "number" ? (
-            <NumericFormat
+            // TODO: adjust later
+            // <NumericFormat
+            //   {...field}
+            //   getInputRef={field.ref}
+            //   thousandSeparator={true}
+            //   className="w-full bg-white border border-slate-300 text-slate-900 text-sm rounded-lg px-3 py-2 lining-nums"
+            // />
+            <input
               {...field}
-              getInputRef={field.ref}
-              thousandSeparator={true}
+              type="number"
               className="w-full bg-white border border-slate-300 text-slate-900 text-sm rounded-lg px-3 py-2 lining-nums"
             />
           ) : (
@@ -32,11 +38,16 @@ function NumberField({ label, name, type = "number" }: IProps) {
               <p className="text-sm font-medium inline-block border border-slate-300 rounded-l-lg px-3 py-2">
                 IDR
               </p>
-              <NumericFormat
+              {/* <NumericFormat
                 {...field}
                 getInputRef={field.ref}
                 thousandSeparator={true}
-                className="lining-nums leading-3 w-full border border-slate-300 text-sm rounded-r-lg px-3 py-2"
+                className="w-full lining-nums leading-3 border border-slate-300 text-sm rounded-r-lg px-3 py-2"
+              /> */}
+              <input
+                {...field}
+                type="number"
+                className="w-full lining-nums leading-3 border border-slate-300 text-sm rounded-r-lg px-3 py-2"
               />
             </div>
           )}

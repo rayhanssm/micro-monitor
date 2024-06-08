@@ -1,7 +1,6 @@
 import React from "react";
 import TextField from "../../molecules/input-field/TextField";
 import NumberField from "../../molecules/input-field/NumberField";
-import UploadImgField from "../../molecules/input-field/UploadImgField";
 
 type IProps = {
   onSubmit: () => void;
@@ -10,9 +9,9 @@ type IProps = {
 function ProductForm({ onSubmit }: IProps) {
   return (
     <form className="space-y-2 mb-[30px]" onSubmit={onSubmit}>
-      <TextField label="Product Name" name="name" />
-      <NumberField label="Price" name="price" type="currency" />
-      <UploadImgField />
+      <TextField label="Nama Produk" name="name" />
+      <NumberField label="Harga" name="price" type="currency" />
+      <NumberField label="Stok" name="stock" type="number" />
     </form>
   );
 }

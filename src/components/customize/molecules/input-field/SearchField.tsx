@@ -16,7 +16,7 @@ function SearchField({ name, setSearchText }: IProps) {
         type="search"
         name={name}
         id="search-field"
-        placeholder="Type and enter to search..."
+        placeholder="Ketik dan enter untuk cari..."
         className="block w-56 outline-none placeholder-slate-400 text-sm"
         onKeyDown={(e: any) => {
           if (e.key === "Enter") {
