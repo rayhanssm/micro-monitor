@@ -32,7 +32,7 @@ function LoginView() {
     try {
       const res = await AuthRepository.PostLogin(data);
       const token = res.data.token;
-      
+
       setCookie("token", token);
       push(paths.dashboard);
     } catch (error: any) {
@@ -45,9 +45,9 @@ function LoginView() {
       content={
         <div className="relative">
           <div className="absolute top-8 right-10 flex items-center gap-4">
-            <p className="text-slate-500 text-base">Not a user yet?</p>
+            <p className="text-slate-500 text-base">Belum punya akun?</p>
             <Button
-              text="Register"
+              text="Daftar"
               btnStyle="outlined"
               onClick={() => push(paths.auth.register)}
             />
@@ -56,10 +56,10 @@ function LoginView() {
           <div className="flex flex-col justify-center pl-20 pr-32 h-full gap-10">
             <div className="flex flex-col gap-4">
               <p className="text-teal-800 text-5xl font-extrabold">
-                Hi, Welcome back!
+                Hi, selamat datang kembali!
               </p>
               <p className="text-slate-900 text-xl font-regular">
-                Login to your account
+                Masuk ke akun Anda
               </p>
             </div>
 
@@ -69,7 +69,7 @@ function LoginView() {
                 <LoginForm onSubmit={handleSubmit(onSubmit)} />
               </FormProvider>
               <Button
-                text={isSubmitting ? "Loading..." : "Login"}
+                text={isSubmitting ? "Loading..." : "Masuk"}
                 btnStyle="filled"
                 onClick={handleSubmit(onSubmit)}
               />

@@ -49,12 +49,12 @@ export const loginSchema = object({
   userName: string()
     .typeError("Masukkan username")
     .required("Masukkan username")
-    .matches(/^\S+$/, "Username cannot contain spaces"),
+    .matches(/^\S+$/, "Username tidak boleh mangandung spasi"),
   password: string()
-    .typeError("Please insert password")
-    .required("Please insert password")
-    .min(8, "Password must be at least 8 characters")
-    .matches(/^(?=.*[0-9])/, "Password must contain at least 1 number"),
+    .typeError("Masukkan kata sandi")
+    .required("Masukkan kata sandi")
+    .min(8, "Kata sandi setidaknya harus memiliki 8 karakter")
+    .matches(/^(?=.*[0-9])/, "Kata sandi harus mengandung satu angka"),
 });
 
 export const profileField = (): IProfileRequest => ({
@@ -64,10 +64,10 @@ export const profileField = (): IProfileRequest => ({
 
 export const profileSchema = object({
   storeName: string()
-    .typeError("Please insert store name")
-    .required("Please insert store name"),
+    .typeError("Masukkan nama UMKM")
+    .required("Masukkan nama UMKM"),
   userName: string()
-    .typeError("Please insert user name")
-    .required("Please insert user name")
-    .matches(/^\S+$/, "Username cannot contain spaces"),
+    .typeError("Masukkan username")
+    .required("Masukkan username")
+    .matches(/^\S+$/, "Username tidak boleh mangandung spasi"),
 });
