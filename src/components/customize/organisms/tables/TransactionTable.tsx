@@ -22,6 +22,7 @@ type IProps = {
 };
 
 function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
+  // TODO: delete later
   const lastItem = transactionTableDummies.length - 1;
 
   const [isShowEditModal, setIsShowEditModal] = useState(false);
@@ -154,7 +155,7 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
       >
         <FormProvider {...methods}>
           <TransactionForm onSubmit={handleSubmit(onSubmit)} />
-          <DevTool control={control} />
+          {/* <DevTool control={control} /> */}
         </FormProvider>
       </ModalCard>
 

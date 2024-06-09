@@ -2,7 +2,7 @@ import ExpenseView from "@/sections/ExpenseView";
 import React from "react";
 
 export const metadata = {
-  title: "Expense",
+  title: "Pengeluaran",
 };
 
 function Expense() {
