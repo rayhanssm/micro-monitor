@@ -17,7 +17,7 @@ function Accordion({ data }: IProps) {
 
   return (
     <div>
-      <div className="relative flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full">
         <button className="flex items-center pointer" onClick={handleClick}>
           {open ? <ChevronUp /> : <ChevronDown />}
           <div className="flex items-center gap-3 ml-2">

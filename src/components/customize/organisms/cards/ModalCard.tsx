@@ -11,6 +11,7 @@ type IProps = {
   deleteTitle?: string;
   onClick?: () => void;
   onDelete?: () => void;
+  maxWidth?: string;
 };
 
 function ModalCard({
@@ -22,6 +23,7 @@ function ModalCard({
   deleteTitle,
   onClick,
   onDelete,
+  maxWidth,
 }: IProps) {
   const modalRef = useClickOutsideElement(setOpen);
 
@@ -33,9 +35,9 @@ function ModalCard({
     >
       <div
         ref={modalRef}
-        className={`${
-          open ? "scale-100 opacity-100" : "scale-90 opacity-0"
-        } p-6 bg-white rounded-md max-w-md w-full transition-all`}
+        className={`${open ? "scale-100 opacity-100" : "scale-90 opacity-0"} ${
+          maxWidth ? maxWidth : "max-w-md"
+        } p-6 bg-white rounded-md w-full transition-all`}
       >
         {title && (
           <p className="text-2xl font-semibold mb-4 flex justify-center">
