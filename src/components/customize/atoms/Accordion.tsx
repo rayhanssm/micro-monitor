@@ -28,7 +28,7 @@ function Accordion({ data }: IProps) {
               className="text-sm lining-nums text-slate-500"
               suppressHydrationWarning
             >
-              {fTime(data.createdAt)} - {data.user}
+              {fTime(data.transactionDate)} - {data.user}
             </p>
           </div>
         </button>

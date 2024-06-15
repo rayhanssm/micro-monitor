@@ -83,17 +83,17 @@ export const transactionList: ITransactionListResponse[] = [
         user: "staff_1",
         products: [
           {
-            product: { name: "Product 1", value: "1" },
+            product: { name: "Product 1", productId: "1", price: 0, stock: 0 },
             quantity: 2,
             amount: 10000,
           },
           {
-            product: { name: "Product 3", value: "3" },
+            product: { name: "Product 3", productId: "3", price: 0, stock: 0 },
             quantity: 1,
             amount: 10000,
           },
         ],
-        createdAt: new Date(),
+        transactionDate: new Date(),
         total: 30000,
       },
       {
@@ -101,13 +101,13 @@ export const transactionList: ITransactionListResponse[] = [
         user: "staff_2",
         products: [
           {
-            product: { name: "Product 2", value: "2" },
+            product: { name: "Product 2", productId: "2", price: 0, stock: 0 },
             quantity: 1,
             amount: 40000,
           },
         ],
         total: 40000,
-        createdAt: new Date(),
+        transactionDate: new Date(),
       },
     ],
   },

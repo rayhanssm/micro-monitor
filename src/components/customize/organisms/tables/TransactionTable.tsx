@@ -109,7 +109,7 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
                 <td
                   className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
                 >
-                  {content.date ? fDateSlash(content.date) : "-"}
+                  {/* {content.date ? fDateSlash(content.date) : "-"} */}
                 </td>
                 <td
                   className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}

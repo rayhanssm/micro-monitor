@@ -96,7 +96,7 @@ function ProductView() {
         <>
           <div className="grid grid-cols-4 gap-x-10 gap-y-5">
             {productList.map((product) => (
-              <ProductCard key={product.id} productData={product} />
+              <ProductCard key={product.productId} productData={product} />
             ))}
           </div>
 

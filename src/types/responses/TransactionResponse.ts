@@ -1,11 +1,12 @@
 import { IOption } from "../options";
+import { IProductListResponse } from "./ProductResponse";
 
 export type ITransactionsResponse = {
   id: string;
-  products: { product: IOption; quantity: number; amount: number }[];
+  products: { product: IProductListResponse; quantity: number; amount: number }[];
   total: number;
   user: string;
-  createdAt: Date | string;
+  transactionDate: Date | string;
 };
 
 export type ITransactionListResponse = {

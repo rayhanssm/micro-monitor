@@ -1,5 +1,5 @@
 export type IProductListResponse = {
-  id: string;
+  productId: string;
   name: string;
   price: number;
   stock: number;

@@ -35,8 +35,8 @@ function ProductCard({ productData }: IProps) {
 
   const onSubmit = async (data: IProductRequest) => {
     try {
-      if (!productData.id) return;
-      await ProductRepository.EditProduct(data, productData.id);
+      if (!productData.productId) return;
+      await ProductRepository.EditProduct(data, productData.productId);
     } catch (e: any) {
       console.log(e);
       console.log(data);
@@ -71,7 +71,7 @@ function ProductCard({ productData }: IProps) {
             </button>
             <button
               onClick={() => {
-                setDeleteItem({ id: productData.id, name: productData.name });
+                setDeleteItem({ id: productData.productId, name: productData.name });
                 setIsShowDeleteModal(true);
               }}
             >

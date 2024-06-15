@@ -22,14 +22,15 @@ import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
 import { CirclePlus, Download } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
 function TransactionView() {
   const [selected, setSelected] = useState<DateRange>();
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [totalTransaction, setTotalTransaction] = useState(0);
 
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
@@ -37,7 +38,14 @@ function TransactionView() {
     mode: "onSubmit",
   });
 
-  const { handleSubmit, reset, control } = methods;
+  const { handleSubmit, reset, control, setValue, getValues, watch } = methods;
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "products",
+  });
+
+  const watchedFields = watch("products");
 
   const onSubmit = async (data: ITransactionRequest) => {
     try {
@@ -51,13 +59,54 @@ function TransactionView() {
 
   const handleProductChange = (product: any) => {
     setSelectedProducts((prev: any) => {
-      if (prev.some((p: any) => p.id === product.id)) {
-        return prev.filter((p: any) => p.id !== product.id);
-      } else {
-        return [...prev, product];
-      }
+      const isSelected = prev.some(
+        (p: any) => p.productId === product.productId
+      );
+      const newSelectedProducts = isSelected
+        ? prev.filter((p: any) => p.productId !== product.productId)
+        : [...prev, product];
+
+      // const index = fields.findIndex((field) => field.productId === product.id);
+      // if (isSelected && index !== -1) {
+      //   remove(index);
+      // } else if (!isSelected) {
+      //   append({ productId: product.id, quantity: 0, value: product.price });
+      // }
+      return newSelectedProducts;
     });
   };
+
+  // const handleProductChange = (product: any) => {
+  //   setSelectedProducts((prev: any) => {
+  //     if (prev.some((p: any) => p.id === product.id)) {
+  //       const isSelected = prev.some((p: any) => p.id === product.id);
+  //       const newSelectedProducts = prev.filter(
+  //         (p: any) => p.id !== product.id
+  //       );
+  //       const index = fields.findIndex(
+  //         (field) => field.productId === product.id
+  //       );
+  //       if (index !== -1) {
+  //         remove(index);
+  //       }
+  //       console.log(index);
+  //       return newSelectedProducts;
+  //     } else {
+  //       append({ productId: product.id, quantity: 0, value: product.price });
+  //       return [...prev, product];
+  //     }
+  //   });
+  // };
+
+  // const handleProductChange = (product: any) => {
+  //   setSelectedProducts((prev: any) => {
+  //     if (prev.some((p: any) => p.id === product.id)) {
+  //       return prev.filter((p: any) => p.id !== product.id);
+  //     } else {
+  //       return [...prev, product];
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
     const to = new Date();
@@ -65,6 +114,20 @@ function TransactionView() {
 
     setSelected({ from: from, to: to });
   }, []);
+
+  const calculateTotalTransaction = () => {
+    const values = getValues("products");
+    const total = values.reduce((acc: any, product: any) => {
+      return acc + product.price * product.quantity;
+    }, 0);
+    setTotalTransaction(total);
+    console.log(values);
+  };
+
+  useEffect(() => {
+    calculateTotalTransaction();
+    setValue("total", totalTransaction);
+  }, [watchedFields]);
 
   return (
     <div className="px-[116px] py-[112px]">
@@ -90,7 +153,10 @@ function TransactionView() {
       <div className="grid grid-cols-2 gap-x-10 gap-y-5">
         {transactionList.map((data, index) => (
           <div key={index}>
-            <p className="font-semibold text-2xl mb-4 lining-nums">
+            <p
+              className="font-semibold text-2xl mb-4 lining-nums"
+              suppressHydrationWarning
+            >
               {fDayDate(data.date)}
             </p>
             <TransactionCard data={data} />
@@ -111,11 +177,11 @@ function TransactionView() {
             <SearchField name="productSearch" setSearchText={() => {}} />
             {productList.map((product, index) => (
               <Checkbox
-                key={product.id}
+                key={product.productId}
                 label={product.name}
                 description={"IDR " + fNum(product.price)}
                 checked={selectedProducts.some(
-                  (p: IProductListResponse) => p.id === product.id
+                  (p: IProductListResponse) => p.productId === product.productId
                 )}
                 onChange={() => handleProductChange(product)}
               />
@@ -126,8 +192,9 @@ function TransactionView() {
               <TransactionForm
                 onSubmit={handleSubmit(onSubmit)}
                 selectedProducts={selectedProducts}
+                totalTransaction={totalTransaction}
               />
-              {/* <DevTool control={control} /> */}
+              <DevTool control={control} />
             </FormProvider>
             <div className="flex gap-2 justify-end">
               <Button

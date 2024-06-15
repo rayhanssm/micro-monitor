@@ -17,7 +17,7 @@ function DateField({ label, name }: IProps) {
   const [selected, setSelected] = useState();
 
   const handleChangeDateValue = (dateChange: any) => {
-    setValue("dateOfBirth", dateChange, {
+    setValue(name, dateChange, {
       shouldDirty: true,
     });
     setSelected(dateChange);

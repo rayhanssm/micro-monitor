@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
 import DatePicker from "react-datepicker";
@@ -21,15 +21,21 @@ type IProps = {
 
 function DateTimeField({ label, name }: IProps) {
   const { control, setValue, getValues } = useFormContext();
-
+  const initialDate = getValues(name);
   const [selected, setSelected] = useState();
 
   const handleChangeDateValue = (dateChange: any) => {
-    setValue("dateOfBirth", dateChange, {
+    setValue(name, dateChange, {
       shouldDirty: true,
     });
     setSelected(dateChange);
   };
+
+  useEffect(() => {
+    if (initialDate) {
+      setSelected(initialDate);
+    }
+  }, [initialDate]);
 
   return (
     <div className="w-full">
