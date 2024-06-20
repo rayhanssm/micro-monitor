@@ -24,9 +24,9 @@ function ProductCard({ productData }: IProps) {
   const methods = useForm({
     resolver: yupResolver(productSchema),
     defaultValues: {
-      name: productData.name,
-      price: productData.price,
-      stock: productData.stock,
+      productName: productData.productName,
+      productPrice: productData.productPrice,
+      productStock: productData.productStock,
     },
     mode: "onChange",
   });
@@ -35,8 +35,8 @@ function ProductCard({ productData }: IProps) {
 
   const onSubmit = async (data: IProductRequest) => {
     try {
-      if (!productData.productId) return;
-      await ProductRepository.EditProduct(data, productData.productId);
+      if (!productData.productID) return;
+      await ProductRepository.EditProduct(data, productData.productID);
     } catch (e: any) {
       console.log(e);
       console.log(data);
@@ -56,10 +56,10 @@ function ProductCard({ productData }: IProps) {
   return (
     <div className="p-4 border rounded-md shadow-md">
       <div className="flex flex-col gap-1">
-        <p className="text-sm font-semibold">{productData.name}</p>
+        <p className="text-sm font-semibold">{productData.productName}</p>
         <div className="flex justify-between">
           <p className="text-xs text-slate-500 font-medium lining-nums">
-            {fCurrency(productData.price)}
+            {fCurrency(productData.productPrice)}
           </p>
           <div className="flex gap-2">
             <button
@@ -71,7 +71,10 @@ function ProductCard({ productData }: IProps) {
             </button>
             <button
               onClick={() => {
-                setDeleteItem({ id: productData.productId, name: productData.name });
+                setDeleteItem({
+                  id: productData.productID,
+                  name: productData.productName,
+                });
                 setIsShowDeleteModal(true);
               }}
             >
@@ -80,7 +83,7 @@ function ProductCard({ productData }: IProps) {
           </div>
         </div>
         <p className="text-xs text-slate-500 lining-nums">
-          Stok: {productData.stock}
+          Stok: {productData.productStock}
         </p>
       </div>
 

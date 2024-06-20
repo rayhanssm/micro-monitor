@@ -2,10 +2,14 @@ import { IOption } from "../options";
 import { IProductListResponse } from "./ProductResponse";
 
 export type ITransactionsResponse = {
-  id: string;
-  products: { product: IProductListResponse; quantity: number; amount: number }[];
-  total: number;
-  user: string;
+  transactionID: string;
+  products: {
+    productName: string;
+    quantity: number;
+    value: number;
+  }[];
+  transactionTotal: number;
+  userName: string;
   transactionDate: Date | string;
 };
 
@@ -14,10 +18,15 @@ export type ITransactionListResponse = {
   transactions: ITransactionsResponse[];
 };
 
+export type ITransactionProductResponse = {
+  productID: string;
+  productName: string;
+  productPrice: number;
+  productStock: number;
+};
+
 export type ITransactionDetailResponse = {
-  id: string;
-  product: IOption;
-  quantity: number;
-  amount: number;
-  date: number;
+  products: ITransactionProductResponse[];
+  transactionTotal: number;
+  transactionDate: Date;
 };

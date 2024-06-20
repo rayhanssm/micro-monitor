@@ -22,13 +22,13 @@ function Accordion({ data }: IProps) {
           {open ? <ChevronUp /> : <ChevronDown />}
           <div className="flex items-center gap-3 ml-2">
             <div className="px-2 py-1 rounded-xl text-white text-base font-bold lining-nums bg-teal-700">
-              #{data.id}
+              #{data.transactionID}
             </div>
             <p
               className="text-sm lining-nums text-slate-500"
               suppressHydrationWarning
             >
-              {fTime(data.transactionDate)} - {data.user}
+              {fTime(data.transactionDate)} - {data.userName}
             </p>
           </div>
         </button>
@@ -61,17 +61,17 @@ function Accordion({ data }: IProps) {
             className={`table-auto w-full rounded-md text-base lining-nums font-medium`}
           >
             <tbody>
-              {data.products.map((product, index) => (
+              {data.products.map((p, index) => (
                 <tr key={index} className="border-b">
-                  <td>{product.product.name}</td>
-                  <td className="text-slate-500">x{product.quantity}</td>
-                  <td className="text-right">IDR {fNum(product.amount)}</td>
+                  <td>{p.productName}</td>
+                  <td className="text-slate-500">x{p.quantity}</td>
+                  <td className="text-right">IDR {fNum(p.value)}</td>
                 </tr>
               ))}
               <tr className="font-bold">
                 <td>Total</td>
                 <td></td>
-                <td className="text-right">{fNum(data.total)}</td>
+                <td className="text-right">{fNum(data.transactionTotal)}</td>
               </tr>
             </tbody>
           </table>

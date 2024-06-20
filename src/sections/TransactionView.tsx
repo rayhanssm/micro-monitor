@@ -6,12 +6,10 @@ import Button from "@/components/customize/atoms/button/Button";
 import IconButton from "@/components/customize/atoms/button/IconButton";
 import Checkbox from "@/components/customize/atoms/Checkbox";
 import RangeDatePicker from "@/components/customize/molecules/date-picker/RangeDatePicker";
-import CheckboxField from "@/components/customize/molecules/input-field/CheckboxField";
 import SearchField from "@/components/customize/molecules/input-field/SearchField";
 import ModalCard from "@/components/customize/organisms/cards/ModalCard";
 import TransactionCard from "@/components/customize/organisms/cards/TransactionCard";
 import TransactionForm from "@/components/customize/organisms/forms/TransactionForm";
-import TransactionTable from "@/components/customize/organisms/tables/TransactionTable";
 import { transactionField, transactionSchema } from "@/data/TransactionData";
 import { TransactionRepository } from "@/repositories/TransactionRepository";
 import { ITransactionRequest } from "@/types/requests/TransactionRequest";
@@ -22,14 +20,14 @@ import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
 import { CirclePlus, Download } from "lucide-react";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 
 function TransactionView() {
   const [selected, setSelected] = useState<DateRange>();
   const [isShowAddModal, setIsShowAddModal] = useState(false);
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
   const [totalTransaction, setTotalTransaction] = useState(0);
 
   const methods = useForm({
@@ -45,10 +43,9 @@ function TransactionView() {
     name: "products",
   });
 
-  const watchedFields = watch("products");
-
   const onSubmit = async (data: ITransactionRequest) => {
     try {
+      if (selectedProducts.length === 0) return;
       await TransactionRepository.AddTransaction(data);
       setIsShowAddModal(false);
       reset();
@@ -57,56 +54,44 @@ function TransactionView() {
     }
   };
 
-  const handleProductChange = (product: any) => {
-    setSelectedProducts((prev: any) => {
-      const isSelected = prev.some(
-        (p: any) => p.productId === product.productId
-      );
-      const newSelectedProducts = isSelected
-        ? prev.filter((p: any) => p.productId !== product.productId)
-        : [...prev, product];
+  const handleProductChange = React.useCallback(
+    (product: any) => {
+      setSelectedProducts((prev: any) => {
+        const isSelected = prev.some(
+          (p: any) => p.productID === product.productID
+        );
 
-      // const index = fields.findIndex((field) => field.productId === product.id);
-      // if (isSelected && index !== -1) {
-      //   remove(index);
-      // } else if (!isSelected) {
-      //   append({ productId: product.id, quantity: 0, value: product.price });
-      // }
-      return newSelectedProducts;
-    });
-  };
-
-  // const handleProductChange = (product: any) => {
-  //   setSelectedProducts((prev: any) => {
-  //     if (prev.some((p: any) => p.id === product.id)) {
-  //       const isSelected = prev.some((p: any) => p.id === product.id);
-  //       const newSelectedProducts = prev.filter(
-  //         (p: any) => p.id !== product.id
-  //       );
-  //       const index = fields.findIndex(
-  //         (field) => field.productId === product.id
-  //       );
-  //       if (index !== -1) {
-  //         remove(index);
-  //       }
-  //       console.log(index);
-  //       return newSelectedProducts;
-  //     } else {
-  //       append({ productId: product.id, quantity: 0, value: product.price });
-  //       return [...prev, product];
-  //     }
-  //   });
-  // };
-
-  // const handleProductChange = (product: any) => {
-  //   setSelectedProducts((prev: any) => {
-  //     if (prev.some((p: any) => p.id === product.id)) {
-  //       return prev.filter((p: any) => p.id !== product.id);
-  //     } else {
-  //       return [...prev, product];
-  //     }
-  //   });
-  // };
+        if (isSelected) {
+          // Remove from selected products
+          const newSelectedProducts = prev.filter(
+            (p: any) => p.productID !== product.productID
+          );
+          // Find index in the fields array
+          const index = fields.findIndex(
+            (field) => field.productID === product.productID
+          );
+          // Remove from fields array
+          if (index !== -1) {
+            remove(index);
+            console.log("Removed product at index:", index);
+          }
+          return newSelectedProducts;
+        } else {
+          // Add to selected products
+          const newSelectedProducts = [...prev, product];
+          // Append to fields array
+          append({
+            productID: product.productID,
+            quantity: 1,
+            value: product.productPrice,
+          });
+          console.log("Appended product:", product);
+          return newSelectedProducts;
+        }
+      });
+    },
+    [append, fields, remove]
+  );
 
   useEffect(() => {
     const to = new Date();
@@ -115,19 +100,34 @@ function TransactionView() {
     setSelected({ from: from, to: to });
   }, []);
 
+  useEffect(() => {
+    console.log(selectedProducts);
+    console.log(fields);
+
+    if (selectedProducts.length === 0) {
+      reset();
+    }
+  }, [selectedProducts]);
+
   const calculateTotalTransaction = () => {
     const values = getValues("products");
-    const total = values.reduce((acc: any, product: any) => {
-      return acc + product.price * product.quantity;
-    }, 0);
+    const total = values.reduce(
+      (acc, product) => acc + product.value * product.quantity,
+      0
+    );
+    setValue("transactionTotal", total);
     setTotalTransaction(total);
-    console.log(values);
   };
 
   useEffect(() => {
-    calculateTotalTransaction();
-    setValue("total", totalTransaction);
-  }, [watchedFields]);
+    const subscription = watch((value, { name, type }) => {
+      if (name?.startsWith("products") && type === "change") {
+        calculateTotalTransaction();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   return (
     <div className="px-[116px] py-[112px]">
@@ -175,13 +175,13 @@ function TransactionView() {
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
             <SearchField name="productSearch" setSearchText={() => {}} />
-            {productList.map((product, index) => (
+            {productList.map((product) => (
               <Checkbox
-                key={product.productId}
-                label={product.name}
-                description={"IDR " + fNum(product.price)}
+                key={product.productID}
+                label={product.productName}
+                description={"IDR " + fNum(product.productPrice)}
                 checked={selectedProducts.some(
-                  (p: IProductListResponse) => p.productId === product.productId
+                  (p: IProductListResponse) => p.productID === product.productID
                 )}
                 onChange={() => handleProductChange(product)}
               />
@@ -213,12 +213,6 @@ function TransactionView() {
           </div>
         </div>
       </ModalCard>
-
-      {/* TODO: delete later */}
-      {/* <TransactionTable
-        isShowAddModal={isShowAddModal}
-        setIsShowAddModal={setIsShowAddModal}
-      /> */}
     </div>
   );
 }

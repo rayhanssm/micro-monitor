@@ -2,14 +2,8 @@ import { ITransactionRequest } from "@/types/requests/TransactionRequest";
 import { array, date, number, object, string } from "yup";
 
 export const transactionField = (): ITransactionRequest => ({
-  products: [
-    {
-      productId: "",
-      quantity: 0,
-      value: 0,
-    },
-  ],
-  total: 0,
+  products: [],
+  transactionTotal: 0,
   transactionDate: new Date(),
 });
 
@@ -17,7 +11,7 @@ export const transactionSchema = object({
   products: array()
     .of(
       object({
-        productId: string()
+        productID: string()
           .typeError("Masukkan produk")
           .required("Masukkan produk"),
         quantity: number()
@@ -31,7 +25,7 @@ export const transactionSchema = object({
       })
     )
     .required("Silakan menambahkan setidaknya 1 produk"),
-  total: number()
+  transactionTotal: number()
     .typeError("Masukkan harga total")
     .required("Masukkan harga total")
     .min(0, "Harga total setidaknya 1"),

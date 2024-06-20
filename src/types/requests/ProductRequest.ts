@@ -1,5 +1,5 @@
 export type IProductRequest = {
-  name: string;
-  price: number;
-  stock: number;
+  productName: string;
+  productPrice: number;
+  productStock: number;
 };

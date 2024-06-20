@@ -9,9 +9,9 @@ type IProps = {
 function ProductForm({ onSubmit }: IProps) {
   return (
     <form className="space-y-2 mb-[30px]" onSubmit={onSubmit}>
-      <TextField label="Nama Produk" name="name" />
-      <NumberField label="Harga" name="price" type="currency" />
-      <NumberField label="Stok" name="stock" type="number" />
+      <TextField label="Nama Produk" name="productName" />
+      <NumberField label="Harga" name="productPrice" type="currency" />
+      <NumberField label="Stok" name="productStock" type="number" />
     </form>
   );
 }

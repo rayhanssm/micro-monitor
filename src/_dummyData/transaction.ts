@@ -1,5 +1,8 @@
 import { IOption } from "@/types/options";
-import { ITransactionListResponse } from "@/types/responses/TransactionResponse";
+import {
+  ITransactionDetailResponse,
+  ITransactionListResponse,
+} from "@/types/responses/TransactionResponse";
 
 export const transactionTableDummies = [
   {
@@ -76,38 +79,89 @@ export const transactionTableDummies = [
 
 export const transactionList: ITransactionListResponse[] = [
   {
-    date: new Date(),
+    date: "2024-06-13T07:00:00+07:00",
     transactions: [
       {
-        id: "TRX003",
-        user: "staff_1",
+        transactionID: "CPQ078DLQFU4JV77LAD0",
+        userName: "test",
+        transactionDate: "2024-06-13T14:00:00+07:00",
+        transactionTotal: 80000,
         products: [
           {
-            product: { name: "Product 1", productId: "1", price: 0, stock: 0 },
-            quantity: 2,
-            amount: 10000,
+            productName: "product 1",
+            quantity: 1,
+            value: 50000,
           },
           {
-            product: { name: "Product 3", productId: "3", price: 0, stock: 0 },
+            productName: "product 3",
             quantity: 1,
-            amount: 10000,
+            value: 30000,
           },
         ],
-        transactionDate: new Date(),
-        total: 30000,
+      },
+    ],
+  },
+  {
+    date: "2024-06-12T07:00:00+07:00",
+    transactions: [
+      {
+        transactionID: "CPQ07LTLQFU4JV77LADG",
+        userName: "test",
+        transactionDate: "2024-06-12T14:00:00+07:00",
+        transactionTotal: 160000,
+        products: [
+          {
+            productName: "product 1",
+            quantity: 2,
+            value: 100000,
+          },
+          {
+            productName: "product 3",
+            quantity: 2,
+            value: 60000,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    date: "2024-06-11T07:00:00+07:00",
+    transactions: [
+      {
+        transactionID: "CPQ0ASLLQFU3PD6JGKP0",
+        userName: "kalvin",
+        transactionDate: "2024-06-11T17:00:00+07:00",
+        transactionTotal: 240000,
+        products: [
+          {
+            productName: "product 1",
+            quantity: 3,
+            value: 150000,
+          },
+          {
+            productName: "product 3",
+            quantity: 3,
+            value: 90000,
+          },
+        ],
       },
       {
-        id: "TRX002",
-        user: "staff_2",
+        transactionID: "CPQ07N5LQFU4JV77LAE0",
+        userName: "test",
+        transactionDate: "2024-06-11T14:00:00+07:00",
+        transactionTotal: 160000,
         products: [
           {
-            product: { name: "Product 2", productId: "2", price: 0, stock: 0 },
-            quantity: 1,
-            amount: 40000,
+            productName: "product 1",
+            quantity: 2,
+            value: 100000,
+          },
+          {
+            productName: "product 3",
+            quantity: 2,
+            value: 60000,
           },
         ],
-        total: 40000,
-        transactionDate: new Date(),
       },
     ],
   },

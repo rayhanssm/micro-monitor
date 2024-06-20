@@ -15,32 +15,34 @@ import TextField from "../../molecules/input-field/TextField";
 
 type IProps = {
   onSubmit: () => void;
-  data?: ITransactionDetailResponse | null;
   selectedProducts?: IProductListResponse[];
   totalTransaction?: number;
 };
 
 function TransactionForm({
   onSubmit,
-  data,
   selectedProducts,
   totalTransaction,
 }: IProps) {
-  const { setValue } = useFormContext();
 
   return (
     <form className="space-y-6 s mb-[30px]" onSubmit={onSubmit}>
       <DateTimeField label="Tanggal dan Jam" name="transactionDate" />
+      <div className="hidden">
+        <NumberField name="transactionTotal" label="" />
+      </div>
       {selectedProducts && selectedProducts.length > 0 ? (
         <div className="flex flex-col gap-2 lining-nums">
-          {selectedProducts.map((p, index) => (
+          {selectedProducts.map((p: any, index: any) => (
             <div key={index} className="grid grid-cols-2">
               <div>
-                <p className="text-sm font-semibold">{p.name}</p>
-                <p className="text-xs text-slate-500">IDR {fNum(p.price)}</p>
+                <p className="text-sm font-semibold">{p.productName}</p>
+                <p className="text-xs text-slate-500">
+                  IDR {fNum(p.productPrice)}
+                </p>
               </div>
               <div className="hidden">
-                <TextField name={`products[${index}].productId`} label="" />
+                <TextField name={`products[${index}].productID`} label="" />
                 <NumberField name={`products[${index}].value`} label="" />
               </div>
               <NumberIncrementField name={`products[${index}].quantity`} />
@@ -48,19 +50,12 @@ function TransactionForm({
           ))}
         </div>
       ) : (
-        <p className="text-sm text-slate-500">Pilih produk terlebih dahulu</p>
+        <p className="text-sm text-red-500">Pilih produk terlebih dahulu</p>
       )}
       <div className="grid grid-cols-2 lining-nums">
         <p className="text-sm font-semibold">Total</p>
-        <p className="text-sm font-semibold text-right">
-          IDR {fNum(totalTransaction)}
-        </p>
+        <p className="text-sm font-semibold text-right">IDR {fNum(totalTransaction)}</p>
       </div>
-
-      {/* <div className="grid grid-cols-2 gap-2">
-        <NumberField label="Quantity" name="quantity" type="number" />
-        <NumberField label="Amount" name="amount" type="currency" />
-      </div> */}
     </form>
   );
 }

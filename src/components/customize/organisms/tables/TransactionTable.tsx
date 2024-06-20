@@ -31,7 +31,7 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
   const [deleteItem, setDeleteItem] = useState<string>();
 
   const [detailData, setDetailData] =
-    useState<ITransactionDetailResponse | null>();
+    useState<any | null>();
 
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
@@ -167,9 +167,9 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
         buttonText="Edit"
         onClick={handleSubmit(onEdit)}
       >
-        <FormProvider {...methods}>
+        {/* <FormProvider {...methods}>
           <TransactionForm onSubmit={handleSubmit(onEdit)} data={detailData} />
-        </FormProvider>
+        </FormProvider> */}
       </ModalCard>
 
       {/* Delete transaction modal */}
