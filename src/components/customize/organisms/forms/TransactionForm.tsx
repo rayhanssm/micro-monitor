@@ -24,7 +24,6 @@ function TransactionForm({
   selectedProducts,
   totalTransaction,
 }: IProps) {
-
   return (
     <form className="space-y-6 s mb-[30px]" onSubmit={onSubmit}>
       <DateTimeField label="Tanggal dan Jam" name="transactionDate" />
@@ -38,7 +37,7 @@ function TransactionForm({
               <div>
                 <p className="text-sm font-semibold">{p.productName}</p>
                 <p className="text-xs text-slate-500">
-                  IDR {fNum(p.productPrice)}
+                  IDR {fNum(p.productPrice || p.value)}
                 </p>
               </div>
               <div className="hidden">
@@ -54,7 +53,9 @@ function TransactionForm({
       )}
       <div className="grid grid-cols-2 lining-nums">
         <p className="text-sm font-semibold">Total</p>
-        <p className="text-sm font-semibold text-right">IDR {fNum(totalTransaction)}</p>
+        <p className="text-sm font-semibold text-right">
+          IDR {fNum(totalTransaction)}
+        </p>
       </div>
     </form>
   );

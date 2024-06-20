@@ -38,7 +38,7 @@ function TransactionView() {
 
   const { handleSubmit, reset, control, setValue, getValues, watch } = methods;
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields } = useFieldArray({
     control,
     name: "products",
   });
@@ -54,44 +54,30 @@ function TransactionView() {
     }
   };
 
-  const handleProductChange = React.useCallback(
-    (product: any) => {
-      setSelectedProducts((prev: any) => {
-        const isSelected = prev.some(
-          (p: any) => p.productID === product.productID
-        );
+  const handleProductChange = (product: any) => {
+    setSelectedProducts((prevSelectedProducts) => {
+      const newSelectedProducts = [...prevSelectedProducts];
+      const index = newSelectedProducts.findIndex(
+        (p) => p.productID === product.productID
+      );
 
-        if (isSelected) {
-          // Remove from selected products
-          const newSelectedProducts = prev.filter(
-            (p: any) => p.productID !== product.productID
-          );
-          // Find index in the fields array
-          const index = fields.findIndex(
-            (field) => field.productID === product.productID
-          );
-          // Remove from fields array
-          if (index !== -1) {
-            remove(index);
-            console.log("Removed product at index:", index);
-          }
-          return newSelectedProducts;
-        } else {
-          // Add to selected products
-          const newSelectedProducts = [...prev, product];
-          // Append to fields array
-          append({
-            productID: product.productID,
-            quantity: 1,
-            value: product.productPrice,
-          });
-          console.log("Appended product:", product);
-          return newSelectedProducts;
-        }
-      });
-    },
-    [append, fields, remove]
-  );
+      if (index === -1) {
+        newSelectedProducts.push(product);
+      } else {
+        newSelectedProducts.splice(index, 1);
+      }
+
+      const newFields = newSelectedProducts.map((p) => ({
+        productID: p.productID,
+        quantity: 1,
+        value: p.productPrice,
+      }));
+
+      setValue("products", newFields);
+
+      return newSelectedProducts;
+    });
+  };
 
   useEffect(() => {
     const to = new Date();

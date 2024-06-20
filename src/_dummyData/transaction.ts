@@ -209,3 +209,23 @@ export const transactionOptions: IOption[] = [
     name: "Product 10",
   },
 ];
+
+export const transactionDetail = 
+  {
+    transactionID: "CPQ07N5LQFU4JV77LAE0",
+    userName: "test",
+    transactionDate: "2024-06-11T14:00:00+07:00",
+    transactionTotal: 160000,
+    products: [
+      {
+        productName: "product 1",
+        quantity: 2,
+        value: 100000,
+      },
+      {
+        productName: "product 3",
+        quantity: 2,
+        value: 60000,
+      },
+    ],
+  };
