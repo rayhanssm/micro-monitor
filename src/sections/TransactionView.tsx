@@ -20,9 +20,14 @@ import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
 import { CirclePlus, Download } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import {
+  FormProvider,
+  useFieldArray,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 
 function TransactionView() {
   const [selected, setSelected] = useState<DateRange>();
@@ -36,9 +41,9 @@ function TransactionView() {
     mode: "onSubmit",
   });
 
-  const { handleSubmit, reset, control, setValue, getValues, watch } = methods;
+  const { handleSubmit, reset, control, setValue } = methods;
 
-  const { fields } = useFieldArray({
+  const watchedProducts = useWatch({
     control,
     name: "products",
   });
@@ -69,7 +74,7 @@ function TransactionView() {
 
       const newFields = newSelectedProducts.map((p) => ({
         productID: p.productID,
-        quantity: 1,
+        quantity: p.quantity ? p.quantity : 1,
         value: p.productPrice,
       }));
 
@@ -87,33 +92,19 @@ function TransactionView() {
   }, []);
 
   useEffect(() => {
-    console.log(selectedProducts);
-    console.log(fields);
-
     if (selectedProducts.length === 0) {
       reset();
     }
   }, [selectedProducts]);
 
-  const calculateTotalTransaction = () => {
-    const values = getValues("products");
-    const total = values.reduce(
-      (acc, product) => acc + product.value * product.quantity,
-      0
-    );
+  useEffect(() => {
+    let total = 0;
+    for (let i = 0; i < watchedProducts.length; i++) {
+      total += watchedProducts[i].value * watchedProducts[i].quantity;
+    }
     setValue("transactionTotal", total);
     setTotalTransaction(total);
-  };
-
-  useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
-      if (name?.startsWith("products") && type === "change") {
-        calculateTotalTransaction();
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [watchedProducts]);
 
   return (
     <div className="px-[116px] py-[112px]">
@@ -180,7 +171,7 @@ function TransactionView() {
                 selectedProducts={selectedProducts}
                 totalTransaction={totalTransaction}
               />
-              <DevTool control={control} />
+              {/* <DevTool control={control} /> */}
             </FormProvider>
             <div className="flex gap-2 justify-end">
               <Button
