@@ -1,15 +1,29 @@
+import { TransactionRepository } from "@/repositories/TransactionRepository";
+import { ITransactionRequest } from "@/types/requests/TransactionRequest";
 import { ITransactionsResponse } from "@/types/responses/TransactionResponse";
 import { fTime } from "@/utils/formatDate";
 import { fNum } from "@/utils/formatNumber";
 import { ChevronDown, ChevronUp, Pencil, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import ModalCard from "../organisms/cards/ModalCard";
 
 type IProps = {
   data: ITransactionsResponse;
+  selectedTransactionId: string;
+  setSelectedTransactionId: any;
+  setIsShowEditModal: any;
 };
 
-function Accordion({ data }: IProps) {
+function Accordion({
+  data,
+  selectedTransactionId,
+  setSelectedTransactionId,
+  setIsShowEditModal,
+}: IProps) {
   const [open, setOpen] = useState(false);
+
+  const { handleSubmit, reset, setValue } = useFormContext();
 
   const handleClick = () => {
     setOpen(!open);
@@ -35,8 +49,8 @@ function Accordion({ data }: IProps) {
         <div className="flex gap-2">
           <button
             onClick={() => {
-              // setIsShowEditModal(true);
-              // setSelectedTransactionId(content.id);
+              setIsShowEditModal(true);
+              setSelectedTransactionId(data.transactionID);
             }}
           >
             <Pencil size={20} color="#0F766E" />

@@ -8,7 +8,7 @@ export const productList: IProductListResponse[] = [
     productStock: 10,
   },
   { productID: "24", productName: "Product 2", productPrice: 50000, productStock: 1 },
-  { productID: "323", productName: "Product 3", productPrice: 900000, productStock: 5 },
+  { productID: "3", productName: "Product 3", productPrice: 900000, productStock: 5 },
   { productID: "4", productName: "Product 4", productPrice: 100000, productStock: 10 },
   { productID: "5", productName: "Product 5", productPrice: 50000, productStock: 1 },
   { productID: "6", productName: "Product 6", productPrice: 900000, productStock: 5 },

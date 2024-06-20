@@ -1,7 +1,7 @@
 "use client";
 
 import { productList } from "@/_dummyData/product";
-import { transactionList } from "@/_dummyData/transaction";
+import { transactionDetail, transactionList } from "@/_dummyData/transaction";
 import Button from "@/components/customize/atoms/button/Button";
 import IconButton from "@/components/customize/atoms/button/IconButton";
 import Checkbox from "@/components/customize/atoms/Checkbox";
@@ -19,21 +19,18 @@ import { fNum } from "@/utils/formatNumber";
 import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
-import { CirclePlus, Download } from "lucide-react";
-import React, { useEffect, useMemo, useState } from "react";
+import { CirclePlus } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import {
-  FormProvider,
-  useFieldArray,
-  useForm,
-  useWatch,
-} from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 
 function TransactionView() {
   const [selected, setSelected] = useState<DateRange>();
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
-  const [totalTransaction, setTotalTransaction] = useState(0);
+
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [selectedTransactionId, setSelectedTransactionId] = useState("");
 
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
@@ -43,17 +40,26 @@ function TransactionView() {
 
   const { handleSubmit, reset, control, setValue } = methods;
 
-  const watchedProducts = useWatch({
-    control,
-    name: "products",
-  });
-
   const onSubmit = async (data: ITransactionRequest) => {
     try {
       if (selectedProducts.length === 0) return;
       await TransactionRepository.AddTransaction(data);
       setIsShowAddModal(false);
       reset();
+      setSelectedProducts([]);
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+
+  const onEdit = async (data: ITransactionRequest) => {
+    try {
+      if (!selectedTransactionId) return;
+      await TransactionRepository.EditTransaction(data, selectedTransactionId);
+      setIsShowEditModal(false);
+      reset();
+      setSelectedTransactionId("");
+      setSelectedProducts([]);
     } catch (e: any) {
       console.log(e);
     }
@@ -93,31 +99,26 @@ function TransactionView() {
 
   useEffect(() => {
     if (selectedProducts.length === 0) {
-      reset();
+      reset(transactionField());
     }
   }, [selectedProducts]);
 
   useEffect(() => {
-    let total = 0;
-    for (let i = 0; i < watchedProducts.length; i++) {
-      total += watchedProducts[i].value * watchedProducts[i].quantity;
+    if (isShowEditModal && selectedTransactionId) {
+      reset({
+        transactionDate: new Date(transactionDetail.transactionDate),
+        transactionTotal: transactionDetail.transactionTotal,
+      });
+      setSelectedProducts(transactionDetail.products);
+      setValue("products", selectedProducts);
     }
-    setValue("transactionTotal", total);
-    setTotalTransaction(total);
-  }, [watchedProducts]);
+  }, [selectedTransactionId]);
 
   return (
-    <div className="px-[116px] py-[112px]">
-      <div className="flex justify-between mb-6">
-        <SearchField name="transactionSearch" setSearchText={() => {}} />
-
+    <div className="px-[116px] py-[112px] ">
+      <div className="flex justify-end mb-6">
         <div className="flex gap-6">
           <RangeDatePicker selected={selected} setSelected={setSelected} />
-          <IconButton
-            icon={<Download />}
-            text="Ekspor ke Excel"
-            type="outlined"
-          />
           <IconButton
             icon={<CirclePlus />}
             text="Tambah"
@@ -136,7 +137,14 @@ function TransactionView() {
             >
               {fDayDate(data.date)}
             </p>
-            <TransactionCard data={data} />
+            <FormProvider {...methods}>
+              <TransactionCard
+                data={data}
+                selectedTransactionId={selectedTransactionId}
+                setSelectedTransactionId={setSelectedTransactionId}
+                setIsShowEditModal={setIsShowEditModal}
+              />
+            </FormProvider>
           </div>
         ))}
       </div>
@@ -169,7 +177,6 @@ function TransactionView() {
               <TransactionForm
                 onSubmit={handleSubmit(onSubmit)}
                 selectedProducts={selectedProducts}
-                totalTransaction={totalTransaction}
               />
               {/* <DevTool control={control} /> */}
             </FormProvider>
@@ -185,6 +192,55 @@ function TransactionView() {
                 btnStyle="filled"
                 additionClassname="w-full"
                 onClick={handleSubmit(onSubmit)}
+              />
+            </div>
+          </div>
+        </div>
+      </ModalCard>
+
+      {/* Edit transaction modal */}
+      <ModalCard
+        open={isShowEditModal}
+        setOpen={setIsShowEditModal}
+        title="Edit Transaksi"
+        onClick={handleSubmit(onEdit)}
+        maxWidth="max-w-2xl"
+      >
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
+            <SearchField name="productSearch" setSearchText={() => {}} />
+            {productList.map((product) => (
+              <Checkbox
+                key={product.productID}
+                label={product.productName}
+                description={"IDR " + fNum(product.productPrice)}
+                checked={selectedProducts.some(
+                  (p: IProductListResponse) => p.productID === product.productID
+                )}
+                onChange={() => handleProductChange(product)}
+              />
+            ))}
+          </div>
+          <div className="overflow-y-scroll max-h-80">
+            <FormProvider {...methods}>
+              <TransactionForm
+                onSubmit={handleSubmit(onEdit)}
+                selectedProducts={selectedProducts}
+              />
+              {/* <DevTool control={control} /> */}
+            </FormProvider>
+            <div className="flex gap-2 justify-end">
+              <Button
+                text="Batal"
+                btnStyle="outlined"
+                additionClassname="w-full"
+                onClick={() => setIsShowAddModal(false)}
+              />
+              <Button
+                text="Edit"
+                btnStyle="filled"
+                additionClassname="w-full"
+                onClick={handleSubmit(onEdit)}
               />
             </div>
           </div>

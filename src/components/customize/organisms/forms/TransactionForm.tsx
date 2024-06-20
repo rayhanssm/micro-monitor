@@ -6,7 +6,7 @@ import DateField from "../../molecules/input-field/DateField";
 import SelectField from "../../molecules/input-field/SelectField";
 import { transactionOptions } from "@/_dummyData/transaction";
 import { ITransactionDetailResponse } from "@/types/responses/TransactionResponse";
-import { useFieldArray, useFormContext } from "react-hook-form";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import DateTimeField from "../../molecules/input-field/DateTimeField";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { fNum } from "@/utils/formatNumber";
@@ -19,11 +19,24 @@ type IProps = {
   totalTransaction?: number;
 };
 
-function TransactionForm({
-  onSubmit,
-  selectedProducts,
-  totalTransaction,
-}: IProps) {
+function TransactionForm({ onSubmit, selectedProducts }: IProps) {
+  const { handleSubmit, reset, control, setValue } = useFormContext();
+  const [totalTransaction, setTotalTransaction] = useState(0);
+  const watchedProducts = useWatch({
+    control,
+    name: "products",
+  });
+
+  useEffect(() => {
+    
+    let total = 0;
+    for (let i = 0; i < watchedProducts.length; i++) {
+      total += watchedProducts[i].value * watchedProducts[i].quantity;
+    }
+    setValue("transactionTotal", total);
+    setTotalTransaction(total);
+  }, [watchedProducts]);
+
   return (
     <form className="space-y-6 s mb-[30px]" onSubmit={onSubmit}>
       <DateTimeField label="Tanggal dan Jam" name="transactionDate" />

@@ -21,12 +21,14 @@ export type ITransactionListResponse = {
 export type ITransactionProductResponse = {
   productID: string;
   productName: string;
-  productPrice: number;
-  productStock: number;
+  quantity: number;
+  value: number;
 };
 
 export type ITransactionDetailResponse = {
+  transactionID: string
+  userName: string
   products: ITransactionProductResponse[];
   transactionTotal: number;
-  transactionDate: Date;
+  transactionDate: Date | string;
 };

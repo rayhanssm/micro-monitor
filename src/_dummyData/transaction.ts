@@ -210,22 +210,23 @@ export const transactionOptions: IOption[] = [
   },
 ];
 
-export const transactionDetail = 
-  {
-    transactionID: "CPQ07N5LQFU4JV77LAE0",
-    userName: "test",
-    transactionDate: "2024-06-11T14:00:00+07:00",
-    transactionTotal: 160000,
-    products: [
-      {
-        productName: "product 1",
-        quantity: 2,
-        value: 100000,
-      },
-      {
-        productName: "product 3",
-        quantity: 2,
-        value: 60000,
-      },
-    ],
-  };
+export const transactionDetail: ITransactionDetailResponse = {
+  transactionID: "CPQ07N5LQFU4JV77LAE0",
+  userName: "test",
+  transactionDate: "2024-06-11T14:00:00+07:00",
+  transactionTotal: 160000,
+  products: [
+    {
+      productID: "1123",
+      productName: "Product 1",
+      quantity: 2,
+      value: 100000,
+    },
+    {
+      productID: "3",
+      productName: "Product 3",
+      quantity: 2,
+      value: 60000,
+    },
+  ],
+};
