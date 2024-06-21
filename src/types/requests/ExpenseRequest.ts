@@ -1,5 +1,10 @@
-export type IExpenseRequest = {
+export type IExpenseDetailRequest = {
   description: string;
-  amount: number;
-  date: Date;
+  value: number | null;
+};
+
+export type IExpenseRequest = {
+  expenseDate: Date;
+  expenseTotal: number;
+  details: IExpenseDetailRequest[];
 };

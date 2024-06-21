@@ -151,7 +151,7 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
       />
 
       {/* Add expense modal */}
-      <ModalCard
+      {/* <ModalCard
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
         title="Add Expense"
@@ -160,10 +160,10 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
         <FormProvider {...methods}>
           <ExpenseForm />
         </FormProvider>
-      </ModalCard>
+      </ModalCard> */}
 
       {/* Edit expense modal */}
-      <ModalCard
+      {/* <ModalCard
         open={isShowEditModal}
         setOpen={setIsShowEditModal}
         title="Edit Expense"
@@ -172,7 +172,7 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
         <FormProvider {...methods}>
           <ExpenseForm />
         </FormProvider>
-      </ModalCard>
+      </ModalCard> */}
 
       {/* Delete expense modal */}
       <ModalCard
