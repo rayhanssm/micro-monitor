@@ -2,11 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import NumberField from "../../molecules/input-field/NumberField";
-import DateField from "../../molecules/input-field/DateField";
-import SelectField from "../../molecules/input-field/SelectField";
-import { transactionOptions } from "@/_dummyData/transaction";
-import { ITransactionDetailResponse } from "@/types/responses/TransactionResponse";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import DateTimeField from "../../molecules/input-field/DateTimeField";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { fNum } from "@/utils/formatNumber";
@@ -16,26 +12,36 @@ import TextField from "../../molecules/input-field/TextField";
 type IProps = {
   onSubmit: () => void;
   selectedProducts?: IProductListResponse[];
-  totalTransaction?: number;
 };
 
 function TransactionForm({ onSubmit, selectedProducts }: IProps) {
-  const { handleSubmit, reset, control, setValue } = useFormContext();
+  const { control, setValue } = useFormContext();
   const [totalTransaction, setTotalTransaction] = useState(0);
+  const [transactionValue, setTransactionValue] = useState<number[]>([]);
   const watchedProducts = useWatch({
     control,
     name: "products",
   });
 
   useEffect(() => {
-    
     let total = 0;
-    for (let i = 0; i < watchedProducts.length; i++) {
-      total += watchedProducts[i].value * watchedProducts[i].quantity;
+    const values: number[] = [];
+
+    if (selectedProducts) {
+      for (let i = 0; i < selectedProducts.length; i++) {
+        const quantity = watchedProducts[i]?.quantity || 0;
+        const productPrice = selectedProducts[i].productPrice || 0;
+        const value = productPrice * quantity;
+        total += value;
+        values[i] = value;
+        setValue(`products[${i}].value`, value);
+      }
     }
-    setValue("transactionTotal", total);
+
+    setTransactionValue(values);
     setTotalTransaction(total);
-  }, [watchedProducts]);
+    setValue("transactionTotal", total);
+  }, [watchedProducts, selectedProducts, setValue]);
 
   return (
     <form className="space-y-6 s mb-[30px]" onSubmit={onSubmit}>
@@ -50,7 +56,7 @@ function TransactionForm({ onSubmit, selectedProducts }: IProps) {
               <div>
                 <p className="text-sm font-semibold">{p.productName}</p>
                 <p className="text-xs text-slate-500">
-                  IDR {fNum(p.productPrice || p.value)}
+                  IDR {fNum(transactionValue[index])}
                 </p>
               </div>
               <div className="hidden">

@@ -48,11 +48,12 @@ function ModalCard({
         {deleteTitle && (
           <div className="flex flex-col gap-4">
             <p className="text-lg font-semibold flex">
-              Are you sure want to delete {deleteTitle}?
+              Anda yakin menghapus {deleteTitle}?
             </p>
 
             <p className="text-sm font-medium text-slate-500">
-              This will permanently remove the data from our servers.
+              Aksi ini akan menghapus data Anda secara permanen dan tidak bisa
+              dikembalikan.
             </p>
 
             <div className="flex gap-2 justify-end">

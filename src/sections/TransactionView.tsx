@@ -101,18 +101,25 @@ function TransactionView() {
     if (selectedProducts.length === 0) {
       reset(transactionField());
     }
-  }, [selectedProducts]);
+  }, [selectedProducts, reset]);
 
-  useEffect(() => {
-    if (isShowEditModal && selectedTransactionId) {
-      reset({
-        transactionDate: new Date(transactionDetail.transactionDate),
-        transactionTotal: transactionDetail.transactionTotal,
-      });
-      setSelectedProducts(transactionDetail.products);
-      setValue("products", selectedProducts);
-    }
-  }, [selectedTransactionId]);
+  // useEffect(() => {
+  //   if (isShowEditModal && selectedTransactionId) {
+  //     reset({
+  //       transactionDate: new Date(transactionDetail.transactionDate),
+  //       transactionTotal: transactionDetail.transactionTotal,
+  //     });
+  //     setSelectedProducts(transactionDetail.products);
+  //     setValue(
+  //       "products",
+  //       transactionDetail.products.map((product) => ({
+  //         productID: product.productID,
+  //         quantity: product.quantity,
+  //         value: product.value,
+  //       }))
+  //     );
+  //   }
+  // }, [selectedTransactionId, isShowEditModal, reset]);
 
   return (
     <div className="px-[116px] py-[112px] ">

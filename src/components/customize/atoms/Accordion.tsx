@@ -25,8 +25,21 @@ function Accordion({
 
   const { handleSubmit, reset, setValue } = useFormContext();
 
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
+  const [deleteItem, setDeleteItem] = useState("");
+
   const handleClick = () => {
     setOpen(!open);
+  };
+
+  const onDelete = async (selectedTransactionId: string) => {
+    try {
+      if (!selectedTransactionId) return;
+      await TransactionRepository.DeleteTransaction(selectedTransactionId);
+      setIsShowDeleteModal(false);
+    } catch (e: any) {
+      console.log(e);
+    }
   };
 
   return (
@@ -57,8 +70,9 @@ function Accordion({
           </button>
           <button
             onClick={() => {
-              // setIsShowDeleteModal(true);
-              // setDeleteItem(content.name);
+              setIsShowDeleteModal(true);
+              setSelectedTransactionId(data.transactionID);
+              setDeleteItem(data.transactionID);
             }}
           >
             <Trash2 size={20} color="#DC2626" />
@@ -91,6 +105,14 @@ function Accordion({
           </table>
         )}
       </div>
+
+      {/* Delete modal */}
+      <ModalCard
+        open={isShowDeleteModal}
+        setOpen={setIsShowDeleteModal}
+        deleteTitle={deleteItem}
+        onDelete={() => onDelete(selectedTransactionId!)}
+      />
     </div>
   );
 }
