@@ -19,7 +19,7 @@ export const apiPath = {
     edit: "/transactions/{}",
     delete: "/transactions/{}",
   },
-  expenses: {
+  expense: {
     list: "/expenses",
     detail: "/expenses/{}",
     add: "/expenses",

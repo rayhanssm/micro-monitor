@@ -1,21 +1,37 @@
 import { IExpenseRequest } from "@/types/requests/ExpenseRequest";
-import { ITransactionRequest } from "@/types/requests/TransactionRequest";
-import { validateStringToInt } from "@/utils/transformIntValidation";
-import { date, number, object, string } from "yup";
+import { array, date, number, object, string } from "yup";
 
 export const expenseField = (): IExpenseRequest => ({
-  description: "",
-  amount: 0,
-  date: new Date(),
+  details: [
+    {
+      description: "",
+      value: null,
+    },
+  ],
+  expenseDate: new Date(),
+  expenseTotal: 0,
 });
 
 export const expenseSchema = object({
-  description: string()
-    .typeError("Please insert product")
-    .required("Please insert product"),
-  amount: number()
-    .transform((_, value) => validateStringToInt(_, value))
-    .typeError("Please insert amount")
-    .required("Please insert amount"),
-  date: date().typeError("Please insert price").required("Please insert price"),
+  details: array()
+    .of(
+      object({
+        description: string()
+          .typeError("Masukkan deskripsi")
+          .required("Masukkan deskripsi"),
+        value: number()
+          .typeError("Masukkan nominal pengeluaran")
+          .required("Masukkan nominal pengeluaran")
+          .min(0, "Nominal pengeluaran setidaknya 1")
+          .nullable(),
+      })
+    )
+    .required("Silakan menambahkan setidaknya 1 produk"),
+  expenseTotal: number()
+    .typeError("Total tidak ada")
+    .required("Total tidak ada")
+    .min(0, "Harga total setidaknya 1"),
+  expenseDate: date()
+    .typeError("Masukkan tanggal dan jam")
+    .required("Masukkan tanggal dan jam"),
 });
