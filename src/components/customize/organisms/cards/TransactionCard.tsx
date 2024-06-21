@@ -12,8 +12,8 @@ type IProps = {
 function TransactionCard({
   data,
   selectedTransactionId,
-  setIsShowEditModal,
   setSelectedTransactionId,
+  setIsShowEditModal,
 }: IProps) {
   return (
     <div className="flex flex-col gap-6 p-4 border rounded-xl shadow-md">

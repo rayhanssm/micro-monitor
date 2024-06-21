@@ -88,11 +88,13 @@ export const transactionList: ITransactionListResponse[] = [
         transactionTotal: 80000,
         products: [
           {
+            productID: '1',
             productName: "product 1",
             quantity: 1,
             value: 50000,
           },
           {
+            productID: '3',
             productName: "product 3",
             quantity: 1,
             value: 30000,
@@ -111,11 +113,13 @@ export const transactionList: ITransactionListResponse[] = [
         transactionTotal: 160000,
         products: [
           {
+            productID: '1',
             productName: "product 1",
             quantity: 2,
             value: 100000,
           },
           {
+            productID: '3',
             productName: "product 3",
             quantity: 2,
             value: 60000,
@@ -134,11 +138,13 @@ export const transactionList: ITransactionListResponse[] = [
         transactionTotal: 240000,
         products: [
           {
+            productID: '1',
             productName: "product 1",
             quantity: 3,
             value: 150000,
           },
           {
+            productID: '3',
             productName: "product 3",
             quantity: 3,
             value: 90000,
@@ -152,11 +158,13 @@ export const transactionList: ITransactionListResponse[] = [
         transactionTotal: 160000,
         products: [
           {
+            productID: '1',
             productName: "product 1",
             quantity: 2,
             value: 100000,
           },
           {
+            productID: '3',
             productName: "product 3",
             quantity: 2,
             value: 60000,
@@ -217,9 +225,9 @@ export const transactionDetail: ITransactionDetailResponse = {
   transactionTotal: 160000,
   products: [
     {
-      productID: "1123",
+      productID: "1",
       productName: "Product 1",
-      quantity: 2,
+      quantity: 2, 
       value: 100000,
     },
     {

@@ -1,9 +1,7 @@
-import { IOption } from "../options";
-import { IProductListResponse } from "./ProductResponse";
-
 export type ITransactionsResponse = {
   transactionID: string;
   products: {
+    productID: string;
     productName: string;
     quantity: number;
     value: number;

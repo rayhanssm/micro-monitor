@@ -16,13 +16,12 @@ import { ITransactionRequest } from "@/types/requests/TransactionRequest";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { fDayDate } from "@/utils/formatDate";
 import { fNum } from "@/utils/formatNumber";
-import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
 import { CirclePlus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 function TransactionView() {
   const [selected, setSelected] = useState<DateRange>();
@@ -38,7 +37,7 @@ function TransactionView() {
     mode: "onSubmit",
   });
 
-  const { handleSubmit, reset, control, setValue } = methods;
+  const { handleSubmit, reset, setValue } = methods;
 
   const onSubmit = async (data: ITransactionRequest) => {
     try {
@@ -103,23 +102,26 @@ function TransactionView() {
     }
   }, [selectedProducts, reset]);
 
-  // useEffect(() => {
-  //   if (isShowEditModal && selectedTransactionId) {
-  //     reset({
-  //       transactionDate: new Date(transactionDetail.transactionDate),
-  //       transactionTotal: transactionDetail.transactionTotal,
-  //     });
-  //     setSelectedProducts(transactionDetail.products);
-  //     setValue(
-  //       "products",
-  //       transactionDetail.products.map((product) => ({
-  //         productID: product.productID,
-  //         quantity: product.quantity,
-  //         value: product.value,
-  //       }))
-  //     );
-  //   }
-  // }, [selectedTransactionId, isShowEditModal, reset]);
+  // TODO: fix later
+  useEffect(() => {
+    if (isShowEditModal && selectedTransactionId) {
+      setSelectedProducts(transactionDetail.products);
+
+      reset({
+        transactionDate: new Date(transactionDetail.transactionDate),
+        transactionTotal: transactionDetail.transactionTotal,
+      });
+
+      setValue(
+        "products",
+        transactionDetail.products.map((product: any) => ({
+          productID: product.productID,
+          quantity: product.quantity,
+          value: product.value,
+        }))
+      );
+    }
+  }, [selectedTransactionId, isShowEditModal, reset, setValue]);
 
   return (
     <div className="px-[116px] py-[112px] ">
@@ -185,7 +187,6 @@ function TransactionView() {
                 onSubmit={handleSubmit(onSubmit)}
                 selectedProducts={selectedProducts}
               />
-              {/* <DevTool control={control} /> */}
             </FormProvider>
             <div className="flex gap-2 justify-end">
               <Button
@@ -233,15 +234,15 @@ function TransactionView() {
               <TransactionForm
                 onSubmit={handleSubmit(onEdit)}
                 selectedProducts={selectedProducts}
+                selectedTransactionId={selectedTransactionId}
               />
-              {/* <DevTool control={control} /> */}
             </FormProvider>
             <div className="flex gap-2 justify-end">
               <Button
                 text="Batal"
                 btnStyle="outlined"
                 additionClassname="w-full"
-                onClick={() => setIsShowAddModal(false)}
+                onClick={() => setIsShowEditModal(false)}
               />
               <Button
                 text="Edit"

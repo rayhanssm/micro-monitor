@@ -1,11 +1,9 @@
 import { TransactionRepository } from "@/repositories/TransactionRepository";
-import { ITransactionRequest } from "@/types/requests/TransactionRequest";
 import { ITransactionsResponse } from "@/types/responses/TransactionResponse";
 import { fTime } from "@/utils/formatDate";
 import { fNum } from "@/utils/formatNumber";
 import { ChevronDown, ChevronUp, Pencil, Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
+import React, { useState } from "react";
 import ModalCard from "../organisms/cards/ModalCard";
 
 type IProps = {
@@ -22,8 +20,6 @@ function Accordion({
   setIsShowEditModal,
 }: IProps) {
   const [open, setOpen] = useState(false);
-
-  const { handleSubmit, reset, setValue } = useFormContext();
 
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
   const [deleteItem, setDeleteItem] = useState("");
