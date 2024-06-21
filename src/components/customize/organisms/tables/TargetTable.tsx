@@ -1,72 +1,43 @@
 "use client";
 
 import { CirclePlus, Pencil, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TargetForm from "../forms/TargetForm";
 import ModalCard from "../cards/ModalCard";
 import { fCurrency } from "@/utils/formatNumber";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { targetField, targetSchema } from "@/data/TargetData";
+import { targetList } from "@/_dummyData/target";
 
-// TODO: delete later
-const tableDummies = [
-  {
-    month: "January",
-    target: 0,
-  },
-  {
-    month: "February",
-    target: 4000000,
-  },
-  {
-    month: "March",
-    target: 5000000,
-  },
-  {
-    month: "April",
-    target: 6000000,
-  },
-  {
-    month: "May",
-    target: 6000000,
-  },
-  {
-    month: "June",
-    target: 6000000,
-  },
-  {
-    month: "July",
-    target: 6000000,
-  },
-  {
-    month: "August",
-    target: 6000000,
-  },
-  {
-    month: "September",
-    target: 6000000,
-  },
-  {
-    month: "October",
-    target: 6000000,
-  },
-  {
-    month: "November",
-    target: 6000000,
-  },
-  {
-    month: "December",
-    target: 6000000,
-  },
+const months = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
 ];
 
 function TargetTable() {
-  const lastItem = tableDummies.length - 1;
+  const lastItem = 12 - 1;
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
-  const [deleteItem, setDeleteItem] = useState<string>();
+  const [deleteItem, setDeleteItem] = useState<{
+    month: Date | string;
+    target: number;
+  }>();
+
+  const [currentYear, setCurrentYear] = useState(new Date());
+
+  const [tableData, setTableData] = useState<any>([]);
 
   const methods = useForm({
     resolver: yupResolver(targetSchema),
@@ -74,19 +45,33 @@ function TargetTable() {
     mode: "onSubmit",
   });
 
+  useEffect(() => {
+    const updatedTableData = months.map((month, index) => {
+      const targetMonth = index + 1;
+      const target = targetList.find(
+        (item) => new Date(item.targetDate).getMonth() + 1 === targetMonth
+      );
+      return {
+        month,
+        target: target ? target.targetValue : 0,
+      };
+    });
+    setTableData(updatedTableData);
+  }, [currentYear]);
+
   return (
     <div className="border rounded-md p-6">
       <table className="table-auto w-full rounded-md">
         <thead className="text-left">
           <tr>
-            <th className="pb-2">Month</th>
-            <th className="pb-2">Target</th>
-            <th className="pb-2">Actions</th>
+            <th className="pb-2">Bulan</th>
+            <th className="pb-2">Jumlah Target</th>
+            <th className="pb-2">Aksi</th>
           </tr>
         </thead>
         <tbody>
-          {tableDummies.map((content, index) => (
-            <tr key={index} className="border-t">
+          {tableData.map((content: any, index: any) => (
+            <tr key={index} className="border-t lining-nums">
               <td
                 className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
               >
