@@ -2,7 +2,7 @@ import TransactionView from "@/sections/TransactionView";
 import React from "react";
 
 export const metadata = {
-  title: "Transaction",
+  title: "Transaksi",
 };
 
 function Transaction() {

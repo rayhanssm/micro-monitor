@@ -20,7 +20,7 @@ const css = `
 `;
 
 type IProps = {
-  selected: any;
+  selected: DateRange | undefined;
   setSelected: (value: DateRange | undefined) => void;
 };
 
@@ -69,7 +69,7 @@ function RangeDatePicker({ selected, setSelected }: IProps) {
             ? `${fDateSlash(selected?.from)} - ${
                 selected.to ? fDateSlash(selected?.to) : ""
               }`
-            : "Select a date"
+            : "Pilih tanggal"
         }
         type="outlined"
         onClick={handleClickDatePicker}

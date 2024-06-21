@@ -22,6 +22,7 @@ type IProps = {
 };
 
 function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
+  // TODO: delete later
   const lastItem = transactionTableDummies.length - 1;
 
   const [isShowEditModal, setIsShowEditModal] = useState(false);
@@ -30,7 +31,7 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
   const [deleteItem, setDeleteItem] = useState<string>();
 
   const [detailData, setDetailData] =
-    useState<ITransactionDetailResponse | null>();
+    useState<any | null>();
 
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
@@ -108,7 +109,7 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
                 <td
                   className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
                 >
-                  {content.date ? fDateSlash(content.date) : "-"}
+                  {/* {content.date ? fDateSlash(content.date) : "-"} */}
                 </td>
                 <td
                   className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
@@ -154,7 +155,7 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
       >
         <FormProvider {...methods}>
           <TransactionForm onSubmit={handleSubmit(onSubmit)} />
-          <DevTool control={control} />
+          {/* <DevTool control={control} /> */}
         </FormProvider>
       </ModalCard>
 
@@ -166,9 +167,9 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
         buttonText="Edit"
         onClick={handleSubmit(onEdit)}
       >
-        <FormProvider {...methods}>
+        {/* <FormProvider {...methods}>
           <TransactionForm onSubmit={handleSubmit(onEdit)} data={detailData} />
-        </FormProvider>
+        </FormProvider> */}
       </ModalCard>
 
       {/* Delete transaction modal */}

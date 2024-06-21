@@ -2,7 +2,7 @@ import ProductView from "@/sections/ProductView";
 import React from "react";
 
 export const metadata = {
-  title: "Product",
+  title: "Produk",
 };
 
 function Product() {

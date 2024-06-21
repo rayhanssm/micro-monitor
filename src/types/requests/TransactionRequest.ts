@@ -1,6 +1,11 @@
-export type ITransactionRequest = {
-  productId: string;
+export type ITransactionProductRequest = {
+  productID: string;
   quantity: number;
-  amount: number;
-  date: Date;
+  value: number;
+};
+
+export type ITransactionRequest = {
+  products: ITransactionProductRequest[];
+  transactionTotal: number;
+  transactionDate: Date;
 };

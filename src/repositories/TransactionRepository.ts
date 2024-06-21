@@ -15,4 +15,7 @@ export class TransactionRepository {
     id: string
   ): Promise<AxiosResponse<ITransactionDetailResponse>> =>
     CustomAxios.Get(apiPath.transaction.detail, {}, id);
+
+    static DeleteTransaction = (id: string) =>
+      CustomAxios.Delete(apiPath.transaction.delete, id);
 }

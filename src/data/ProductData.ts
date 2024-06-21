@@ -3,20 +3,20 @@ import { validateStringToInt } from "@/utils/transformIntValidation";
 import { number, object, string } from "yup";
 
 export const productField = (): IProductRequest => ({
-  name: "",
-  price: 0,
-  stock: 0,
+  productName: "",
+  productPrice: 0,
+  productStock: 0,
 });
 
 export const productSchema = object({
-  name: string()
+  productName: string()
     .typeError("Masukkan nama produk")
     .required("Masukkan nama produk"),
-  price: number()
+  productPrice: number()
     // .transform((_, value) => validateStringToInt(_, value))
     .typeError("Masukkan harga produk")
     .required("Masukkan harga produk"),
-  stock: number()
+  productStock: number()
     // .transform((_, value) => validateStringToInt(_, value))
     .typeError("Masukkan stok produk")
     .required("Masukkan stok produk"),
