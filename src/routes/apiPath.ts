@@ -3,6 +3,7 @@ export const apiPath = {
     login: "/login",
     register: "/register",
     profile: "/profile",
+    edit: "/profile",
   },
   product: {
     list: "/product",

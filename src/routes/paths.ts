@@ -8,5 +8,5 @@ export const paths = {
   transaction: "/transaction",
   expense: "/expense",
   tagret: "/target",
-  profile: "/profile",
+  settings: "/settings",
 };

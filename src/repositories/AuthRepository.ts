@@ -1,6 +1,10 @@
 import { apiPath } from "@/routes/apiPath";
 import { ISingleResponse } from "@/types/BaseResponse";
-import { ILoginRequest, IRegisterRequest } from "@/types/requests/AuthRequest";
+import {
+  ILoginRequest,
+  IProfileRequest,
+  IRegisterRequest,
+} from "@/types/requests/AuthRequest";
 import {
   ILoginResponse,
   IProfileResponse,
@@ -22,4 +26,7 @@ export class AuthRepository {
 
   static GetProfile = (): Promise<AxiosResponse<IProfileResponse>> =>
     CustomAxios.Get(apiPath.auth.profile);
+
+  static EditProfile = (payload: IProfileRequest) =>
+    CustomAxios.Put(apiPath.auth.edit, payload);
 }

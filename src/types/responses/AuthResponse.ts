@@ -1,11 +1,15 @@
 export type ILoginResponse = {
-  expiresAt: string;
   token: string;
+  expiresAt: string;
+  role: string;
+  flagTarget: boolean;
+  flagExpense: boolean;
+  flagproduct: boolean;
 };
 
 export type IProfileResponse = {
-  id: string;
-  image: string;
+  userID: string;
   storeName: string;
   userName: string;
+  role: string;
 };

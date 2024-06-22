@@ -2,7 +2,7 @@
 
 import useClickOutsideElement from "@/hooks/useClickOutsideElement";
 import { paths } from "@/routes/paths";
-import { LogOut, User } from "lucide-react";
+import { Bolt, LogOut } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Cookies } from "react-cookie";
@@ -85,19 +85,19 @@ function Navbar() {
           <button
             className="flex items-center gap-2 bg-transparent hover:bg-[#1C1C1C] text-sm text-[#1C1C1C] hover:text-white font-medium py-2 px-4 rounded-md transition ease-in"
             onClick={() => {
-              push(paths.profile);
+              push(paths.settings);
               setIsOpen(false);
             }}
           >
-            <User />
-            <span>Profile</span>
+            <Bolt />
+            <span>Pengaturan</span>
           </button>
           <button
             className="flex items-center gap-2 bg-transparent border-red-600 text-red-600 hover:bg-red-600 text-sm text-red-bg-red-600 hover:text-white font-medium border py-2 px-4 rounded-md transition ease-in"
             onClick={handleLogout}
           >
             <LogOut />
-            <span>Logout</span>
+            <span>Keluar</span>
           </button>
         </div>
       </div>
