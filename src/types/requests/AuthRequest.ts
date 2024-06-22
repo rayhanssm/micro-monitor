@@ -17,3 +17,9 @@ export type IProfileRequest = {
   storeName: string;
   userName: string;
 };
+
+export type IStaffRequest = {
+  userName: string;
+  password: string;
+  confirmPassword: string;
+};

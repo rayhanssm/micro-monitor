@@ -61,7 +61,7 @@ function ProfileView() {
     <div className="pt-[124px] px-[116px] flex justify-center">
       <div className="p-[25px] w-[400px] border border-slate-200 rounded-lg shadow">
         <FormProvider {...methods}>
-          <ProfileForm onSubmit={handleSubmit(onSubmit)} />
+          <ProfileForm onSubmit={handleSubmit(onSubmit)} role="staff" />
         </FormProvider>
 
         <Button
