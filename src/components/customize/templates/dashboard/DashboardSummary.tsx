@@ -75,10 +75,10 @@ function DashboardSummary({ selected }: IProps) {
           content={
             <div className="flex flex-col">
               <p className="text-teal-500 text-3xl font-extrabold leading-[48px]">
-                50%
+                80%
               </p>
               <div className="w-[200px] h-4 bg-[#D9D9D9] rounded-full overflow-hidden">
-                <div className="w-[50%] h-4 bg-teal-500 rounded-full"></div>
+                <div className="w-[80%] h-4 bg-teal-500 rounded-full"></div>
               </div>
             </div>
           }
