@@ -26,6 +26,8 @@ function ProductView() {
   const [searchText, setSearchText] = useState("");
   const [isLoadingData, setIsLoadingData] = useState(false);
 
+  const [isReload, setIsReload] = useState(false);
+
   const [data, setData] = useState<IProductListResponse[] | null>([]);
   const pageCount = Math.ceil(dataLength / 12);
 
@@ -46,6 +48,7 @@ function ProductView() {
       await ProductRepository.AddProduct(data);
       setIsShowAddModal(false);
       reset();
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }
@@ -71,7 +74,7 @@ function ProductView() {
 
   useEffect(() => {
     getData();
-  }, [searchText, currPage]);
+  }, [searchText, currPage, isReload]);
 
   return (
     <div className="px-[116px] py-[112px]">
@@ -95,7 +98,7 @@ function ProductView() {
       ) : (
         <>
           <div className="grid grid-cols-4 gap-x-10 gap-y-5">
-            {productList.map((product) => (
+            {data?.map((product) => (
               <ProductCard key={product.productID} productData={product} />
             ))}
           </div>

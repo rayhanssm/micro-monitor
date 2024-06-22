@@ -23,19 +23,18 @@ function ProfileView() {
     formState: { isSubmitting },
   } = methods;
 
-  const getProfile = async () => {
-    try {
-      const res = await AuthRepository.GetProfile();
-      setProfile(res.data);
-    } catch (e: any) {
-      console.log(e);
-    }
-  };
+  // const getProfile = async () => {
+  //   try {
+  //     const res = await AuthRepository.GetProfile();
+  //     setProfile(res.data);
+  //   } catch (e: any) {
+  //     console.log(e);
+  //   }
+  // };
 
-  useEffect(() => {
-    getProfile();
-    console.log(profile);
-  }, [profile]);
+  // useEffect(() => {
+  //   getProfile();
+  // }, [profile]);
 
   return (
     <div className="pt-[124px] px-[116px] flex justify-center">
