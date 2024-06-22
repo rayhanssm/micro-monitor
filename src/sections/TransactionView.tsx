@@ -13,10 +13,7 @@ import TransactionForm from "@/components/customize/organisms/forms/TransactionF
 import TransactionNoProductForm from "@/components/customize/organisms/forms/TransactionNoProductForm";
 import { transactionField, transactionSchema } from "@/data/TransactionData";
 import { TransactionRepository } from "@/repositories/TransactionRepository";
-import {
-  ITransactionNoProductRequest,
-  ITransactionRequest,
-} from "@/types/requests/TransactionRequest";
+import { ITransactionRequest } from "@/types/requests/TransactionRequest";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { fDayDate } from "@/utils/formatDate";
 import { fNum } from "@/utils/formatNumber";
@@ -33,7 +30,7 @@ function TransactionView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
 
-  const cookies = new Cookies();
+  const [flagProduct, setFlagProduct] = useState(true);
 
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
@@ -109,6 +106,13 @@ function TransactionView() {
     }
   }, [selectedProducts, reset]);
 
+  useEffect(() => {
+    const cookies = new Cookies();
+    const flagProduct = cookies.get("flagProduct");
+
+    setFlagProduct(flagProduct);
+  }, [flagProduct]);
+
   return (
     <div className="px-[116px] py-[112px] ">
       <div className="flex justify-end mb-6">
@@ -140,7 +144,7 @@ function TransactionView() {
       </div>
 
       {/* Add transaction modal */}
-      {cookies.get("flagProduct") === true ? (
+      {flagProduct === true ? (
         <ModalCard
           open={isShowAddModal}
           setOpen={setIsShowAddModal}

@@ -1,3 +1,5 @@
+"use client";
+
 import { TransactionRepository } from "@/repositories/TransactionRepository";
 import { ITransactionDetailResponse } from "@/types/responses/TransactionResponse";
 import { fTime } from "@/utils/formatDate";
@@ -34,11 +36,15 @@ function TransactionAccordion({ data }: IProps) {
   const [totalTransaction, setTotalTransaction] = useState(0);
   const [transactionValue, setTransactionValue] = useState<number[]>([]);
 
-  const cookies = new Cookies();
+  const [flagProduct, setFlagProduct] = useState(true);
 
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
-    defaultValues: transactionField(),
+    defaultValues: {
+      products: [],
+      transactionDate: new Date(data.transactionDate),
+      transactionTotal: data.transactionTotal,
+    },
     mode: "onSubmit",
   });
 
@@ -168,8 +174,6 @@ function TransactionAccordion({ data }: IProps) {
     if (isShowEditModal && selectedTransactionId) {
       setSelectedProducts(data.products);
 
-      console.log(data);
-
       reset({
         transactionDate: new Date(data.transactionDate),
       });
@@ -184,6 +188,13 @@ function TransactionAccordion({ data }: IProps) {
       );
     }
   }, [selectedTransactionId, isShowEditModal, setValue]);
+
+  useEffect(() => {
+    const cookies = new Cookies();
+    const flagProduct = cookies.get("flagProduct");
+
+    setFlagProduct(flagProduct);
+  }, [flagProduct]);
 
   return (
     <div>
@@ -232,7 +243,7 @@ function TransactionAccordion({ data }: IProps) {
             className={`table-auto w-full rounded-md text-base lining-nums font-medium`}
           >
             <tbody>
-              {data.products &&
+              {data.products.length > 0 &&
                 data.products.map((p, index) => (
                   <tr key={index} className="border-b">
                     <td>{p.productName}</td>
@@ -251,71 +262,74 @@ function TransactionAccordion({ data }: IProps) {
       </div>
 
       {/* Edit transaction modal */}
-      {cookies.get("flagProduct") === true ? (
-        <ModalCard
-          open={isShowEditModal}
-          setOpen={setIsShowEditModal}
-          title="Edit Transaksi"
-          onClick={handleSubmit(onEdit)}
-          maxWidth="max-w-2xl"
-        >
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
-              <SearchField name="productSearch" setSearchText={() => {}} />
-              {productList.map((product) => (
-                <Checkbox
-                  key={product.productID}
-                  label={product.productName}
-                  description={"IDR " + fNum(product.productPrice)}
-                  checked={selectedProducts.some(
-                    (p: IProductListResponse) =>
-                      p.productID === product.productID
-                  )}
-                  onChange={() => handleProductChange(product)}
-                />
-              ))}
-            </div>
-            <div className="overflow-y-scroll max-h-80">
-              <FormProvider {...methods}>
-                <TransactionEditForm
-                  onSubmit={handleSubmit(onEdit)}
-                  selectedProducts={selectedProducts}
-                  totalTransaction={totalTransaction}
-                  transactionValue={transactionValue}
-                />
-              </FormProvider>
-              <div className="flex gap-2 justify-end">
-                <Button
-                  text="Batal"
-                  btnStyle="outlined"
-                  additionClassname="w-full"
-                  onClick={() => setIsShowEditModal(false)}
-                />
-                <Button
-                  text="Edit"
-                  btnStyle="filled"
-                  additionClassname="w-full"
-                  onClick={handleSubmit(onEdit)}
-                />
+      <div>
+        {flagProduct === true ? (
+          <ModalCard
+            open={isShowEditModal}
+            setOpen={setIsShowEditModal}
+            title="Edit Transaksi"
+            onClick={handleSubmit(onEdit)}
+            maxWidth="max-w-2xl"
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
+                <SearchField name="productSearch" setSearchText={() => {}} />
+                {productList.map((product) => (
+                  <Checkbox
+                    key={product.productID}
+                    label={product.productName}
+                    description={"IDR " + fNum(product.productPrice)}
+                    checked={selectedProducts.some(
+                      (p: IProductListResponse) =>
+                        p.productID === product.productID
+                    )}
+                    onChange={() => handleProductChange(product)}
+                  />
+                ))}
+              </div>
+              <div className="overflow-y-scroll max-h-80">
+                <FormProvider {...methods}>
+                  <TransactionEditForm
+                    onSubmit={handleSubmit(onEdit)}
+                    selectedProducts={selectedProducts}
+                    totalTransaction={totalTransaction}
+                    transactionValue={transactionValue}
+                  />
+                </FormProvider>
+                <div className="flex gap-2 justify-end">
+                  <Button
+                    text="Batal"
+                    btnStyle="outlined"
+                    additionClassname="w-full"
+                    onClick={() => setIsShowEditModal(false)}
+                  />
+                  <Button
+                    text="Edit"
+                    btnStyle="filled"
+                    additionClassname="w-full"
+                    onClick={handleSubmit(onEdit)}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </ModalCard>
-      ) : (
-        <ModalCard
-          open={isShowEditModal}
-          setOpen={setIsShowEditModal}
-          title="Tambah Transaksi"
-          buttonText={isSubmitting ? "Loading..." : "Tambah"}
-          onClick={handleSubmit(onSubmitNoProduct)}
-        >
-          <FormProvider {...methods}>
-            <TransactionNoProductForm
-              onSubmit={handleSubmit(onSubmitNoProduct)}
-            />
-          </FormProvider>
-        </ModalCard>
-      )}
+          </ModalCard>
+        ) : (
+          <ModalCard
+            open={isShowEditModal}
+            setOpen={setIsShowEditModal}
+            title="Edit Transaksi"
+            buttonText={isSubmitting ? "Loading..." : "Edit"}
+            onClick={handleSubmit(onSubmitNoProduct)}
+          >
+            <FormProvider {...methods}>
+              <TransactionNoProductForm
+                onSubmit={handleSubmit(onSubmitNoProduct)}
+                data={data}
+              />
+            </FormProvider>
+          </ModalCard>
+        )}
+      </div>
 
       {/* Delete modal */}
       <ModalCard
