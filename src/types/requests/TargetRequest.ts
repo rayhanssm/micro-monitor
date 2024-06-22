@@ -1,4 +1,4 @@
 export type ITargetRequest = {
-  date: Date;
-  amount: number;
+  targetDate: Date;
+  targetValue: number;
 };

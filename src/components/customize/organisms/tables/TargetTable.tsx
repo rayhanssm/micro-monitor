@@ -9,6 +9,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { targetField, targetSchema } from "@/data/TargetData";
 import { targetList } from "@/_dummyData/target";
+import { ITargetRequest } from "@/types/requests/TargetRequest";
+import { TargetRepository } from "@/repositories/TargetRepository";
+import { fDayDate } from "@/utils/formatDate";
 
 const months = [
   "Januari",
@@ -36,6 +39,7 @@ function TargetTable() {
   }>();
 
   const [currentYear, setCurrentYear] = useState(new Date());
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   const [tableData, setTableData] = useState<any>([]);
 
@@ -44,6 +48,42 @@ function TargetTable() {
     defaultValues: targetField(),
     mode: "onSubmit",
   });
+
+  const {
+    handleSubmit,
+    reset,
+    control,
+    setValue,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = async (data: ITargetRequest) => {
+    try {
+      await TargetRepository.AddTarget(data);
+      setIsShowAddModal(false);
+      reset();
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+
+  const handleAddClick = (month: string) => {
+    setSelectedMonth(month); // Set the selected month
+    setValue(
+      "targetDate",
+      new Date(`${currentYear.getFullYear()}-${months.indexOf(month) + 1}-01`)
+    ); // Set form value for targetDate
+    setIsShowAddModal(true);
+  };
+
+  const handleEditClick = (month: string) => {
+    setSelectedMonth(month); // Set the selected month
+    setValue(
+      "targetDate",
+      new Date(`${currentYear.getFullYear()}-${months.indexOf(month) + 1}-01`)
+    ); // Set form value for targetDate
+    setIsShowEditModal(true);
+  };
 
   useEffect(() => {
     const updatedTableData = months.map((month, index) => {
@@ -87,7 +127,7 @@ function TargetTable() {
               >
                 {content.target ? (
                   <div className="flex gap-2">
-                    <button onClick={() => setIsShowEditModal(true)}>
+                    <button onClick={() => handleEditClick(content.month)}>
                       <Pencil size={20} color="#0F766E" />
                     </button>
                     <button
@@ -101,7 +141,7 @@ function TargetTable() {
                   </div>
                 ) : (
                   <div className="flex">
-                    <button onClick={() => setIsShowAddModal(true)}>
+                    <button onClick={() => handleAddClick(content.month)}>
                       <CirclePlus size={20} color="#0F766E" />
                     </button>
                   </div>
@@ -116,11 +156,12 @@ function TargetTable() {
       <ModalCard
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
-        title="Add Target"
-        buttonText="Add"
+        title="Tambah Target"
+        buttonText="Tambah"
+        onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>
-          <TargetForm />
+          <TargetForm onSubmit={handleSubmit(onSubmit)} />
         </FormProvider>
       </ModalCard>
 
@@ -132,7 +173,7 @@ function TargetTable() {
         buttonText="Edit"
       >
         <FormProvider {...methods}>
-          <TargetForm />
+          <TargetForm onSubmit={handleSubmit(onSubmit)} />
         </FormProvider>
       </ModalCard>
 

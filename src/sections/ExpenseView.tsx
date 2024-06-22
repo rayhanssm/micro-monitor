@@ -3,7 +3,6 @@
 import { expenseList } from "@/_dummyData/expense";
 import IconButton from "@/components/customize/atoms/button/IconButton";
 import RangeDatePicker from "@/components/customize/molecules/date-picker/RangeDatePicker";
-import SearchField from "@/components/customize/molecules/input-field/SearchField";
 import ExpenseCard from "@/components/customize/organisms/cards/ExpenseCard";
 import ModalCard from "@/components/customize/organisms/cards/ModalCard";
 import ExpenseForm from "@/components/customize/organisms/forms/ExpenseForm";
