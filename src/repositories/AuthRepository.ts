@@ -1,13 +1,16 @@
 import { apiPath } from "@/routes/apiPath";
-import { ISingleResponse } from "@/types/BaseResponse";
+import { IPaginationResponse, ISingleResponse } from "@/types/BaseResponse";
 import {
   ILoginRequest,
   IProfileRequest,
   IRegisterRequest,
+  IStaffEditRequest,
+  IStaffRequest,
 } from "@/types/requests/AuthRequest";
 import {
   ILoginResponse,
   IProfileResponse,
+  IStaffListResponse,
 } from "@/types/responses/AuthResponse";
 import CustomAxios from "@/utils/axios";
 import axios, { AxiosResponse } from "axios";
@@ -29,4 +32,15 @@ export class AuthRepository {
 
   static EditProfile = (payload: IProfileRequest) =>
     CustomAxios.Put(apiPath.auth.edit, payload);
+
+  static GetStaffList = (
+    params: any
+  ): Promise<AxiosResponse<IPaginationResponse<IStaffListResponse>>> =>
+    CustomAxios.Get(apiPath.product.list, params);
+
+  static AddStaff = (payload: IStaffRequest) =>
+    CustomAxios.Post(apiPath.staff.add, payload);
+
+  static EditStaff = (payload: IStaffEditRequest, id: string) =>
+    CustomAxios.Put(apiPath.staff.edit, payload, {}, id);
 }

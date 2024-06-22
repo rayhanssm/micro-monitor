@@ -2,6 +2,7 @@ import {
   ILoginRequest,
   IProfileRequest,
   IRegisterRequest,
+  IStaffEditRequest,
   IStaffRequest,
 } from "@/types/requests/AuthRequest";
 import { boolean, object, ref, string } from "yup";
@@ -96,4 +97,15 @@ export const staffSchema = object({
       [ref("password")],
       "Konfirmasi kata sandi tidak sesuai dengan kata sandi"
     ),
+});
+
+export const staffDetailField = (): IStaffEditRequest => ({
+  userName: "",
+});
+
+export const staffEditSchema = object({
+  userName: string()
+    .typeError("Masukkan username")
+    .required("Masukkan username")
+    .matches(/^\S+$/, "Username tidak boleh mangandung spasi"),
 });

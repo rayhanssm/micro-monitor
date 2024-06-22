@@ -13,3 +13,8 @@ export type IProfileResponse = {
   userName: string;
   role: string;
 };
+
+export type IStaffListResponse = {
+  userID: string;
+  userName: string;
+};

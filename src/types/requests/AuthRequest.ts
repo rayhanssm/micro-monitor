@@ -23,3 +23,7 @@ export type IStaffRequest = {
   password: string;
   confirmPassword: string;
 };
+
+export type IStaffEditRequest = {
+  userName: string;
+};

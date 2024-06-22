@@ -1,4 +1,7 @@
-import { IProfileResponse } from "@/types/responses/AuthResponse";
+import {
+  IProfileResponse,
+  IStaffListResponse,
+} from "@/types/responses/AuthResponse";
 
 export const profileStaffDetail: IProfileResponse = {
   userID: "1",
@@ -13,3 +16,22 @@ export const profileAdminDetail: IProfileResponse = {
   userName: "admin1",
   role: "admin",
 };
+
+export const staffList: IStaffListResponse[] = [
+  {
+    userID: "1",
+    userName: "user1",
+  },
+  {
+    userID: "2",
+    userName: "user2",
+  },
+  {
+    userID: "3",
+    userName: "user3",
+  },
+  {
+    userID: "4",
+    userName: "user4",
+  },
+];

@@ -2,30 +2,21 @@
 
 import { profileAdminDetail } from "@/_dummyData/auth";
 import Button from "@/components/customize/atoms/button/Button";
-import IconButton from "@/components/customize/atoms/button/IconButton";
-import ModalCard from "@/components/customize/organisms/cards/ModalCard";
 import ProfileForm from "@/components/customize/organisms/forms/ProfileForm";
-import StaffForm from "@/components/customize/organisms/forms/StaffForm";
-import {
-  profileField,
-  profileSchema,
-  staffField,
-  staffSchema,
-} from "@/data/AuthData";
+import { profileField, profileSchema } from "@/data/AuthData";
 import { AuthRepository } from "@/repositories/AuthRepository";
 import { IProfileRequest } from "@/types/requests/AuthRequest";
 import { IProfileResponse } from "@/types/responses/AuthResponse";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CirclePlus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import StaffView from "./StaffView";
 
 function AdminSettingsView() {
   const [selected, setSelected] = useState(1);
 
   const [profile, setProfile] = useState<IProfileResponse | null>(null);
   const [isReload, setIsReload] = useState(false);
-  const [isShowAddModal, setIsShowAddModal] = useState(false);
 
   const methods = useForm({
     resolver: yupResolver(profileSchema),
@@ -64,10 +55,10 @@ function AdminSettingsView() {
   }, [profile]);
 
   useEffect(() => {
-    if (!profileAdminDetail || selected === 1) return;
+    if (!profileAdminDetail) return;
     setValue("storeName", profileAdminDetail.storeName);
     setValue("userName", profileAdminDetail.userName);
-  }, [profileAdminDetail, profile]);
+  }, [profileAdminDetail, profile, selected]);
 
   return (
     <div className="pt-[124px] px-[116px] flex gap-10">
@@ -109,28 +100,7 @@ function AdminSettingsView() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col">
-          <div>
-            <IconButton
-              icon={<CirclePlus />}
-              text="Tambah"
-              type="filled"
-              onClick={() => setIsShowAddModal(true)}
-            />
-          </div>
-
-          <ModalCard
-            open={isShowAddModal}
-            setOpen={setIsShowAddModal}
-            title="Tambah Staff"
-            buttonText={isSubmitting ? "Loading..." : "Tambah"}
-            onClick={handleSubmit(onSubmit)}
-          >
-            <FormProvider {...methods}>
-              <StaffForm onSubmit={handleSubmit(onSubmit)} />
-            </FormProvider>
-          </ModalCard>
-        </div>
+        <StaffView />
       )}
     </div>
   );

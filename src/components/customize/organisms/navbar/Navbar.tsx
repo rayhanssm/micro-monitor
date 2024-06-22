@@ -42,6 +42,11 @@ function Navbar() {
 
   const handleLogout = () => {
     cookies.remove("token");
+    cookies.remove("role");
+    cookies.remove("expiresAt");
+    cookies.remove("flagTarget");
+    cookies.remove("flagExpense");
+    cookies.remove("flagproduct");
     push(paths.auth.login);
   };
 

@@ -5,6 +5,12 @@ export const apiPath = {
     profile: "/profile",
     edit: "/profile",
   },
+  staff: {
+    list: "/staff",
+    add: "/staff",
+    edit: "/staff/{}",
+    delete: "/staff/{}",
+  },
   product: {
     list: "/product",
     detail: "/product/{}",
