@@ -9,3 +9,8 @@ export type ITransactionRequest = {
   transactionTotal: number;
   transactionDate: Date;
 };
+
+export type ITransactionNoProductRequest = {
+  transactionTotal: number;
+  transactionDate: Date;
+};

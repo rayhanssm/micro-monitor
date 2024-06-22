@@ -4,37 +4,16 @@ import useClickOutsideElement from "@/hooks/useClickOutsideElement";
 import { paths } from "@/routes/paths";
 import { Bolt, LogOut } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
-
-const navItems = [
-  {
-    menu: "Dasbor",
-    path: paths.dashboard,
-  },
-  {
-    menu: "Produk",
-    path: paths.product,
-  },
-  {
-    menu: "Transaksi",
-    path: paths.transaction,
-  },
-  {
-    menu: "Pengeluaran",
-    path: paths.expense,
-  },
-  {
-    menu: "Target",
-    path: paths.tagret,
-  },
-];
 
 function Navbar() {
   const push = useRouter().push;
   const currPath = usePathname();
 
   const cookies = new Cookies();
+
+  const [filteredNavItems, setFilteredNavItems] = useState<any[]>([]);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,9 +25,42 @@ function Navbar() {
     cookies.remove("expiresAt");
     cookies.remove("flagTarget");
     cookies.remove("flagExpense");
-    cookies.remove("flagproduct");
+    cookies.remove("flagProduct");
     push(paths.auth.login);
   };
+
+  useEffect(() => {
+    const navItems = [
+      {
+        menu: "Dasbor",
+        path: paths.dashboard,
+        flag: null,
+      },
+      {
+        menu: "Produk",
+        path: paths.product,
+        flag: cookies.get("flagProduct") === true ? null : false,
+      },
+      {
+        menu: "Transaksi",
+        path: paths.transaction,
+        flag: null,
+      },
+      {
+        menu: "Pengeluaran",
+        path: paths.expense,
+        flag: cookies.get("flagExpense") === true ? null : false,
+      },
+      {
+        menu: "Target",
+        path: paths.target,
+        flag: cookies.get("flagTarget") === true ? null : false,
+      },
+    ];
+    const filteredItems = navItems.filter((item) => item.flag === null);
+
+    setFilteredNavItems(filteredItems);
+  }, []);
 
   return (
     <nav className="px-[116px] py-4 w-full bg-white fixed backdrop-blur-2xl flex items-center justify-between z-10">
@@ -59,7 +71,7 @@ function Navbar() {
           alt="Micro Monitor logo"
         />
         <div className="flex gap-10">
-          {navItems.map((item, index) => (
+          {filteredNavItems.map((item, index) => (
             <button
               key={index}
               className={

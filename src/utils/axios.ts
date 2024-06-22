@@ -5,7 +5,7 @@ const cookies = new Cookies();
 const token = cookies.get("token");
 
 const customAxios = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     Authorization: `Bearer ${token}`,
   },

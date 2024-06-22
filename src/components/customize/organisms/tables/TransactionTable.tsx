@@ -153,10 +153,9 @@ function TransactionTable({ isShowAddModal, setIsShowAddModal }: IProps) {
         buttonText="Add"
         onClick={handleSubmit(onSubmit)}
       >
-        <FormProvider {...methods}>
+        {/* <FormProvider {...methods}>
           <TransactionForm onSubmit={handleSubmit(onSubmit)} />
-          {/* <DevTool control={control} /> */}
-        </FormProvider>
+        </FormProvider> */}
       </ModalCard>
 
       {/* Edit transaction modal */}

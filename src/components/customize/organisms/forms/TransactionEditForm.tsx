@@ -12,60 +12,17 @@ import TextField from "../../molecules/input-field/TextField";
 type IProps = {
   onSubmit: () => void;
   selectedProducts?: IProductListResponse[];
+  transactionValue: any;
+  totalTransaction: any;
 };
 
-function TransactionForm({ onSubmit, selectedProducts }: IProps) {
+function TransactionEditForm({
+  onSubmit,
+  selectedProducts,
+  totalTransaction,
+  transactionValue,
+}: IProps) {
   const { control, setValue } = useFormContext();
-  const [totalTransaction, setTotalTransaction] = useState(0);
-  const [transactionValue, setTransactionValue] = useState<number[]>([]);
-
-  const watchedProducts = useWatch({
-    control,
-    name: "products",
-  });
-
-  const calculateValues = () => {
-    let total = 0;
-    const values: number[] = [];
-
-    selectedProducts?.forEach((product, index) => {
-      const quantity = watchedProducts[index]?.quantity || 0;
-      const productPrice = product.productPrice || 0;
-      let value = 0;
-
-      value = productPrice * quantity;
-
-      total += value;
-      values[index] = value;
-
-      if (watchedProducts[index]?.value !== value) {
-        setValue(`products[${index}].value`, value);
-      }
-    });
-
-    return { total, values };
-  };
-
-  useEffect(() => {
-    if (!selectedProducts?.length) return;
-
-    const { total, values } = calculateValues();
-
-    if (transactionValue.join() !== values.join()) {
-      setTransactionValue(values);
-    }
-
-    if (totalTransaction !== total) {
-      setTotalTransaction(total);
-      setValue("transactionTotal", total);
-    }
-  }, [
-    watchedProducts,
-    selectedProducts,
-    setValue,
-    totalTransaction,
-    transactionValue,
-  ]);
 
   return (
     <form className="space-y-6 s mb-[30px]" onSubmit={onSubmit}>
@@ -104,4 +61,4 @@ function TransactionForm({ onSubmit, selectedProducts }: IProps) {
   );
 }
 
-export default TransactionForm;
+export default TransactionEditForm;

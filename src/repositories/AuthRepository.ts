@@ -18,7 +18,7 @@ import axios, { AxiosResponse } from "axios";
 export class AuthRepository {
   static PostRegister = (payload: IRegisterRequest) =>
     axios.post(
-      process.env.NEXT_PUBLIC_BASE_URL + apiPath.auth.register,
+      process.env.NEXT_PUBLIC_API_URL + apiPath.auth.register,
       payload
     );
 

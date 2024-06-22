@@ -1,29 +1,18 @@
 import { ITransactionListResponse } from "@/types/responses/TransactionResponse";
 import React from "react";
-import Accordion from "../../atoms/Accordion";
+import TransactionAccordion from "../../atoms/TransactionAccordion";
 
 type IProps = {
   data: ITransactionListResponse;
-  selectedTransactionId: string;
-  setSelectedTransactionId: any;
-  setIsShowEditModal: any;
 };
 
-function TransactionCard({
-  data,
-  selectedTransactionId,
-  setSelectedTransactionId,
-  setIsShowEditModal,
-}: IProps) {
+function TransactionCard({ data }: IProps) {
   return (
     <div className="flex flex-col gap-6 p-4 border rounded-xl shadow-md">
       {data.transactions.map((transaction) => (
-        <Accordion
+        <TransactionAccordion
           key={transaction.transactionID}
           data={transaction}
-          selectedTransactionId={selectedTransactionId}
-          setIsShowEditModal={setIsShowEditModal}
-          setSelectedTransactionId={setSelectedTransactionId}
         />
       ))}
     </div>
