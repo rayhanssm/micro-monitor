@@ -14,9 +14,11 @@ import { ProductRepository } from "@/repositories/ProductRepository";
 
 type IProps = {
   productData: IProductListResponse;
+  isReload: any;
+  setIsReload: any;
 };
 
-function ProductCard({ productData }: IProps) {
+function ProductCard({ productData, isReload, setIsReload }: IProps) {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
   const [deleteItem, setDeleteItem] = useState<{ id: string; name: string }>();
@@ -37,6 +39,8 @@ function ProductCard({ productData }: IProps) {
     try {
       if (!productData.productID) return;
       await ProductRepository.EditProduct(data, productData.productID);
+      setIsShowEditModal(false);
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
       console.log(data);
@@ -48,6 +52,7 @@ function ProductCard({ productData }: IProps) {
       if (!id) return;
       await ProductRepository.DeleteProduct(id);
       setIsShowDeleteModal(false);
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }

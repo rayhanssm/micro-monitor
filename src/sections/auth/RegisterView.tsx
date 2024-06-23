@@ -33,6 +33,7 @@ function RegisterView() {
     try {
       await AuthRepository.PostRegister(data);
       console.log("success");
+      push(paths.dashboard);
     } catch (error: any) {
       console.log(error);
     }

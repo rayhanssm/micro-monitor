@@ -1,5 +1,5 @@
 import { fDateSlash, fDay, fDayDate } from "@/utils/formatDate";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "../../molecules/date-picker/DatePicker";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
@@ -22,6 +22,8 @@ import {
   summaryTopProducts,
 } from "@/_dummyData/dashboard";
 import { fNum } from "@/utils/formatNumber";
+import { IDashboardSummaryDailyResponse } from "@/types/responses/DashboardResponse";
+import { DashboardRepository } from "@/repositories/DashboardRepository";
 
 type IProps = {
   selected: number;
@@ -33,13 +35,32 @@ function DashboardSummaryDaily({ selected }: IProps) {
   const summaryData = summaryDaily;
 
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
 
-  const dailySalesList = summaryData.dailySalesList.map((l) => {
+  const [data, setData] = useState<IDashboardSummaryDailyResponse | null>(null);
+
+  const dailySalesList = data?.dailySalesList.map((l) => {
     return {
       label: fDay(l.label),
       sales: l.sales,
     };
   });
+
+  const getData = async () => {
+    try {
+      const res = await DashboardRepository.GetDashboardDaily({
+        date: date,
+        salesDate: salesDate,
+      });
+      setData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [date, salesDate]);
 
   return (
     <div>
@@ -57,23 +78,24 @@ function DashboardSummaryDaily({ selected }: IProps) {
           title="Total Transaksi"
           content={
             <p className="text-teal-500 text-5xl font-extrabold mt-8 mb-6">
-              {fNum(summaryData.totalTransaction)}
+              {fNum(data?.totalTransaction)}
             </p>
           }
           footer="Dari kemarin"
           footerIcon={
-            summaryData.totalTransactionGrowth <= 0 ? (
+            data?.totalTransactionGrowth &&
+            data?.totalTransactionGrowth <= 0 ? (
               <div className="flex gap-1 items-center bg-red-100 rounded-full px-3 py-1">
                 {/* <CircleChevronDown size={12} color="#EF4444" /> */}
                 <p className="text-red-500 text-sm font-semibold">
-                  {summaryData.totalTransactionGrowth}%
+                  {data?.totalTransactionGrowth}%
                 </p>
               </div>
             ) : (
               <div className="flex gap-1 items-center bg-teal-100 rounded-full px-3 py-1">
                 <CircleChevronUp size={12} color="#14B8A6" />
                 <p className="text-teal-500 text-sm font-semibold">
-                  {summaryData.totalTransactionGrowth}%
+                  {data?.totalTransactionGrowth}%
                 </p>
               </div>
             )
@@ -84,23 +106,23 @@ function DashboardSummaryDaily({ selected }: IProps) {
           title="Total Penjualan"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-8 mb-6">
-              IDR {fNum(summaryData.totalSales)}
+              IDR {fNum(data?.totalSales)}
             </p>
           }
           footer="Dari kemarin"
           footerIcon={
-            summaryData.totalSalesGrowth <= 0 ? (
+            data?.totalSalesGrowth && data?.totalSalesGrowth <= 0 ? (
               <div className="flex gap-1 items-center bg-red-100 rounded-full px-3 py-1 lining-nums">
                 {/* <CircleChevronDown size={12} color="#EF4444" /> */}
                 <p className="text-red-500 text-sm font-semibold">
-                  {summaryData.totalSalesGrowth}%
+                  {data?.totalSalesGrowth}%
                 </p>
               </div>
             ) : (
               <div className="flex gap-1 items-center bg-teal-100 rounded-full px-3 py-1 lining-nums">
                 <CircleChevronUp size={12} color="#14B8A6" />
                 <p className="text-teal-500 text-sm font-semibold">
-                  {summaryData.totalSalesGrowth}%
+                  {data?.totalSalesGrowth}%
                 </p>
               </div>
             )
@@ -111,7 +133,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
           title="Target"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              IDR {fNum(summaryData.totalTarget)}
+              IDR {fNum(data?.totalTarget)}
             </p>
           }
           footer="Hari ini"
@@ -121,7 +143,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
           title="Keuntungan"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              IDR {fNum(summaryData.totalProfit)}
+              IDR {fNum(data?.totalProfit)}
             </p>
           }
           footer="Hari ini"
@@ -131,7 +153,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
           title="Rata-rata Penjualan"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              IDR {fNum(summaryData.averageSales)}
+              IDR {fNum(data?.averageSales)}
             </p>
           }
           footer="Hari ini"
@@ -142,11 +164,11 @@ function DashboardSummaryDaily({ selected }: IProps) {
           content={
             <div className="flex flex-col my-5">
               <p className="text-teal-500 text-3xl font-extrabold leading-[48px]">
-                {fNum(summaryData.achievement)}%
+                {fNum(data?.achievement)}%
               </p>
               <div className="w-[200px] h-4 bg-[#D9D9D9] rounded-full overflow-hidden">
                 <div
-                  style={{ width: `${summaryData.achievement}%` }}
+                  style={{ width: `${data?.achievement}%` }}
                   className="h-4 bg-teal-500 rounded-full"
                 ></div>
               </div>
@@ -159,33 +181,33 @@ function DashboardSummaryDaily({ selected }: IProps) {
           title="Produk Teratas"
           content={
             <p className="text-teal-500 text-3xl font-extrabold my-6">
-              {summaryData.topProduct}
+              {data?.topProduct}
             </p>
           }
-          footer={`${summaryData.topProductSold} terjual hari ini`}
+          footer={`${data?.topProductSold} terjual hari ini`}
         />
         <DashboardSummaryCard
           icon={<HandCoins color="#14B8A6" />}
           title="Total Pengeluaran"
           content={
             <p className="text-teal-500 text-3xl font-extrabold my-6">
-              IDR {fNum(summaryData.totalExpense)}
+              IDR {fNum(data?.totalExpense)}
             </p>
           }
           footer="Dari kemarin"
           footerIcon={
-            summaryData.totalExpenseGrowth <= 0 ? (
+            data?.totalExpenseGrowth && data?.totalExpenseGrowth <= 0 ? (
               <div className="flex gap-1 items-center bg-red-100 rounded-full px-3 py-1 lining-nums">
                 {/* <CircleChevronDown size={12} color="#EF4444" /> */}
                 <p className="text-red-500 text-sm font-semibold">
-                  {summaryData.totalExpenseGrowth}%
+                  {data?.totalExpenseGrowth}%
                 </p>
               </div>
             ) : (
               <div className="flex gap-1 items-center bg-teal-100 rounded-full px-3 py-1 lining-nums">
                 <CircleChevronUp size={12} color="#14B8A6" />
                 <p className="text-teal-500 text-sm font-semibold">
-                  {summaryData.totalExpenseGrowth}%
+                  {data?.totalExpenseGrowth}%
                 </p>
               </div>
             )
@@ -196,7 +218,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
           title="Produk Terjual"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              {fNum(summaryData.totalProductSold)}
+              {fNum(data?.totalProductSold)}
             </p>
           }
           footer="Stok terjual hari ini"
@@ -205,7 +227,12 @@ function DashboardSummaryDaily({ selected }: IProps) {
 
       {/* Line Chart */}
       <div className="mb-10">
-        <DashboardSalesChartCard selected={selected} data={dailySalesList} />
+        <DashboardSalesChartCard
+          selected={selected}
+          data={dailySalesList}
+          salesDate={salesDate}
+          setSalesDate={setSalesDate}
+        />
       </div>
 
       {/* Summaries */}
@@ -216,14 +243,16 @@ function DashboardSummaryDaily({ selected }: IProps) {
             <div className="flex flex-col mt-7 gap-[10px]">
               <table className="table-auto w-full rounded-md">
                 <tbody>
-                  {summaryData.lastSalesList.map((l, index) => (
+                  {data?.lastSalesList.map((l, index) => (
                     <tr key={index} className="border-t">
                       <td
                         className={`pt-2.5 pr-2  ${
                           index === lastItem ? "pb-0" : "pb-2.5"
                         }`}
                       >
-                        <p className="text-teal-900">{fDateSlash(l.salesDate)}</p>
+                        <p className="text-teal-900">
+                          {fDateSlash(l.salesDate)}
+                        </p>
                       </td>
                       <td
                         className={`pt-2.5 ${
@@ -246,14 +275,16 @@ function DashboardSummaryDaily({ selected }: IProps) {
             <div className="flex flex-col mt-7 gap-[10px]">
               <table className="table-auto w-full rounded-md">
                 <tbody>
-                  {summaryData.lastProfitList.map((l, index) => (
+                  {data?.lastProfitList.map((l, index) => (
                     <tr key={index} className="border-t">
                       <td
                         className={`pt-2.5 pr-2  ${
                           index === lastItem ? "pb-0" : "pb-2.5"
                         }`}
                       >
-                        <p className="text-teal-900">{fDateSlash(l.profitDate)}</p>
+                        <p className="text-teal-900">
+                          {fDateSlash(l.profitDate)}
+                        </p>
                       </td>
                       <td
                         className={`pt-2.5 pr-2 ${
@@ -278,7 +309,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
             <div className="flex flex-col mt-7 gap-[10px]">
               <table className="table-auto w-full rounded-md">
                 <tbody>
-                  {summaryData.lastProductSoldList.map((l, index) => (
+                  {data?.lastProductSoldList.map((l, index) => (
                     <tr key={index} className="border-t">
                       <td
                         className={`pt-2.5 pr-2  ${

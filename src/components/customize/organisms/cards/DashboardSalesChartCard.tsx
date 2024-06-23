@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Line,
   LineChart,
@@ -14,9 +14,16 @@ import MonthPicker from "../../molecules/date-picker/MonthPicker";
 type IProps = {
   selected: number;
   data: any;
+  salesDate: any;
+  setSalesDate: any;
 };
 
-function DashboardSalesChartCard({ selected, data }: IProps) {
+function DashboardSalesChartCard({
+  selected,
+  data,
+  salesDate,
+  setSalesDate,
+}: IProps) {
   const customTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -31,8 +38,6 @@ function DashboardSalesChartCard({ selected, data }: IProps) {
 
     return null;
   };
-
-  const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
 
   return (
     <div className="p-6 rounded-lg shadow-md border">
