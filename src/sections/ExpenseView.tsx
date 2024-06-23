@@ -3,25 +3,29 @@
 import { expenseList } from "@/_dummyData/expense";
 import IconButton from "@/components/customize/atoms/button/IconButton";
 import RangeDatePicker from "@/components/customize/molecules/date-picker/RangeDatePicker";
-import SearchField from "@/components/customize/molecules/input-field/SearchField";
 import ExpenseCard from "@/components/customize/organisms/cards/ExpenseCard";
 import ModalCard from "@/components/customize/organisms/cards/ModalCard";
 import ExpenseForm from "@/components/customize/organisms/forms/ExpenseForm";
 import { expenseField, expenseSchema } from "@/data/ExpenseData";
 import { ExpenseRepository } from "@/repositories/ExpenseRepository";
 import { IExpenseRequest } from "@/types/requests/ExpenseRequest";
+import { IExpenseResponseList } from "@/types/responses/ExpenseResponse";
 import { fDayDate } from "@/utils/formatDate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
-import { CirclePlus, Download } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import {
+  FormProvider,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 
 function ExpenseView() {
   const [selected, setSelected] = useState<DateRange>();
   const [isShowAddModal, setIsShowAddModal] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<IExpenseResponseList | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(false);
 
   const methods = useForm({
@@ -35,9 +39,13 @@ function ExpenseView() {
     reset,
     control,
     formState: { isSubmitting },
+    setValue,
   } = methods;
 
-  const { append } = useFieldArray({ control, name: "details" });
+  const watchedDetails = useWatch({
+    control,
+    name: "details",
+  });
 
   const onSubmit = async (data: IExpenseRequest) => {
     try {
@@ -61,7 +69,8 @@ function ExpenseView() {
   //   try {
   //     setIsLoadingData(true);
   //     const res = await ExpenseRepository.GetExpenseList({
-  //       selected,
+  //       startDate: selected?.from,
+  //       endDate: selected?.to,
   //     });
   //     setData(res.data);
   //     setIsLoadingData(false);
@@ -75,6 +84,15 @@ function ExpenseView() {
   // useEffect(() => {
   //   getData();
   // }, [selected]);
+
+  useEffect(() => {
+    const total = watchedDetails.reduce(
+      (sum, item) => sum + Number(item.value),
+      0
+    );
+
+    setValue("expenseTotal", total);
+  }, [watchedDetails]);
 
   return (
     <div className="px-[116px] py-[112px]">

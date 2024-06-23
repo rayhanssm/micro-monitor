@@ -10,12 +10,12 @@ import { ILoginRequest } from "@/types/requests/AuthRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 import { FormProvider, useForm } from "react-hook-form";
 
 function LoginView() {
   const push = useRouter().push;
-  const [cookies, setCookie] = useCookies(["token"]);
+  const cookies = new Cookies();
 
   const methods = useForm({
     resolver: yupResolver(loginSchema),
@@ -31,9 +31,14 @@ function LoginView() {
   const onSubmit = async (data: ILoginRequest) => {
     try {
       const res = await AuthRepository.PostLogin(data);
-      const token = res.data.token;
+      const loginRes = res.data;
 
-      setCookie("token", token);
+      cookies.set("expiresAt", loginRes.expiresAt);
+      cookies.set("token", loginRes.token);
+      cookies.set("role", loginRes.role);
+      cookies.set("flagExpense", loginRes.flagExpense);
+      cookies.set("flagTarget", loginRes.flagTarget);
+      cookies.set("flagProduct", loginRes.flagProduct);
       push(paths.dashboard);
     } catch (error: any) {
       console.log(error);
@@ -63,7 +68,6 @@ function LoginView() {
               </p>
             </div>
 
-            {/* TODO: integrate later */}
             <div>
               <FormProvider {...methods}>
                 <LoginForm onSubmit={handleSubmit(onSubmit)} />

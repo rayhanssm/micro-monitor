@@ -1,18 +1,14 @@
-import { IExpenseRequest } from "@/types/requests/ExpenseRequest";
 import { ITargetRequest } from "@/types/requests/TargetRequest";
-import { ITransactionRequest } from "@/types/requests/TransactionRequest";
-import { validateStringToInt } from "@/utils/transformIntValidation";
-import { date, number, object, string } from "yup";
+import { date, number, object } from "yup";
 
 export const targetField = (): ITargetRequest => ({
-  amount: 0,
-  date: new Date(),
+  targetDate: new Date(),
+  targetValue: 0,
 });
 
 export const targetSchema = object({
-  amount: number()
-    .transform((_, value) => validateStringToInt(_, value))
-    .typeError("Please insert amount")
-    .required("Please insert amount"),
-  date: date().typeError("Please insert price").required("Please insert price"),
+  targetDate: date().typeError("Masukkan bulan").required("Masukkan bulan"),
+  targetValue: number()
+    .typeError("Masukkan jumlah target")
+    .required("Masukkan jumlah target"),
 });

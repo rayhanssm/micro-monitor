@@ -7,6 +7,6 @@ export const paths = {
   product: "/product",
   transaction: "/transaction",
   expense: "/expense",
-  tagret: "/target",
-  profile: "/profile",
+  target: "/target",
+  settings: "/settings",
 };

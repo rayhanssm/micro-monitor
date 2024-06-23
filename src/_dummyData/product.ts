@@ -4,19 +4,19 @@ export const productList: IProductListResponse[] = [
   {
     productID: "1",
     productName: "Product 1",
-    productPrice: 100000,
+    productPrice: 50000,
     productStock: 10,
   },
   {
     productID: "2",
     productName: "Product 2",
-    productPrice: 50000,
+    productPrice: 30000,
     productStock: 1,
   },
   {
     productID: "3",
     productName: "Product 3",
-    productPrice: 900000,
+    productPrice: 30000,
     productStock: 5,
   },
   {

@@ -1,7 +1,4 @@
-import React from "react";
-import DropdownButton from "../../atoms/button/DropdownButton";
-import { monthOptionsDummy, yearOptionsDummy } from "@/_dummyData/options";
-import { summaryDailyChart, summaryMonthlyChart } from "@/_dummyData/dashboard";
+import React, { useState } from "react";
 import {
   Line,
   LineChart,
@@ -11,12 +8,15 @@ import {
   YAxis,
 } from "recharts";
 import { fNum } from "@/utils/formatNumber";
+import YearPicker from "../../molecules/date-picker/YearPicker";
+import MonthPicker from "../../molecules/date-picker/MonthPicker";
 
 type IProps = {
   selected: number;
+  data: any;
 };
 
-function DashboardSalesChartCard({ selected }: IProps) {
+function DashboardSalesChartCard({ selected, data }: IProps) {
   const customTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -32,24 +32,31 @@ function DashboardSalesChartCard({ selected }: IProps) {
     return null;
   };
 
+  const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
+
   return (
     <div className="p-6 rounded-lg shadow-md border">
       <div className="flex justify-between ">
-        <p className="text-2xl font-semibold">Daily Sales</p>
-        <DropdownButton
-          options={selected === 1 ? monthOptionsDummy : yearOptionsDummy}
-        />
+        <p className="text-2xl font-semibold">Penjualan Bulanan</p>
+        {selected === 1 ? (
+          <MonthPicker
+            selectedDate={salesDate}
+            setSelectedDate={setSalesDate}
+          />
+        ) : (
+          <YearPicker selectedYear={salesDate} setSelectedYear={setSalesDate} />
+        )}
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           width={50}
-          data={selected === 1 ? summaryDailyChart : summaryMonthlyChart}
+          data={data}
           margin={{ top: 50, right: 20, left: 0, bottom: 0 }}
         >
           <XAxis dataKey="label" tick={{ fontSize: 14 }} />
           <YAxis />
           <Tooltip content={customTooltip} />
-          <Line type="monotone" dataKey="sale" stroke="#14B8A6" />
+          <Line type="monotone" dataKey="sales" stroke="#14B8A6" />
         </LineChart>
       </ResponsiveContainer>
     </div>

@@ -22,7 +22,7 @@ function DashboardButtonGroup({ selected, setSelected }: IProps) {
         }`}
         onClick={() => handleClick(1)}
       >
-        Daily
+        Harian
       </button>
       <button
         className={`py-1 px-4 text-sm font-semibold leading-6 rounded-lg transition-all ${
@@ -32,7 +32,7 @@ function DashboardButtonGroup({ selected, setSelected }: IProps) {
         }`}
         onClick={() => handleClick(2)}
       >
-        Monthly
+        Bulanan
       </button>
       <button
         className={`py-1 px-4 text-sm font-semibold leading-6 rounded-lg transition-all ${
@@ -42,7 +42,7 @@ function DashboardButtonGroup({ selected, setSelected }: IProps) {
         }`}
         onClick={() => handleClick(3)}
       >
-        Overall
+        Keseluruhan
       </button>
     </div>
   );
