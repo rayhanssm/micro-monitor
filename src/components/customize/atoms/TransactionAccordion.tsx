@@ -23,9 +23,11 @@ import TransactionNoProductForm from "../organisms/forms/TransactionNoProductFor
 
 type IProps = {
   data: ITransactionDetailResponse;
+  isReload: any;
+  setIsReload: any;
 };
 
-function TransactionAccordion({ data }: IProps) {
+function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
   const [open, setOpen] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState("");
@@ -125,6 +127,7 @@ function TransactionAccordion({ data }: IProps) {
       if (!selectedTransactionId) return;
       await TransactionRepository.DeleteTransaction(selectedTransactionId);
       setIsShowDeleteModal(false);
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }

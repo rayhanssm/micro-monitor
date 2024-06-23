@@ -12,14 +12,16 @@ import TransactionCard from "@/components/customize/organisms/cards/TransactionC
 import TransactionForm from "@/components/customize/organisms/forms/TransactionForm";
 import TransactionNoProductForm from "@/components/customize/organisms/forms/TransactionNoProductForm";
 import { transactionField, transactionSchema } from "@/data/TransactionData";
+import { ProductRepository } from "@/repositories/ProductRepository";
 import { TransactionRepository } from "@/repositories/TransactionRepository";
 import { ITransactionRequest } from "@/types/requests/TransactionRequest";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
+import { ITransactionListResponse } from "@/types/responses/TransactionResponse";
 import { fDayDate } from "@/utils/formatDate";
 import { fNum } from "@/utils/formatNumber";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { DateRange } from "react-day-picker";
@@ -32,6 +34,14 @@ function TransactionView() {
 
   const [flagProduct, setFlagProduct] = useState(true);
 
+  const [isLoadingData, setIsLoadingData] = useState(false);
+  const [isReload, setIsReload] = useState(false);
+  const [data, setData] = useState<ITransactionListResponse[] | null>([]);
+  const [productData, setProductData] = useState<IProductListResponse[] | null>(
+    []
+  );
+  const [searchText, setSearchText] = useState("");
+
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
     defaultValues: transactionField(),
@@ -42,7 +52,6 @@ function TransactionView() {
     handleSubmit,
     reset,
     setValue,
-    control,
     formState: { isSubmitting },
   } = methods;
 
@@ -53,6 +62,7 @@ function TransactionView() {
       setIsShowAddModal(false);
       reset();
       setSelectedProducts([]);
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }
@@ -63,6 +73,7 @@ function TransactionView() {
       await TransactionRepository.AddTransaction(data);
       setIsShowAddModal(false);
       reset();
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }
@@ -113,6 +124,44 @@ function TransactionView() {
     setFlagProduct(flagProduct);
   }, [flagProduct]);
 
+  const getData = async () => {
+    try {
+      setIsLoadingData(true);
+      const res = await TransactionRepository.GetTransactionList({
+        startDate: selected?.from,
+        endDate: selected?.to,
+      });
+      setData(res.data.data);
+      setIsLoadingData(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
+  const getProduct = async () => {
+    try {
+      const res = await ProductRepository.GetProductList({
+        size: 12,
+        // page: currPage,
+        name: searchText,
+      });
+      setProductData(res.data.data);
+      // setTotalData(res.data.totalData)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [selected, isReload]);
+
+  useEffect(() => {
+    getProduct();
+  }, [searchText]);
+
   return (
     <div className="px-[116px] py-[112px] ">
       <div className="flex justify-end mb-6">
@@ -127,21 +176,31 @@ function TransactionView() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-        {transactionList.map((data, index) => (
-          <div key={index}>
-            <p
-              className="font-semibold text-2xl mb-4 lining-nums"
-              suppressHydrationWarning
-            >
-              {fDayDate(data.date)}
-            </p>
-            <FormProvider {...methods}>
-              <TransactionCard data={data} />
-            </FormProvider>
-          </div>
-        ))}
-      </div>
+      {isLoadingData ? (
+        <div className="w-full flex justify-center pt-20">
+          <LoaderCircle size={40} className="animate-spin text-teal-500" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+          {data?.map((data, index) => (
+            <div key={index}>
+              <p
+                className="font-semibold text-2xl mb-4 lining-nums"
+                suppressHydrationWarning
+              >
+                {fDayDate(data.date)}
+              </p>
+              <FormProvider {...methods}>
+                <TransactionCard
+                  data={data}
+                  isReload={isReload}
+                  setIsReload={setIsReload}
+                />
+              </FormProvider>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Add transaction modal */}
       {flagProduct === true ? (
@@ -154,8 +213,8 @@ function TransactionView() {
         >
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
-              <SearchField name="productSearch" setSearchText={() => {}} />
-              {productList.map((product) => (
+              <SearchField name="productSearch" setSearchText={setSearchText} />
+              {productData?.map((product) => (
                 <Checkbox
                   key={product.productID}
                   label={product.productName}
@@ -183,7 +242,7 @@ function TransactionView() {
                   onClick={() => setIsShowAddModal(false)}
                 />
                 <Button
-                  text="Tambah"
+                  text={isSubmitting ? "Loading..." : "Tambah"}
                   btnStyle="filled"
                   additionClassname="w-full"
                   onClick={handleSubmit(onSubmit)}
