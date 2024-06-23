@@ -1,22 +1,58 @@
 "use client";
 
 import Button from "@/components/customize/atoms/button/Button";
+import LoginForm from "@/components/customize/organisms/forms/LoginForm";
 import AuthTemplate from "@/components/customize/templates/AuthTemplate";
+import { loginField, loginSchema } from "@/data/AuthData";
+import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
+import { ILoginRequest } from "@/types/requests/AuthRequest";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { Cookies } from "react-cookie";
+import { FormProvider, useForm } from "react-hook-form";
 
 function LoginView() {
   const push = useRouter().push;
+  const cookies = new Cookies();
+
+  const methods = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: loginField(),
+    mode: "onChange",
+  });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = async (data: ILoginRequest) => {
+    try {
+      const res = await AuthRepository.PostLogin(data);
+      const loginRes = res.data;
+
+      cookies.set("expiresAt", loginRes.expiresAt);
+      cookies.set("token", loginRes.token);
+      cookies.set("role", loginRes.role);
+      cookies.set("flagExpense", loginRes.flagExpense);
+      cookies.set("flagTarget", loginRes.flagTarget);
+      cookies.set("flagProduct", loginRes.flagProduct);
+      push(paths.dashboard);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   return (
     <AuthTemplate
       content={
         <div className="relative">
           <div className="absolute top-8 right-10 flex items-center gap-4">
-            <p className="text-slate-500 text-base">Not a user yet?</p>
+            <p className="text-slate-500 text-base">Belum punya akun?</p>
             <Button
-              text="Register"
+              text="Daftar"
               btnStyle="outlined"
               onClick={() => push(paths.auth.register)}
             />
@@ -25,38 +61,22 @@ function LoginView() {
           <div className="flex flex-col justify-center pl-20 pr-32 h-full gap-10">
             <div className="flex flex-col gap-4">
               <p className="text-teal-800 text-5xl font-extrabold">
-                Hi, Welcome back!
+                Hi, selamat datang kembali!
               </p>
               <p className="text-slate-900 text-xl font-regular">
-                Login to your account
+                Masuk ke akun Anda
               </p>
             </div>
 
-            {/* TODO: integrate later */}
             <div>
-              <form className="space-y-6 mb-[30px]">
-                <div>
-                  <label className="text-slate-900 text-sm font-medium">
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    className="bg-white border border-slate-300 text-slate-900 focus:border-teal-600 text-sm rounded-lg block w-full px-3 py-2 transition-all"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-900 text-sm font-medium">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="bg-white border border-slate-300 text-slate-900 focus:border-teal-600 text-sm rounded-lg block w-full px-3 py-2 transition-all"
-                    required
-                  />
-                </div>
-              </form>
-              <Button text="Login" btnStyle="filled" />
+              <FormProvider {...methods}>
+                <LoginForm onSubmit={handleSubmit(onSubmit)} />
+              </FormProvider>
+              <Button
+                text={isSubmitting ? "Loading..." : "Masuk"}
+                btnStyle="filled"
+                onClick={handleSubmit(onSubmit)}
+              />
             </div>
           </div>
         </div>

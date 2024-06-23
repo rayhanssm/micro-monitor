@@ -2,7 +2,7 @@ import DashboardView from "@/sections/DashboardView";
 import React from "react";
 
 export const metadata = {
-  title: "Dashboard",
+  title: "Dasbor",
 };
 
 function Dashboard() {

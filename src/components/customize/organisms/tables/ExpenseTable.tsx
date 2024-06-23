@@ -5,6 +5,9 @@ import { fCurrency } from "@/utils/formatNumber";
 import TablePagination from "../../molecules/pagination/TablePagination";
 import { Pencil, Trash2 } from "lucide-react";
 import ExpenseForm from "../forms/ExpenseForm";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { expenseField, expenseSchema } from "@/data/ExpenseData";
 
 type IProps = {
   isShowAddModal: boolean;
@@ -81,6 +84,12 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [deleteItem, setDeleteItem] = useState<string>();
 
+  const methods = useForm({
+    resolver: yupResolver(expenseSchema),
+    defaultValues: expenseField(),
+    mode: "onSubmit",
+  });
+
   return (
     <div>
       <div className="border rounded-md p-6 mb-6">
@@ -142,24 +151,28 @@ function ExpenseTable({ isShowAddModal, setIsShowAddModal }: IProps) {
       />
 
       {/* Add expense modal */}
-      <ModalCard
+      {/* <ModalCard
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
         title="Add Expense"
         buttonText="Add"
       >
-        <ExpenseForm />
-      </ModalCard>
+        <FormProvider {...methods}>
+          <ExpenseForm />
+        </FormProvider>
+      </ModalCard> */}
 
       {/* Edit expense modal */}
-      <ModalCard
+      {/* <ModalCard
         open={isShowEditModal}
         setOpen={setIsShowEditModal}
         title="Edit Expense"
         buttonText="Edit"
       >
-        <ExpenseForm />
-      </ModalCard>
+        <FormProvider {...methods}>
+          <ExpenseForm />
+        </FormProvider>
+      </ModalCard> */}
 
       {/* Delete expense modal */}
       <ModalCard
