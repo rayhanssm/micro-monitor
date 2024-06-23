@@ -34,3 +34,23 @@ export type IDashboardSummaryMonthlyResponse = {
   totalTransaction: number;
   totalTransactionGrowth: number;
 };
+
+export type IDashboardSummaryDailyResponse = {
+  achievement: number;
+  averageSales: number;
+  lastProductSoldList: { productDate: Date | string; productSold: number }[];
+  lastProfitList: { profitDate: Date | string; profitValue: number }[];
+  lastSalesList: { salesDate: Date | string; salesValue: number }[];
+  dailySalesList: { label: Date | string; sales: number }[];
+  topProduct: string;
+  topProductSold: number;
+  totalExpense: number;
+  totalExpenseGrowth: number;
+  totalProductSold: number;
+  totalProfit: number;
+  totalSales: number;
+  totalSalesGrowth: number;
+  totalTarget: number;
+  totalTransaction: number;
+  totalTransactionGrowth: number;
+};

@@ -13,7 +13,7 @@ import {
   Trophy,
 } from "lucide-react";
 import DashboardSalesChartCard from "../../organisms/cards/DashboardSalesChartCard";
-import { summaryOverall, summaryRecentSales } from "@/_dummyData/dashboard";
+import { summaryOverall } from "@/_dummyData/dashboard";
 import { fNum } from "@/utils/formatNumber";
 
 type IProps = {
@@ -21,7 +21,7 @@ type IProps = {
 };
 
 function DashboardSummaryOverall({ selected }: IProps) {
-  const lastItem = summaryRecentSales.length - 1;
+  const lastItem = summaryOverall.topProductList.length - 1;
 
   const summaryData = summaryOverall;
 

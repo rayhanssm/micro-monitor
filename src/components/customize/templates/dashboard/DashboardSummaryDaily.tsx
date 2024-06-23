@@ -19,7 +19,7 @@ type IProps = {
   selected: number;
 };
 
-function DashboardSummary({ selected }: IProps) {
+function DashboardSummaryDaily({ selected }: IProps) {
   const lastItem = summaryRecentSales.length - 1;
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
@@ -198,4 +198,4 @@ function DashboardSummary({ selected }: IProps) {
   );
 }
 
-export default DashboardSummary;
+export default DashboardSummaryDaily;

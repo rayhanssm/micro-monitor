@@ -16,7 +16,7 @@ function DashboardSummaryCard({
   footerIcon,
 }: IProps) {
   return (
-    <div className="flex flex-col justify-between p-6 rounded-lg shadow-md border">
+    <div className="flex flex-col justify-between p-6 rounded-lg shadow-md border lining-nums">
       <div className="flex gap-4">
         {icon && <div className="p-1 bg-teal-100 rounded-md">{icon}</div>}
         <p className="text-[#1C1C1C] text-2xl font-semibold">{title}</p>
