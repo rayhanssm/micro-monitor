@@ -1,3 +1,8 @@
+import {
+  IDashboardSummaryMonthlyResponse,
+  IDashboardSummaryOverallResponse,
+} from "@/types/responses/DashboardResponse";
+
 export const summaryDailyChart = [
   {
     label: "1",
@@ -187,3 +192,215 @@ export const summaryTopProducts = [
   { name: "Product 2", quantity: 7 },
   { name: "Product 6", quantity: 3 },
 ];
+
+export const summaryOverall: IDashboardSummaryOverallResponse = {
+  achievement: 7,
+  averageSales: 116666,
+  monthlySalesList: [
+    {
+      label: "2024-01-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-02-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-03-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-04-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-05-01T00:00:00+07:00",
+      sales: 30000,
+    },
+    {
+      label: "2024-06-01T00:00:00+07:00",
+      sales: 430000,
+    },
+    {
+      label: "2024-07-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-08-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-09-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-10-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-11-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-12-01T00:00:00+07:00",
+      sales: 0,
+    },
+  ],
+  topProduct: "product 1",
+  topProductList: [
+    {
+      productName: "product 1",
+      productSold: 8,
+    },
+    {
+      productName: "product 3",
+      productSold: 8,
+    },
+    {
+      productName: "product update transaction 1",
+      productSold: 1,
+    },
+    {
+      productName: "product update transaction 2",
+      productSold: 1,
+    },
+  ],
+  totalExpense: 60000,
+  totalProductSold: 18,
+  totalProfit: 640000,
+  totalSales: 700000,
+  totalTarget: 9000000,
+  totalTransaction: 7,
+};
+
+export const summaryMonthly: IDashboardSummaryMonthlyResponse = {
+  achievement: 37,
+  averageSales: 107500,
+  lastProductSoldList: [
+    {
+      productDate: "2024-06-01T00:00:00Z",
+      productSold: 10,
+    },
+    {
+      productDate: "2024-05-01T00:00:00Z",
+      productSold: 2,
+    },
+    {
+      productDate: "2024-04-01T00:00:00Z",
+      productSold: 0,
+    },
+    {
+      productDate: "2024-03-01T00:00:00Z",
+      productSold: 0,
+    },
+    {
+      productDate: "2024-02-01T00:00:00Z",
+      productSold: 0,
+    },
+  ],
+  lastProfitList: [
+    {
+      profitDate: "2024-06-01T00:00:00Z",
+      profitValue: 370000,
+    },
+    {
+      profitDate: "2024-05-01T00:00:00Z",
+      profitValue: 30000,
+    },
+    {
+      profitDate: "2024-04-01T00:00:00Z",
+      profitValue: 0,
+    },
+    {
+      profitDate: "2024-03-01T00:00:00Z",
+      profitValue: 0,
+    },
+    {
+      profitDate: "2024-02-01T00:00:00Z",
+      profitValue: 0,
+    },
+  ],
+  lastSalesList: [
+    {
+      salesDate: "2024-06-01T00:00:00Z",
+      salesValue: 430000,
+    },
+    {
+      salesDate: "2024-05-01T00:00:00Z",
+      salesValue: 30000,
+    },
+    {
+      salesDate: "2024-04-01T00:00:00Z",
+      salesValue: 0,
+    },
+    {
+      salesDate: "2024-03-01T00:00:00Z",
+      salesValue: 0,
+    },
+    {
+      salesDate: "2024-02-01T00:00:00Z",
+      salesValue: 0,
+    },
+  ],
+  monthlySalesList: [
+    {
+      label: "2024-01-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-02-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-03-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-04-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-05-01T00:00:00+07:00",
+      sales: 30000,
+    },
+    {
+      label: "2024-06-01T00:00:00+07:00",
+      sales: 430000,
+    },
+    {
+      label: "2024-07-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-08-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-09-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-10-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-11-01T00:00:00+07:00",
+      sales: 0,
+    },
+    {
+      label: "2024-12-01T00:00:00+07:00",
+      sales: 0,
+    },
+  ],
+  topProduct: "product 1",
+  topProductSold: 5,
+  totalExpense: 60000,
+  totalExpenseGrowth: 100,
+  totalProductSold: 10,
+  totalProfit: 370000,
+  totalSales: 430000,
+  totalSalesGrowth: 1333,
+  totalTarget: 1000000,
+  totalTransaction: 5,
+  totalTransactionGrowth: 400,
+};

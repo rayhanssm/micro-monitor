@@ -16,7 +16,11 @@ export function fDayDate(date: any) {
 }
 
 export function fMonthYear(date: any) {
-  return format(date, "MMMM yyyy");
+  return format(date, "MMMM yyyy", { locale: id });
+}
+
+export function fMonth(date: any) {
+  return format(date, "MMMM", { locale: id });
 }
 
 export function fTime(date: any) {

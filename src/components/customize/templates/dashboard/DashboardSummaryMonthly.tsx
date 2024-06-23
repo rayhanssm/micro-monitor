@@ -1,4 +1,4 @@
-import { fDateSlash, fDayDate, fMonthYear } from "@/utils/formatDate";
+import { fDateSlash, fDayDate, fMonth, fMonthYear } from "@/utils/formatDate";
 import React, { useState } from "react";
 import DatePicker from "../../molecules/date-picker/DatePicker";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
@@ -13,26 +13,37 @@ import {
   Trophy,
 } from "lucide-react";
 import DashboardSalesChartCard from "../../organisms/cards/DashboardSalesChartCard";
-import { summaryRecentSales, summaryTopProducts } from "@/_dummyData/dashboard";
+import {
+  summaryMonthly,
+  summaryRecentSales,
+  summaryTopProducts,
+} from "@/_dummyData/dashboard";
 
 type IProps = {
   selected: number;
 };
 
-function DashboardSummary({ selected }: IProps) {
+function DashboardSummaryMonthly({ selected }: IProps) {
   const lastItem = summaryRecentSales.length - 1;
 
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date()
-  );
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  const summaryData = summaryMonthly;
+
+  const monthlySalesList = summaryData.monthlySalesList.map((l) => {
+    return {
+      label: fMonth(l.label),
+      sales: l.sales,
+    };
+  });
 
   return (
     <div>
       <div className="flex justify-between mb-6">
         <p className="text-slate-500 font-semibold text-2xl">
-          {selected === 1 ? fDayDate(new Date()) : fMonthYear(new Date())}
+          {fMonthYear(new Date())}
         </p>
-        <DatePicker selected={selectedDate} setSelected={setSelectedDate} />
+        <DatePicker selected={date} setSelected={setDate} />
       </div>
 
       {/* Summaries */}
@@ -118,7 +129,7 @@ function DashboardSummary({ selected }: IProps) {
 
       {/* Line Chart */}
       <div className="mb-10">
-        <DashboardSalesChartCard selected={selected} data={[]} />
+        <DashboardSalesChartCard selected={selected} data={monthlySalesList} />
       </div>
 
       {/* Summaries */}
@@ -198,4 +209,4 @@ function DashboardSummary({ selected }: IProps) {
   );
 }
 
-export default DashboardSummary;
+export default DashboardSummaryMonthly;

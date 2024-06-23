@@ -28,7 +28,7 @@ function YearPicker({ selectedYear, setSelectedYear }: IProps) {
         onChange={(date) => setSelectedYear(date)}
         showYearPicker
         dateFormat="yyyy"
-        className="flex justify-center py-2 px-3 border border-slate-400 max-w-20 rounded-lg cursor-pointer"
+        className="flex justify-center py-2 px-3 border border-slate-400 max-w-20 rounded-lg cursor-pointer lining-nums"
         icon={<ChevronDown />}
         disabledKeyboardNavigation
       />

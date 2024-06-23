@@ -22,12 +22,14 @@ function DashboardSummaryCard({
         <p className="text-[#1C1C1C] text-2xl font-semibold">{title}</p>
       </div>
       {content}
-      <div className="flex gap-2.5 items-center">
-        {footerIcon && footerIcon}
-        {footer && (
-          <p className="text-slate-500 text-xl font-semibold">{footer}</p>
-        )}
-      </div>
+      {footer && (
+        <div className="flex gap-2.5 items-center">
+          {footerIcon && footerIcon}
+          {footer && (
+            <p className="text-slate-500 text-xl font-semibold">{footer}</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

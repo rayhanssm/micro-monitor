@@ -38,7 +38,7 @@ function DatePicker({ selected, setSelected }: IProps) {
       <style>{css}</style>
       <IconButton
         icon={<Calendar />}
-        text={selected ? `${fDateSlash(selected)} ` : "Select a date"}
+        text={selected ? `${fDateSlash(selected)} ` : "Pilih tanggal"}
         type="outlined"
         onClick={handleClickDatePicker}
       />
@@ -47,7 +47,7 @@ function DatePicker({ selected, setSelected }: IProps) {
         ref={datePickerRef}
         className={`${
           isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 invisible"
-        } p-3 mt-12 bg-white absolute shadow-lg rounded-lg transition-all`}
+        } p-3 mt-12 bg-white absolute z-50 shadow-lg rounded-lg transition-all`}
       >
         <DayPicker
           mode="single"
