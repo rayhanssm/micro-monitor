@@ -1,8 +1,6 @@
 import { apiPath } from "@/routes/apiPath";
-import { IPaginationResponse } from "@/types/BaseResponse";
-import { IProductRequest } from "@/types/requests/ProductRequest";
+import { IListResponse } from "@/types/BaseResponse";
 import { ITargetRequest } from "@/types/requests/TargetRequest";
-import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { ITargetListResponse } from "@/types/responses/TargetResponse";
 import CustomAxios from "@/utils/axios";
 import { AxiosResponse } from "axios";
@@ -10,7 +8,7 @@ import { AxiosResponse } from "axios";
 export class TargetRepository {
   static GetTargetList = (
     params: any
-  ): Promise<AxiosResponse<ITargetListResponse>> =>
+  ): Promise<AxiosResponse<IListResponse<ITargetListResponse>>> =>
     CustomAxios.Get(apiPath.target.list, params);
 
   static AddTarget = (payload: ITargetRequest) =>

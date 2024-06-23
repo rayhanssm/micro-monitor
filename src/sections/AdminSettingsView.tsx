@@ -52,13 +52,13 @@ function AdminSettingsView() {
 
   useEffect(() => {
     getProfile();
-  }, [profile]);
+  }, [isReload, selected]);
 
   useEffect(() => {
-    if (!profileAdminDetail) return;
-    setValue("storeName", profileAdminDetail.storeName);
-    setValue("userName", profileAdminDetail.userName);
-  }, [profileAdminDetail, profile, selected]);
+    if (!profile) return;
+    setValue("storeName", profile.storeName);
+    setValue("userName", profile.userName);
+  }, [isReload, selected, profile]);
 
   return (
     <div className="pt-[124px] px-[116px] flex gap-10">
@@ -92,7 +92,7 @@ function AdminSettingsView() {
             </FormProvider>
 
             <Button
-              text="Simpan"
+              text={isSubmitting ? "Loading..." : "Simpan"}
               btnStyle="filled"
               additionClassname="w-full"
               onClick={handleSubmit(onSubmit)}

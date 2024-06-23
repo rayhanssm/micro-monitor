@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -19,13 +19,18 @@ type IProps = {
 };
 
 function YearPicker({ selectedYear, setSelectedYear }: IProps) {
+  const handleYearChange = (date: Date) => {
+    const selectedDate = new Date(date.getFullYear(), 0, 1);
+    setSelectedYear(selectedDate);
+  };
+
   return (
     <div>
       <style>{css}</style>
       <DatePicker
         showIcon
         selected={selectedYear}
-        onChange={(date) => setSelectedYear(date)}
+        onChange={(date) => handleYearChange(date as Date)}
         showYearPicker
         dateFormat="yyyy"
         className="flex justify-center py-2 px-3 border border-slate-400 max-w-20 rounded-lg cursor-pointer lining-nums"

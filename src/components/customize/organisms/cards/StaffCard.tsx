@@ -18,9 +18,11 @@ import StaffEditForm from "../forms/StaffEditForm";
 
 type IProps = {
   staffData: IStaffListResponse;
+  isReload: any;
+  setIsReload: any;
 };
 
-function StaffCard({ staffData }: IProps) {
+function StaffCard({ staffData, isReload, setIsReload }: IProps) {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
   const [deleteItem, setDeleteItem] = useState<{ id: string; name: string }>();
@@ -33,24 +35,28 @@ function StaffCard({ staffData }: IProps) {
     mode: "onChange",
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
   const onSubmit = async (data: IStaffEditRequest) => {
     try {
       if (!staffData.userID) return;
       await AuthRepository.EditStaff(data, staffData.userID);
       setIsShowEditModal(false);
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
-      console.log(data);
     }
   };
 
   const onDelete = async (id: string) => {
     try {
       if (!id) return;
-      await ProductRepository.DeleteProduct(id);
+      await AuthRepository.DeleteStaff(id);
       setIsShowDeleteModal(false);
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }
@@ -89,7 +95,7 @@ function StaffCard({ staffData }: IProps) {
         open={isShowEditModal}
         setOpen={setIsShowEditModal}
         title="Edit Staff"
-        buttonText="Edit"
+        buttonText={isSubmitting ? "Loading..." : "Edit"}
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>
