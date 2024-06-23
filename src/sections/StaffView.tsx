@@ -9,7 +9,7 @@ import { AuthRepository } from "@/repositories/AuthRepository";
 import { IStaffRequest } from "@/types/requests/AuthRequest";
 import { IStaffListResponse } from "@/types/responses/AuthResponse";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -18,11 +18,10 @@ function StaffView() {
   const [isReload, setIsReload] = useState(false);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [currPage, setCurrPage] = useState<number>(1);
-  const dataLength = staffList.length;
   const [totalData, setTotalData] = useState(0);
   // const pageCount = Math.ceil(dataLength / 12);
   const [data, setData] = useState<IStaffListResponse[] | null>([]);
-  const pageCount = Math.ceil(dataLength / 12);
+  const pageCount = Math.ceil(totalData / 12);
 
   const methods = useForm({
     resolver: yupResolver(staffSchema),
@@ -42,6 +41,7 @@ function StaffView() {
       await AuthRepository.AddStaff(data);
       reset();
       setIsReload(!isReload);
+      setIsShowAddModal(false);
     } catch (e: any) {
       console.log(e);
     }
@@ -79,11 +79,22 @@ function StaffView() {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-x-5 gap-y-5">
-        {staffList?.map((staff) => (
-          <StaffCard key={staff.userID} staffData={staff} />
-        ))}
-      </div>
+      {isLoadingData ? (
+        <div className="w-full flex justify-center pt-20">
+          <LoaderCircle size={40} className="animate-spin text-teal-500" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-3 gap-x-5 gap-y-5">
+          {data?.map((staff) => (
+            <StaffCard
+              key={staff.userID}
+              staffData={staff}
+              isReload={isReload}
+              setIsReload={setIsReload}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="flex justify-center mt-14">
         <Pagination

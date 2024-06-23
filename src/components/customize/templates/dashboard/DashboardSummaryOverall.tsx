@@ -1,5 +1,5 @@
 import { fMonth, fMonthYear } from "@/utils/formatDate";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
   DollarSign,
@@ -15,6 +15,8 @@ import {
 import DashboardSalesChartCard from "../../organisms/cards/DashboardSalesChartCard";
 import { summaryOverall } from "@/_dummyData/dashboard";
 import { fNum } from "@/utils/formatNumber";
+import { IDashboardSummaryOverallResponse } from "@/types/responses/DashboardResponse";
+import { DashboardRepository } from "@/repositories/DashboardRepository";
 
 type IProps = {
   selected: number;
@@ -25,16 +27,33 @@ function DashboardSummaryOverall({ selected }: IProps) {
 
   const summaryData = summaryOverall;
 
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date()
+  const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
+
+  const [data, setData] = useState<IDashboardSummaryOverallResponse | null>(
+    null
   );
 
-  const monthlySalesList = summaryData.monthlySalesList.map((l) => {
+  const monthlySalesList = data?.monthlySalesList.map((l) => {
     return {
       label: fMonth(l.label),
       sales: l.sales,
     };
   });
+
+  const getData = async () => {
+    try {
+      const res = await DashboardRepository.GetDashboardOverall({
+        salesDate: salesDate,
+      });
+      setData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [salesDate]);
 
   return (
     <div>
@@ -51,7 +70,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
           title="Total Transaksi"
           content={
             <p className="text-teal-500 text-5xl font-extrabold mt-4">
-              {fNum(summaryData.totalTransaction)}
+              {fNum(data?.totalTransaction)}
             </p>
           }
         />
@@ -60,7 +79,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
           title="Total Penjualan"
           content={
             <p className="text-teal-500 text-4xl font-extrabold mt-4">
-              IDR {fNum(summaryData.totalSales)}
+              IDR {fNum(data?.totalSales)}
             </p>
           }
         />
@@ -69,7 +88,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
           title="Target"
           content={
             <p className="text-teal-500 text-4xl font-extrabold mt-4">
-              IDR {fNum(summaryData.totalTarget)}
+              IDR {fNum(data?.totalTarget)}
             </p>
           }
         />
@@ -78,7 +97,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
           title="Keuntungan"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              IDR {fNum(summaryData.totalProfit)}
+              IDR {fNum(data?.totalProfit)}
             </p>
           }
         />
@@ -87,7 +106,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
           title="Rata-rata Penjualan"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              IDR {fNum(summaryData.averageSales)}/hari
+              IDR {fNum(data?.averageSales)}/hari
             </p>
           }
         />
@@ -97,11 +116,11 @@ function DashboardSummaryOverall({ selected }: IProps) {
           content={
             <div className="flex flex-col">
               <p className="text-teal-500 text-3xl font-extrabold leading-[48px]">
-                {fNum(summaryData.achievement)}%
+                {fNum(data?.achievement)}%
               </p>
               <div className="w-[200px] h-4 bg-[#D9D9D9] rounded-full overflow-hidden">
                 <div
-                  style={{ width: `${summaryData.achievement}%` }}
+                  style={{ width: `${data?.achievement}%` }}
                   className="h-4 bg-teal-500 rounded-full"
                 ></div>
               </div>
@@ -113,7 +132,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
           title="Produk Teratas"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              {summaryData.topProduct}
+              {data?.topProduct}
             </p>
           }
         />
@@ -122,7 +141,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
           title="Total Pengeluaran"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              IDR {fNum(summaryData.totalExpense)}
+              IDR {fNum(data?.totalExpense)}
             </p>
           }
         />
@@ -131,7 +150,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
           title="Produk Terjual"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              {fNum(summaryData.totalProductSold)}
+              {fNum(data?.totalProductSold)}
             </p>
           }
         />
@@ -139,7 +158,12 @@ function DashboardSummaryOverall({ selected }: IProps) {
 
       {/* Line Chart */}
       <div className="mb-10">
-        <DashboardSalesChartCard selected={selected} data={monthlySalesList} />
+        <DashboardSalesChartCard
+          selected={selected}
+          data={monthlySalesList}
+          salesDate={salesDate}
+          setSalesDate={setSalesDate}
+        />
       </div>
 
       {/* Summaries */}
@@ -150,7 +174,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
             <div className="flex flex-col mt-7 gap-[10px]">
               <table className="table-auto w-full rounded-md">
                 <tbody>
-                  {summaryData.topProductList.map((item, index) => (
+                  {data?.topProductList.map((item, index) => (
                     <tr key={index} className="border-t">
                       <td
                         className={`pt-2.5 pr-2  ${

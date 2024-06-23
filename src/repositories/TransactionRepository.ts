@@ -1,10 +1,19 @@
 import { apiPath } from "@/routes/apiPath";
+import { IListResponse, ISingleResponse } from "@/types/BaseResponse";
 import { ITransactionRequest } from "@/types/requests/TransactionRequest";
-import { ITransactionDetailResponse } from "@/types/responses/TransactionResponse";
+import {
+  ITransactionDetailResponse,
+  ITransactionListResponse,
+} from "@/types/responses/TransactionResponse";
 import CustomAxios from "@/utils/axios";
 import { AxiosResponse } from "axios";
 
 export class TransactionRepository {
+  static GetTransactionList = (
+    params: any
+  ): Promise<AxiosResponse<IListResponse<ITransactionListResponse>>> =>
+    CustomAxios.Get(apiPath.transaction.list, params);
+
   static AddTransaction = (payload: ITransactionRequest) =>
     CustomAxios.Post(apiPath.transaction.add, payload);
 
@@ -16,6 +25,6 @@ export class TransactionRepository {
   ): Promise<AxiosResponse<ITransactionDetailResponse>> =>
     CustomAxios.Get(apiPath.transaction.detail, {}, id);
 
-    static DeleteTransaction = (id: string) =>
-      CustomAxios.Delete(apiPath.transaction.delete, id);
+  static DeleteTransaction = (id: string) =>
+    CustomAxios.Delete(apiPath.transaction.delete, id);
 }

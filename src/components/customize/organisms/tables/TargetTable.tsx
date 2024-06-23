@@ -1,6 +1,6 @@
 "use client";
 
-import { CirclePlus, Pencil, Trash2 } from "lucide-react";
+import { CirclePlus, LoaderCircle, Pencil, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import TargetForm from "../forms/TargetForm";
 import ModalCard from "../cards/ModalCard";
@@ -43,11 +43,15 @@ function TargetTable() {
     targetValue: number;
   }>();
 
+  const [selectedId, setSelectedId] = useState("");
+
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isReload, setIsReload] = useState(false);
 
-  const [currentYear, setCurrentYear] = useState(new Date());
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [currentYear, setCurrentYear] = useState(
+    new Date(new Date().getFullYear(), 0, 1)
+  );
+  // const [selectedMonth, setSelectedMonth] = useState("");
 
   const [tableData, setTableData] = useState<ITargetListResponse[]>([]);
 
@@ -60,7 +64,6 @@ function TargetTable() {
   const {
     handleSubmit,
     reset,
-    control,
     setValue,
     formState: { isSubmitting },
   } = methods;
@@ -70,6 +73,20 @@ function TargetTable() {
       await TargetRepository.AddTarget(data);
       setIsShowAddModal(false);
       reset();
+      setIsReload(!isReload);
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+
+  // TODO: edit target error, add target on january added january on prev year, tp lainnya aman?
+  const onEdit = async (data: ITargetRequest) => {
+    try {
+      if (!selectedId) return;
+      await TargetRepository.EditTarget(data, selectedId);
+      setIsShowEditModal(false);
+      reset();
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }
@@ -80,26 +97,32 @@ function TargetTable() {
       if (!id) return;
       await TargetRepository.DeleteTarget(id);
       setIsShowDeleteModal(false);
+      setIsReload(!isReload);
+      reset();
     } catch (e: any) {
       console.log(e);
     }
   };
 
   const handleAddClick = (month: string) => {
-    setSelectedMonth(month);
-    setValue(
-      "targetDate",
-      new Date(`${currentYear.getFullYear()}-${months.indexOf(month) + 1}-01`)
+    // setSelectedMonth(month);
+    const targetDate = new Date(
+      currentYear.getFullYear(),
+      months.indexOf(month),
+      1
     );
+    setValue("targetDate", targetDate);
     setIsShowAddModal(true);
   };
 
   const handleEditClick = (month: string) => {
-    setSelectedMonth(month);
-    setValue(
-      "targetDate",
-      new Date(`${currentYear.getFullYear()}-${months.indexOf(month) + 1}-01`)
+    // setSelectedMonth(month);
+    const targetDate = new Date(
+      currentYear.getFullYear(),
+      months.indexOf(month),
+      1
     );
+    setValue("targetDate", targetDate);
     setIsShowEditModal(true);
   };
 
@@ -107,9 +130,9 @@ function TargetTable() {
     try {
       setIsLoadingData(true);
       const res = await TargetRepository.GetTargetList({
-        year: currentYear,
+        year: new Date(currentYear.getFullYear(), 0, 2),
       });
-      setData([res.data]);
+      setData(res.data.data);
       setIsLoadingData(false);
     } catch (error) {
       console.log(error);
@@ -119,9 +142,13 @@ function TargetTable() {
   };
 
   useEffect(() => {
+    getData();
+  }, [isReload, currentYear]);
+
+  useEffect(() => {
     const updatedTableData = months.map((targetDate, index) => {
       const targetMonth = index + 1;
-      const value = targetList.find(
+      const value = data?.find(
         (item) => new Date(item.targetDate).getMonth() + 1 === targetMonth
       );
       return {
@@ -131,11 +158,7 @@ function TargetTable() {
       };
     });
     setTableData(updatedTableData);
-  }, [currentYear]);
-
-  useEffect(() => {
-    getData();
-  }, [isReload, currentYear]);
+  }, [isReload, currentYear, data]);
 
   return (
     <>
@@ -146,71 +169,84 @@ function TargetTable() {
         />
       </div>
       <div className="border rounded-md p-6">
-        <table className="table-auto w-full rounded-md">
-          <thead className="text-left">
-            <tr>
-              <th className="pb-2">Bulan</th>
-              <th className="pb-2">Jumlah Target</th>
-              <th className="pb-2">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map((content: ITargetListResponse, index: any) => (
-              <tr key={index} className="border-t lining-nums">
-                <td
-                  className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
-                >
-                  {content.targetDate.toString()}
-                </td>
-                <td
-                  className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
-                >
-                  {content.targetValue ? fCurrency(content.targetValue) : "-"}
-                </td>
-                <td
-                  className={`pt-2.5 ${index === lastItem ? "pb-0" : "pb-2.5"}`}
-                >
-                  {content.targetValue ? (
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() =>
-                          handleEditClick(content.targetDate.toString())
-                        }
-                      >
-                        <Pencil size={20} color="#0F766E" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setIsShowDeleteModal(true);
-                          setDeleteItem(content);
-                        }}
-                      >
-                        <Trash2 size={20} color="#0F766E" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex">
-                      <button
-                        onClick={() =>
-                          handleAddClick(content.targetDate.toString())
-                        }
-                      >
-                        <CirclePlus size={20} color="#0F766E" />
-                      </button>
-                    </div>
-                  )}
-                </td>
+        {isLoadingData ? (
+          <div className="w-full flex justify-center pt-20">
+            <LoaderCircle size={40} className="animate-spin text-teal-500" />
+          </div>
+        ) : (
+          <table className="table-auto w-full rounded-md">
+            <thead className="text-left">
+              <tr>
+                <th className="pb-2">Bulan</th>
+                <th className="pb-2">Jumlah Target</th>
+                <th className="pb-2">Aksi</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {tableData.map((content: ITargetListResponse, index: any) => (
+                <tr key={index} className="border-t lining-nums">
+                  <td
+                    className={`pt-2.5 ${
+                      index === lastItem ? "pb-0" : "pb-2.5"
+                    }`}
+                  >
+                    {content.targetDate.toString()}
+                  </td>
+                  <td
+                    className={`pt-2.5 ${
+                      index === lastItem ? "pb-0" : "pb-2.5"
+                    }`}
+                  >
+                    {content.targetValue ? fCurrency(content.targetValue) : "-"}
+                  </td>
+                  <td
+                    className={`pt-2.5 ${
+                      index === lastItem ? "pb-0" : "pb-2.5"
+                    }`}
+                  >
+                    {content.targetValue ? (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            handleEditClick(content.targetDate.toString());
+                            setSelectedId(content.targetID);
+                          }}
+                        >
+                          <Pencil size={20} color="#0F766E" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIsShowDeleteModal(true);
+                            setDeleteItem(content);
+                          }}
+                        >
+                          <Trash2 size={20} color="#0F766E" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex">
+                        <button
+                          onClick={() =>
+                            handleAddClick(content.targetDate.toString())
+                          }
+                        >
+                          <CirclePlus size={20} color="#0F766E" />
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
         {/* Add target modal */}
         <ModalCard
           open={isShowAddModal}
           setOpen={setIsShowAddModal}
           title="Tambah Target"
-          buttonText="Tambah"
+          buttonText={isSubmitting ? "Loading..." : "Tambah"}
           onClick={handleSubmit(onSubmit)}
         >
           <FormProvider {...methods}>
@@ -223,10 +259,10 @@ function TargetTable() {
           open={isShowEditModal}
           setOpen={setIsShowEditModal}
           title="Edit Target"
-          buttonText="Edit"
+          buttonText={isSubmitting ? "Loading..." : "Edit"}
         >
           <FormProvider {...methods}>
-            <TargetForm onSubmit={handleSubmit(onSubmit)} />
+            <TargetForm onSubmit={handleSubmit(onEdit)} />
           </FormProvider>
         </ModalCard>
 
@@ -234,7 +270,7 @@ function TargetTable() {
         <ModalCard
           open={isShowDeleteModal}
           setOpen={setIsShowDeleteModal}
-          deleteTitle={"target " + deleteItem}
+          deleteTitle={"target " + deleteItem?.targetDate}
           onDelete={() => onDelete(deleteItem?.targetID)}
         />
       </div>

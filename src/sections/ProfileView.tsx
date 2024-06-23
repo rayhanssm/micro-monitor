@@ -49,13 +49,13 @@ function ProfileView() {
 
   useEffect(() => {
     getProfile();
-  }, [profile]);
+  }, [isReload]);
 
   useEffect(() => {
-    if (!profileStaffDetail) return;
-    setValue("storeName", profileStaffDetail.storeName);
-    setValue("userName", profileStaffDetail.userName);
-  }, [profileStaffDetail, profile]);
+    if (!profile) return;
+    setValue("storeName", profile.storeName);
+    setValue("userName", profile.userName);
+  }, [isReload, profile]);
 
   return (
     <div className="pt-[124px] px-[116px] flex justify-center">

@@ -15,11 +15,10 @@ import { productField, productSchema } from "@/data/ProductData";
 import { IProductRequest } from "@/types/requests/ProductRequest";
 import { ProductRepository } from "@/repositories/ProductRepository";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
-import { DevTool } from "@hookform/devtools";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
-  const dataLength = productList.length;
+  // const dataLength = productList.length;
   const [totalData, setTotalData] = useState(0);
   // const pageCount = Math.ceil(dataLength / 12);
   const [currPage, setCurrPage] = useState<number>(1);
@@ -29,7 +28,7 @@ function ProductView() {
   const [isReload, setIsReload] = useState(false);
 
   const [data, setData] = useState<IProductListResponse[] | null>([]);
-  const pageCount = Math.ceil(dataLength / 12);
+  const pageCount = Math.ceil(totalData / 12);
 
   const methods = useForm({
     resolver: yupResolver(productSchema),
@@ -99,7 +98,12 @@ function ProductView() {
         <>
           <div className="grid grid-cols-4 gap-x-10 gap-y-5">
             {data?.map((product) => (
-              <ProductCard key={product.productID} productData={product} />
+              <ProductCard
+                key={product.productID}
+                productData={product}
+                isReload={isReload}
+                setIsReload={setIsReload}
+              />
             ))}
           </div>
 

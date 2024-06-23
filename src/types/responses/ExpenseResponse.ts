@@ -8,8 +8,7 @@ export type IExpenseResponse = {
   expenseDate: Date | string;
 };
 
-export type IExpenseResponseList = {
+export type IExpenseListResponse = {
   date: Date | string;
   expenses: IExpenseResponse[];
 };
-

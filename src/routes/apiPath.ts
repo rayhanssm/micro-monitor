@@ -5,6 +5,11 @@ export const apiPath = {
     profile: "/profile",
     edit: "/profile",
   },
+  dashboard: {
+    daily: "/dashboard/daily",
+    monthly: "/dashboard/monthly",
+    overall: "/dashboard/overall",
+  },
   staff: {
     list: "/staff",
     add: "/staff",
