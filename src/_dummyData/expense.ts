@@ -1,6 +1,9 @@
-import { IExpenseResponse, IExpenseResponseList } from "@/types/responses/ExpenseResponse";
+import {
+  IExpenseResponse,
+  IExpenseListResponse,
+} from "@/types/responses/ExpenseResponse";
 
-export const expenseList: IExpenseResponseList[] = [
+export const expenseList: IExpenseListResponse[] = [
   {
     date: "2024-06-11T07:00:00+07:00",
     expenses: [

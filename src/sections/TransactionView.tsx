@@ -143,7 +143,7 @@ function TransactionView() {
   const getProduct = async () => {
     try {
       const res = await ProductRepository.GetProductList({
-        size: 12,
+        size: 25,
         // page: currPage,
         name: searchText,
       });
