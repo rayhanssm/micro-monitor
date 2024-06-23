@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { summaryDailyChart } from "@/_dummyData/dashboard";
 import {
   Line,
   LineChart,
@@ -10,7 +9,7 @@ import {
 } from "recharts";
 import { fNum } from "@/utils/formatNumber";
 import YearPicker from "../../molecules/date-picker/YearPicker";
-import DatePicker from "../../molecules/date-picker/DatePicker";
+import MonthPicker from "../../molecules/date-picker/MonthPicker";
 
 type IProps = {
   selected: number;
@@ -40,7 +39,10 @@ function DashboardSalesChartCard({ selected, data }: IProps) {
       <div className="flex justify-between ">
         <p className="text-2xl font-semibold">Penjualan Bulanan</p>
         {selected === 1 ? (
-          <DatePicker selected={salesDate} setSelected={setSalesDate} />
+          <MonthPicker
+            selectedDate={salesDate}
+            setSelectedDate={setSalesDate}
+          />
         ) : (
           <YearPicker selectedYear={salesDate} setSelectedYear={setSalesDate} />
         )}
@@ -48,7 +50,7 @@ function DashboardSalesChartCard({ selected, data }: IProps) {
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           width={50}
-          data={selected === 1 ? summaryDailyChart : data}
+          data={data}
           margin={{ top: 50, right: 20, left: 0, bottom: 0 }}
         >
           <XAxis dataKey="label" tick={{ fontSize: 14 }} />

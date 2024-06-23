@@ -1,4 +1,5 @@
 import {
+  IDashboardSummaryDailyResponse,
   IDashboardSummaryMonthlyResponse,
   IDashboardSummaryOverallResponse,
 } from "@/types/responses/DashboardResponse";
@@ -403,4 +404,208 @@ export const summaryMonthly: IDashboardSummaryMonthlyResponse = {
   totalTarget: 1000000,
   totalTransaction: 5,
   totalTransactionGrowth: 400,
+};
+
+export const summaryDaily: IDashboardSummaryDailyResponse = {
+  achievement: 540,
+  averageSales: 120000,
+  dailySalesList: [
+    {
+      label: "2022-04-01T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-02T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-03T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-04T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-05T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-06T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-07T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-08T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-09T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-10T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-11T00:00:00Z",
+      sales: 240000,
+    },
+    {
+      label: "2022-04-12T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-13T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-14T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-15T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-16T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-17T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-18T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-19T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-20T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-21T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-22T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-23T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-24T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-25T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-26T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-27T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-28T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-29T00:00:00Z",
+      sales: 0,
+    },
+    {
+      label: "2022-04-30T00:00:00Z",
+      sales: 0,
+    },
+  ],
+  lastProductSoldList: [
+    {
+      productDate: "2024-06-16T00:00:00Z",
+      productSold: 6,
+    },
+    {
+      productDate: "2024-06-15T00:00:00Z",
+      productSold: 0,
+    },
+    {
+      productDate: "2024-06-14T00:00:00Z",
+      productSold: 0,
+    },
+    {
+      productDate: "2024-06-13T00:00:00Z",
+      productSold: 0,
+    },
+    {
+      productDate: "2024-06-12T00:00:00Z",
+      productSold: 0,
+    },
+  ],
+  lastProfitList: [
+    {
+      profitDate: "2024-06-16T00:00:00Z",
+      profitValue: 180000,
+    },
+    {
+      profitDate: "2024-06-15T00:00:00Z",
+      profitValue: 15000,
+    },
+    {
+      profitDate: "2024-06-14T00:00:00Z",
+      profitValue: 0,
+    },
+    {
+      profitDate: "2024-06-13T00:00:00Z",
+      profitValue: 0,
+    },
+    {
+      profitDate: "2024-06-12T00:00:00Z",
+      profitValue: 0,
+    },
+  ],
+  lastSalesList: [
+    {
+      salesDate: "2024-06-16T00:00:00Z",
+      salesValue: 240000,
+    },
+    {
+      salesDate: "2024-06-15T00:00:00Z",
+      salesValue: 15000,
+    },
+    {
+      salesDate: "2024-06-14T00:00:00Z",
+      salesValue: 0,
+    },
+    {
+      salesDate: "2024-06-13T00:00:00Z",
+      salesValue: 0,
+    },
+    {
+      salesDate: "2024-06-12T00:00:00Z",
+      salesValue: 0,
+    },
+  ],
+  topProduct: "product 1",
+  topProductSold: 3,
+  totalExpense: 60000,
+  totalExpenseGrowth: 100,
+  totalProductSold: 6,
+  totalProfit: 180000,
+  totalSales: 240000,
+  totalSalesGrowth: 1500,
+  totalTarget: 33333,
+  totalTransaction: 2,
+  totalTransactionGrowth: 100,
 };

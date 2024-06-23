@@ -7,7 +7,7 @@ import DashboardSummaryOverall from "@/components/customize/templates/dashboard/
 import React, { useState } from "react";
 
 function DashboardView() {
-  const [selected, setSelected] = useState(2);
+  const [selected, setSelected] = useState(1);
 
   const dashboardSummary = () => {
     switch (selected) {

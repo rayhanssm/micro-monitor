@@ -23,6 +23,10 @@ export function fMonth(date: any) {
   return format(date, "MMMM", { locale: id });
 }
 
+export function fDay(date: any) {
+  return format(date, "dd", { locale: id });
+}
+
 export function fTime(date: any) {
   return format(date, "HH:mm");
 }
