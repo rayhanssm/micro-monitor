@@ -72,7 +72,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
       </div>
 
       {/* Summaries */}
-      <div className="grid grid-cols-3 gap-10 mb-16">
+      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-5 lg:gap-10 mb-16">
         <DashboardSummaryCard
           icon={<FileText color="#14B8A6" />}
           title="Total Transaksi"
@@ -236,7 +236,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
       </div>
 
       {/* Summaries */}
-      <div className="grid grid-cols-3 gap-10">
+      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-5 lg:gap-10">
         <DashboardSummaryCard
           title="Penjualan Terakhir"
           content={

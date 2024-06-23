@@ -226,7 +226,7 @@ function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
       <div className="flex items-center justify-between w-full">
         <button className="flex items-center pointer" onClick={handleClick}>
           {open ? <ChevronUp /> : <ChevronDown />}
-          <div className="flex items-center gap-3 ml-2">
+          <div className="flex flex-col items-start lg:flex-row lg:items-center gap-3 ml-2">
             <div className="px-2 py-1 rounded-xl text-white text-base font-bold lining-nums bg-teal-700">
               #{data.transactionID}
             </div>

@@ -6,9 +6,9 @@ type IProps = {
 
 function AuthTemplate({ content }: IProps) {
   return (
-    <div className="grid grid-cols-2 h-screen">
+    <div className="lg:grid grid-cols-2 h-screen">
       <div
-        className="bg-cover bg-center"
+        className="hidden lg:block bg-cover bg-center"
         style={{ backgroundImage: 'url("/assets/auth-image.png")' }}
       >
         <div className="mt-6 ml-10 flex items-center gap-4">

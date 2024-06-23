@@ -3,7 +3,7 @@ import React from "react";
 
 function TargetView() {
   return (
-    <div className="px-[116px] py-[112px]">
+    <div className="px-4 py-[112px] lg:px-[116px]">
       <TargetTable />
     </div>
   );

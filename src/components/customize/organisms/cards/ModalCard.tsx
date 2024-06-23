@@ -36,7 +36,7 @@ function ModalCard({
       <div
         ref={modalRef}
         className={`${open ? "scale-100 opacity-100" : "scale-90 opacity-0"} ${
-          maxWidth ? maxWidth : "max-w-md"
+          maxWidth ? maxWidth : "max-w-sm lg:max-w-md"
         } p-6 bg-white rounded-md w-full transition-all`}
       >
         {title && (
