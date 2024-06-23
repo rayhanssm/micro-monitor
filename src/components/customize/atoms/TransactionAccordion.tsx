@@ -41,9 +41,15 @@ function TransactionAccordion({ data }: IProps) {
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
     defaultValues: {
-      products: [],
       transactionDate: new Date(data.transactionDate),
       transactionTotal: data.transactionTotal,
+      products: data.products.map((product: any, index) => ({
+        productID: product.productID,
+        quantity: product.quantity,
+        value: product.value
+          ? product.value
+          : selectedProducts[index].productPrice,
+      })),
     },
     mode: "onSubmit",
   });
@@ -74,16 +80,26 @@ function TransactionAccordion({ data }: IProps) {
       );
 
       if (index === -1) {
-        newSelectedProducts.push(product);
+        newSelectedProducts.push({
+          productID: product.productID,
+          productName: product.name,
+          quantity: 1,
+          productPrice: product.productPrice,
+        });
       } else {
-        newSelectedProducts.splice(index, 1);
+        newSelectedProducts.splice(index, 1, product);
       }
+
+      // TODO: adjust this later
+      // show value ok, but when updating, values not updated
 
       const newFields = newSelectedProducts.map((p) => ({
         productID: p.productID,
         quantity: p.quantity ? p.quantity : 1,
         value: p.productPrice,
       }));
+
+      console.log(newSelectedProducts);
 
       setValue("products", newFields);
 
@@ -131,7 +147,13 @@ function TransactionAccordion({ data }: IProps) {
 
     selectedProducts?.forEach((product, index) => {
       const quantity = watchedProducts[index]?.quantity || 0;
-      const productPrice = product.productPrice || 0;
+      let productPrice = 0;
+
+      if (product.productPrice) {
+        productPrice = product.productPrice;
+      } else if (watchedProducts[index]?.value && quantity > 0) {
+        productPrice = watchedProducts[index].value / quantity;
+      }
 
       let value = 0;
 
@@ -141,9 +163,9 @@ function TransactionAccordion({ data }: IProps) {
       values[index] = value;
 
       // TODO: adjust later
-      // if (watchedProducts[index]?.value !== value) {
-      //   setValue(`products[${index}].value`, value);
-      // }
+      if (watchedProducts[index]?.value !== value) {
+        setValue(`products.${index}.value`, value);
+      }
     });
 
     return { total, values };

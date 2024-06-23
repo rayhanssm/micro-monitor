@@ -4,7 +4,7 @@ export type ILoginResponse = {
   role: string;
   flagTarget: boolean;
   flagExpense: boolean;
-  flagproduct: boolean;
+  flagProduct: boolean;
 };
 
 export type IProfileResponse = {

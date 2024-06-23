@@ -1,8 +1,7 @@
 "use-client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import NumberField from "../../molecules/input-field/NumberField";
-import { useFormContext, useWatch } from "react-hook-form";
 import DateTimeField from "../../molecules/input-field/DateTimeField";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { fNum } from "@/utils/formatNumber";
@@ -22,8 +21,6 @@ function TransactionEditForm({
   totalTransaction,
   transactionValue,
 }: IProps) {
-  const { control, setValue } = useFormContext();
-
   return (
     <form className="space-y-6 s mb-[30px]" onSubmit={onSubmit}>
       <DateTimeField label="Tanggal dan Jam" name="transactionDate" />
