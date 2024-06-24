@@ -13,7 +13,7 @@ function DashboardButtonGroup({ selected, setSelected }: IProps) {
   };
 
   return (
-    <div className="flex w-fit gap-2 bg-[#D9D9D9] p-2 rounded-lg mb-8 overflow-hidden">
+    <div className="flex justify-center w-full lg:w-fit gap-2 bg-[#D9D9D9] p-2 rounded-lg mb-8 overflow-hidden">
       <button
         className={`py-1 px-4 text-sm font-semibold leading-6 rounded-lg transition-all ${
           selected === 1
