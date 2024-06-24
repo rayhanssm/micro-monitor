@@ -149,15 +149,15 @@ function Navbar() {
           <button
             className={
               currPath === paths.settings
-                ? "px-4 py-2 font-bold text-teal-700 transition-all"
-                : "px-4 py-2 hover:text-slate-400 transition-all"
+                ? "bg-slate-800 text-white px-4 py-2 rounded-md"
+                : "border px-4 py-2 transition-all"
             }
             onClick={() => push(paths.settings)}
           >
             Pengaturan
           </button>
           <button
-            className={"border border-red-600 px-4 py-2 text-red-600"}
+            className={"border border-red-600 px-4 py-2 text-red-600 rounded-md"}
             onClick={handleLogout}
           >
             Logout

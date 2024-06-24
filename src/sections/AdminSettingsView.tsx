@@ -61,8 +61,8 @@ function AdminSettingsView() {
   }, [isReload, selected, profile]);
 
   return (
-    <div className="pt-[124px] px-[116px] flex gap-10">
-      <div className="p-[25px] w-[300px] h-fit flex flex-col gap-2 border border-slate-200 rounded-lg shadow">
+    <div className="pt-[124px] px-4 lg:px-[116px] flex flex-col lg:flex-row gap-10">
+      <div className="p-[25px] w-full lg:w-[300px] h-fit flex flex-col gap-2 border border-slate-200 rounded-lg shadow">
         <button
           className={`${
             selected === 1 ? "border border-slate-300 font-semibold" : ""

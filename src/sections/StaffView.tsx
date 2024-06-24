@@ -84,7 +84,7 @@ function StaffView() {
           <LoaderCircle size={40} className="animate-spin text-teal-500" />
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-x-5 gap-y-5">
+        <div className="flex flex-col lg:grid grid-cols-3 gap-x-5 gap-y-5">
           {data?.map((staff) => (
             <StaffCard
               key={staff.userID}
