@@ -8,6 +8,7 @@ import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
 import { ILoginRequest } from "@/types/requests/AuthRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Cookies } from "react-cookie";
@@ -49,7 +50,7 @@ function LoginView() {
     <AuthTemplate
       content={
         <div className="relative">
-          <div className="absolute top-8 right-10 flex items-center gap-4">
+          <div className="hidden lg:flex absolute top-8 right-10 items-center gap-4">
             <p className="text-slate-500 text-base">Belum punya akun?</p>
             <Button
               text="Daftar"
@@ -58,12 +59,12 @@ function LoginView() {
             />
           </div>
 
-          <div className="flex flex-col justify-center pl-20 pr-32 h-full gap-10">
+          <div className="flex flex-col justify-center px-4 lg:pl-20 lg:pr-32 h-full gap-10">
             <div className="flex flex-col gap-4">
-              <p className="text-teal-800 text-5xl font-extrabold">
+              <p className="text-teal-800 text-4xl lg:text-5xl font-extrabold text-center lg:text-left">
                 Hi, selamat datang kembali!
               </p>
-              <p className="text-slate-900 text-xl font-regular">
+              <p className="text-slate-900 text-xl font-regular text-center lg:text-left">
                 Masuk ke akun Anda
               </p>
             </div>
@@ -77,6 +78,10 @@ function LoginView() {
                 btnStyle="filled"
                 onClick={handleSubmit(onSubmit)}
               />
+            </div>
+            <div className="flex gap-2 justify-center mt-10 lg:hidden">
+              <p className="text-slate-500 text-base">Belum memiliki akun?</p>
+              <Link href={paths.auth.register}>Daftar</Link>
             </div>
           </div>
         </div>

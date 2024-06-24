@@ -76,7 +76,7 @@ function ProductView() {
   }, [searchText, currPage, isReload]);
 
   return (
-    <div className="px-[116px] py-[112px]">
+    <div className="px-4 py-[112px] lg:px-[116px]">
       <div className="flex justify-between mb-6">
         <SearchField name="productSearch" setSearchText={setSearchText} />
 
@@ -96,7 +96,7 @@ function ProductView() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-4 gap-x-10 gap-y-5">
+          <div className="flex flex-col lg:grid grid-cols-4 gap-x-10 gap-y-5">
             {data?.map((product) => (
               <ProductCard
                 key={product.productID}

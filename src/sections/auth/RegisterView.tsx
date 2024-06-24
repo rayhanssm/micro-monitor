@@ -8,6 +8,7 @@ import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
 import { IRegisterRequest } from "@/types/requests/AuthRequest";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -54,7 +55,7 @@ function RegisterView() {
     <AuthTemplate
       content={
         <div className="relative">
-          <div className="absolute top-8 right-10 flex items-center gap-4">
+          <div className="hidden lg:flex absolute top-8 right-10 items-center gap-4">
             <p className="text-slate-500 text-base">Sudah memiliki akun?</p>
             <Button
               text="Masuk"
@@ -63,12 +64,12 @@ function RegisterView() {
             />
           </div>
 
-          <div className="flex flex-col pl-20 pr-32 py-32 h-full gap-10">
+          <div className="flex flex-col pt-32 px-4 lg:pl-20 lg:pr-32 lg:py-32 h-full gap-10">
             <div className="flex flex-col gap-4">
-              <p className="text-teal-800 text-5xl font-extrabold">
+              <p className="text-teal-800 text-4xl lg:text-5xl font-extrabold text-center lg:text-left">
                 Selamat datang di <br /> Micro Monitor!
               </p>
-              <p className="text-slate-900 text-xl font-regular">
+              <p className="text-slate-900 text-xl font-regular text-center lg:text-left">
                 Buat akun Anda
               </p>
             </div>
@@ -132,6 +133,10 @@ function RegisterView() {
                 </div>
               )}
             </div>
+          </div>
+          <div className="flex gap-2 justify-center mt-10 lg:hidden">
+            <p className="text-slate-500 text-base">Sudah memiliki akun?</p>
+            <Link href={paths.auth.login}>Masuk</Link>
           </div>
         </div>
       }

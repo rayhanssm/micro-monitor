@@ -2,7 +2,7 @@
 
 import useClickOutsideElement from "@/hooks/useClickOutsideElement";
 import { paths } from "@/routes/paths";
-import { Bolt, LogOut } from "lucide-react";
+import { Bolt, LogOut, Menu } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
@@ -16,8 +16,10 @@ function Navbar() {
   const [filteredNavItems, setFilteredNavItems] = useState<any[]>([]);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenNavMobile, setIsOpenNavMobile] = useState(false);
 
   const menuRef = useClickOutsideElement(setIsOpen);
+  const navMobileRef = useClickOutsideElement(setIsOpenNavMobile);
 
   const handleLogout = () => {
     cookies.remove("token");
@@ -63,14 +65,14 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="px-[116px] py-4 w-full bg-white fixed backdrop-blur-2xl flex items-center justify-between z-10">
+    <nav className="px-4 lg:px-[116px] py-4 w-full bg-white fixed backdrop-blur-2xl flex items-center justify-between z-10">
       <div className="flex gap-14 items-center">
         <img
           className="w-14 h-14"
           src="/assets/logo.png"
           alt="Micro Monitor logo"
         />
-        <div className="flex gap-10">
+        <div className="hidden lg:flex gap-10">
           {filteredNavItems.map((item, index) => (
             <button
               key={index}
@@ -87,7 +89,7 @@ function Navbar() {
         </div>
       </div>
 
-      <div className="w-10 h-10 cursor-pointer">
+      <div className="hidden lg:block w-10 h-10 cursor-pointer">
         <img
           onClick={() => setIsOpen(true)}
           className="w-10 h-10 rounded-full bg-cover bg-no-repeat bg-center hover:brightness-50 transition-all"
@@ -115,6 +117,50 @@ function Navbar() {
           >
             <LogOut />
             <span>Keluar</span>
+          </button>
+        </div>
+      </div>
+
+      <div className={`block lg:hidden`}>
+        <button className={``} onClick={() => setIsOpenNavMobile(true)}>
+          <Menu color="#0F766E" />
+        </button>
+        <div
+          ref={navMobileRef}
+          className={`
+            ${
+              isOpenNavMobile ? `bg-white lg:hidden` : `hidden`
+            } absolute border-2 mt-2 right-4 p-4 w-[212px] gap-2 flex flex-col rounded-lg shadow-md transition-colors z-50
+          `}
+        >
+          {filteredNavItems.map((item, index) => (
+            <button
+              key={index}
+              className={
+                currPath === item.path
+                  ? "px-4 py-2 font-bold text-teal-700 transition-all"
+                  : "px-4 py-2 hover:text-slate-400 transition-all"
+              }
+              onClick={() => push(item.path)}
+            >
+              {item.menu}
+            </button>
+          ))}
+          <button
+            className={
+              currPath === paths.settings
+                ? "px-4 py-2 font-bold text-teal-700 transition-all"
+                : "px-4 py-2 hover:text-slate-400 transition-all"
+            }
+            onClick={() => push(paths.settings)}
+          >
+            Pengaturan
+          </button>
+          <button
+            className={"border border-red-600 px-4 py-2 text-red-600"}
+            onClick={handleLogout}
+          >
+            Logout
           </button>
         </div>
       </div>

@@ -92,8 +92,8 @@ function ExpenseView() {
   }, [watchedDetails]);
 
   return (
-    <div className="px-[116px] py-[112px]">
-      <div className="flex justify-end mb-6">
+    <div className="px-4 py-[112px] lg:px-[116px]">
+      <div className="flex justify-between lg:justify-end mb-6">
         <div className="flex gap-6">
           <RangeDatePicker selected={selected} setSelected={setSelected} />
           <IconButton
@@ -112,7 +112,7 @@ function ExpenseView() {
           <LoaderCircle size={40} className="animate-spin text-teal-500" />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-x-10 gap-y-5">
+        <div className="flex flex-col lg:grid grid-cols-2 gap-x-10 gap-y-5">
           {data?.map((data, index) => (
             <div key={index}>
               <p
