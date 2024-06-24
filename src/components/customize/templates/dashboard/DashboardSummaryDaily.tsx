@@ -35,7 +35,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
 
   const summaryData = summaryDaily;
 
-  const [date, setDate] = useState<Date | undefined>(subDays(new Date(), 1));
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
 
   const [data, setData] = useState<IDashboardSummaryDailyResponse | null>(null);
