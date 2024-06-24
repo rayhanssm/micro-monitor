@@ -24,6 +24,7 @@ import {
 import { fNum } from "@/utils/formatNumber";
 import { IDashboardSummaryDailyResponse } from "@/types/responses/DashboardResponse";
 import { DashboardRepository } from "@/repositories/DashboardRepository";
+import { subDays } from "date-fns";
 
 type IProps = {
   selected: number;
@@ -34,7 +35,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
 
   const summaryData = summaryDaily;
 
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(subDays(new Date(), 1));
   const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
 
   const [data, setData] = useState<IDashboardSummaryDailyResponse | null>(null);
