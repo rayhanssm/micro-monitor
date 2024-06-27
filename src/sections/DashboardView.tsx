@@ -4,10 +4,22 @@ import DashboardButtonGroup from "@/components/customize/molecules/button-group/
 import DashboardSummaryDaily from "@/components/customize/templates/dashboard/DashboardSummaryDaily";
 import DashboardSummaryMonthly from "@/components/customize/templates/dashboard/DashboardSummaryMonthly";
 import DashboardSummaryOverall from "@/components/customize/templates/dashboard/DashboardSummaryOverall";
-import React, { useState } from "react";
+import { paths } from "@/routes/paths";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { Cookies } from "react-cookie";
 
 function DashboardView() {
   const [selected, setSelected] = useState(1);
+  const cookies = new Cookies();
+  const router = useRouter();
+
+  useEffect(() => {
+    const role = cookies.get("role");
+    if (role === "staff") {
+      router.push(paths.transaction);
+    }
+  }, []);
 
   const dashboardSummary = () => {
     switch (selected) {

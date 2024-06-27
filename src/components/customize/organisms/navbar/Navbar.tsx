@@ -34,32 +34,39 @@ function Navbar() {
   useEffect(() => {
     const navItems = [
       {
-        menu: "Dasbor",
+        menu: "Dashboard",
         path: paths.dashboard,
         flag: null,
+        role: cookies.get("role") === "admin" ? null : false,
       },
       {
         menu: "Produk",
         path: paths.product,
         flag: cookies.get("flagProduct") === true ? null : false,
+        role: cookies.get("role") === "admin" ? null : false,
       },
       {
         menu: "Transaksi",
         path: paths.transaction,
         flag: null,
+        role: null,
       },
       {
         menu: "Pengeluaran",
         path: paths.expense,
         flag: cookies.get("flagExpense") === true ? null : false,
+        role: null,
       },
       {
         menu: "Target",
         path: paths.target,
         flag: cookies.get("flagTarget") === true ? null : false,
+        role: cookies.get("role") === "admin" ? null : false,
       },
     ];
-    const filteredItems = navItems.filter((item) => item.flag === null);
+    const filteredItems = navItems.filter(
+      (item) => item.flag || item.role === null
+    );
 
     setFilteredNavItems(filteredItems);
   }, []);
@@ -152,12 +159,17 @@ function Navbar() {
                 ? "bg-slate-800 text-white px-4 py-2 rounded-md"
                 : "border px-4 py-2 transition-all"
             }
-            onClick={() => push(paths.settings)}
+            onClick={() => {
+              push(paths.settings);
+              setIsOpen(false);
+            }}
           >
             Pengaturan
           </button>
           <button
-            className={"border border-red-600 px-4 py-2 text-red-600 rounded-md"}
+            className={
+              "border border-red-600 px-4 py-2 text-red-600 rounded-md"
+            }
             onClick={handleLogout}
           >
             Logout
