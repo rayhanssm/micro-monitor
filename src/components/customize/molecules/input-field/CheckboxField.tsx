@@ -5,9 +5,10 @@ type IProps = {
   label: string;
   description: string;
   name: string;
+  recommendation?: any;
 };
 
-function CheckboxField({ label, description, name }: IProps) {
+function CheckboxField({ label, description, name, recommendation }: IProps) {
   const { control } = useFormContext();
 
   return (
@@ -21,9 +22,12 @@ function CheckboxField({ label, description, name }: IProps) {
             type="checkbox"
             {...field}
           />
-          <div>
-            <p className="text-sm font-semibold">{label}</p>
-            <p className="text-xs text-slate-500">{description}</p>
+          <div className="flex flex-col gap-2">
+            <div>
+              <p className="text-sm font-semibold">{label}</p>
+              <p className="text-xs text-slate-500">{description}</p>
+            </div>
+            {recommendation && recommendation}
           </div>
         </div>
       )}
