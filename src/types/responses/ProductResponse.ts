@@ -3,4 +3,5 @@ export type IProductListResponse = {
   productName: string;
   productPrice: number;
   productStock: number;
+  quantity?: number
 };

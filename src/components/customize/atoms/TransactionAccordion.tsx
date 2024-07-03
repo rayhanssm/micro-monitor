@@ -25,15 +25,19 @@ type IProps = {
   data: ITransactionDetailResponse;
   isReload: any;
   setIsReload: any;
+  productData: IProductListResponse[] | null;
 };
 
-function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
+function TransactionAccordion({ data, isReload, setIsReload, productData }: IProps) {
   const [open, setOpen] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState("");
   const [isShowDeleteModal, setIsShowDeleteModal] = useState<boolean>(false);
   const [deleteItem, setDeleteItem] = useState("");
-  const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<
+    IProductListResponse[]
+  >([]);
+  const [searchText, setSearchText] = useState("");
 
   const [totalTransaction, setTotalTransaction] = useState(0);
   const [transactionValue, setTransactionValue] = useState<number[]>([]);
@@ -42,17 +46,6 @@ function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
 
   const methods = useForm({
     resolver: yupResolver(transactionSchema),
-    defaultValues: {
-      transactionDate: new Date(data.transactionDate),
-      transactionTotal: data.transactionTotal,
-      products: data.products.map((product: any, index) => ({
-        productID: product.productID,
-        quantity: product.quantity,
-        value: product.value
-          ? product.value
-          : selectedProducts[index].productPrice,
-      })),
-    },
     mode: "onSubmit",
   });
 
@@ -74,7 +67,7 @@ function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
     setOpen(!open);
   };
 
-  const handleProductChange = (product: any) => {
+  const handleProductChange = (product: IProductListResponse) => {
     setSelectedProducts((prevSelectedProducts) => {
       const newSelectedProducts = [...prevSelectedProducts];
       const index = newSelectedProducts.findIndex(
@@ -83,25 +76,22 @@ function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
 
       if (index === -1) {
         newSelectedProducts.push({
-          productID: product.productID,
-          productName: product.name,
+          ...product,
           quantity: 1,
-          productPrice: product.productPrice,
         });
       } else {
-        newSelectedProducts.splice(index, 1, product);
+        // newSelectedProducts[index] = {
+        //   ...product,
+        //   quantity: newSelectedProducts[index].quantity || 1,
+        // };
+        newSelectedProducts.splice(index, 1);
       }
-
-      // TODO: adjust this later
-      // show value ok, but when updating, values not updated
 
       const newFields = newSelectedProducts.map((p) => ({
         productID: p.productID,
-        quantity: p.quantity ? p.quantity : 1,
-        value: p.productPrice,
+        quantity: p.quantity || 1,
+        value: p.productPrice * (p.quantity || 1),
       }));
-
-      console.log(newSelectedProducts);
 
       setValue("products", newFields);
 
@@ -117,6 +107,7 @@ function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
       reset();
       setSelectedTransactionId("");
       setSelectedProducts([]);
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }
@@ -139,6 +130,7 @@ function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
       await TransactionRepository.EditTransaction(data, selectedTransactionId);
       setIsShowEditModal(false);
       reset();
+      setIsReload(!isReload);
     } catch (e: any) {
       console.log(e);
     }
@@ -197,20 +189,24 @@ function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
 
   useEffect(() => {
     if (isShowEditModal && selectedTransactionId) {
-      setSelectedProducts(data.products);
+      const newSelectedProducts = data.products.map((product: any) => ({
+        productID: product.productID,
+        productName: product.productName,
+        productPrice: product.value / product.quantity,
+        productStock: 0,
+      }));
+
+      setSelectedProducts(newSelectedProducts);
 
       reset({
         transactionDate: new Date(data.transactionDate),
-      });
-
-      setValue(
-        "products",
-        data.products.map((product: any) => ({
+        transactionTotal: data.transactionTotal,
+        products: data.products.map((product: any) => ({
           productID: product.productID,
           quantity: product.quantity,
           value: product.value,
-        }))
-      );
+        })),
+      });
     }
   }, [selectedTransactionId, isShowEditModal, setValue]);
 
@@ -299,7 +295,8 @@ function TransactionAccordion({ data, isReload, setIsReload }: IProps) {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
                 <SearchField name="productSearch" setSearchText={() => {}} />
-                {productList.map((product) => (
+                {/* {productList.map((product) => ( */}
+                {productData?.map((product) => (
                   <Checkbox
                     key={product.productID}
                     label={product.productName}
