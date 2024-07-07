@@ -9,13 +9,11 @@ import React, { useEffect, useState } from "react";
 import ModalCard from "../organisms/cards/ModalCard";
 import { ITransactionRequest } from "@/types/requests/TransactionRequest";
 import SearchField from "../molecules/input-field/SearchField";
-import { productList } from "@/_dummyData/product";
 import Checkbox from "./Checkbox";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { transactionField, transactionSchema } from "@/data/TransactionData";
+import { transactionSchema } from "@/data/TransactionData";
 import TransactionEditForm from "../organisms/forms/TransactionEditForm";
-import { transactionDetail } from "@/_dummyData/transaction";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import Button from "./button/Button";
 import { Cookies } from "react-cookie";
@@ -37,7 +35,6 @@ function TransactionAccordion({ data, isReload, setIsReload, productData }: IPro
   const [selectedProducts, setSelectedProducts] = useState<
     IProductListResponse[]
   >([]);
-  const [searchText, setSearchText] = useState("");
 
   const [totalTransaction, setTotalTransaction] = useState(0);
   const [transactionValue, setTransactionValue] = useState<number[]>([]);
@@ -54,7 +51,6 @@ function TransactionAccordion({ data, isReload, setIsReload, productData }: IPro
     reset,
     setValue,
     control,
-    getValues,
     formState: { isSubmitting },
   } = methods;
 
@@ -80,10 +76,6 @@ function TransactionAccordion({ data, isReload, setIsReload, productData }: IPro
           quantity: 1,
         });
       } else {
-        // newSelectedProducts[index] = {
-        //   ...product,
-        //   quantity: newSelectedProducts[index].quantity || 1,
-        // };
         newSelectedProducts.splice(index, 1);
       }
 
@@ -157,7 +149,6 @@ function TransactionAccordion({ data, isReload, setIsReload, productData }: IPro
       total += value;
       values[index] = value;
 
-      // TODO: adjust later
       if (watchedProducts[index]?.value !== value) {
         setValue(`products.${index}.value`, value);
       }

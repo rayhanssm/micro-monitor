@@ -15,6 +15,7 @@ import { productField, productSchema } from "@/data/ProductData";
 import { IProductRequest } from "@/types/requests/ProductRequest";
 import { ProductRepository } from "@/repositories/ProductRepository";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
+import { showToast } from "@/utils/toast";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
@@ -49,6 +50,7 @@ function ProductView() {
       reset();
       setIsReload(!isReload);
     } catch (e: any) {
+      showToast('Error bang', 'error')
       console.log(e);
     }
   };

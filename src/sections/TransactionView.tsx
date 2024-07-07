@@ -19,6 +19,7 @@ import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { ITransactionListResponse } from "@/types/responses/TransactionResponse";
 import { fDayDate } from "@/utils/formatDate";
 import { fNum } from "@/utils/formatNumber";
+import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
 import { CirclePlus, LoaderCircle } from "lucide-react";
@@ -64,6 +65,7 @@ function TransactionView() {
       setSelectedProducts([]);
       setIsReload(!isReload);
     } catch (e: any) {
+      showToast(e.message, 'error')
       console.log(e);
     }
   };
@@ -183,7 +185,6 @@ function TransactionView() {
       ) : (
         <div className="flex flex-col lg:grid grid-cols-2 gap-x-10 gap-y-5">
           {data?.map((data, index) => (
-            // {transactionList.map((data, index) => (
             <div key={index}>
               <p
                 className="font-semibold text-2xl mb-4 lining-nums"
@@ -217,7 +218,6 @@ function TransactionView() {
             <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
               <SearchField name="productSearch" setSearchText={setSearchText} />
               {productData?.map((product) => (
-                // {productList?.map((product) => (
                 <Checkbox
                   key={product.productID}
                   label={product.productName}

@@ -7,12 +7,14 @@ import { loginField, loginSchema } from "@/data/AuthData";
 import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
 import { ILoginRequest } from "@/types/requests/AuthRequest";
+import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Cookies } from "react-cookie";
 import { FormProvider, useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
 
 function LoginView() {
   const push = useRouter().push;
@@ -40,14 +42,16 @@ function LoginView() {
       cookies.set("flagExpense", loginRes.flagExpense);
       cookies.set("flagTarget", loginRes.flagTarget);
       cookies.set("flagProduct", loginRes.flagProduct);
+      showToast("Berhasil masuk", "success");
       push(paths.dashboard);
     } catch (error: any) {
-      console.log(error);
+      showToast(error.message, "error");
     }
   };
 
   return (
     <AuthTemplate
+      pageType="login"
       content={
         <div className="relative">
           <div className="hidden lg:flex absolute top-8 right-10 items-center gap-4">
@@ -84,6 +88,8 @@ function LoginView() {
               <Link href={paths.auth.register}>Daftar</Link>
             </div>
           </div>
+
+          <ToastContainer />
         </div>
       }
     />

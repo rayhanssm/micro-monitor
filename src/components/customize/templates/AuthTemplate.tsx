@@ -1,12 +1,18 @@
 import React, { ReactElement } from "react";
 
 type IProps = {
+  pageType: "register" | "login";
+  registerStep?: number;
   content: ReactElement;
 };
 
-function AuthTemplate({ content }: IProps) {
+function AuthTemplate({ content, pageType, registerStep }: IProps) {
   return (
-    <div className="lg:grid grid-cols-2 h-screen">
+    <div
+      className={`lg:grid grid-cols-${
+        pageType === "register" ? (registerStep === 2 ? "3" : "2") : "2"
+      } h-screen`}
+    >
       <div
         className="hidden lg:block bg-cover bg-center"
         style={{ backgroundImage: 'url("/assets/auth-image.png")' }}
