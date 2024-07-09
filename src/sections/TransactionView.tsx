@@ -26,7 +26,8 @@ import { CirclePlus, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { DateRange } from "react-day-picker";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
 
 function TransactionView() {
   const [selected, setSelected] = useState<DateRange>();
@@ -64,9 +65,12 @@ function TransactionView() {
       reset();
       setSelectedProducts([]);
       setIsReload(!isReload);
-    } catch (e: any) {
-      showToast(e.message, 'error')
-      console.log(e);
+      showToast("Transaksi berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -76,8 +80,12 @@ function TransactionView() {
       setIsShowAddModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Transaksi berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -184,26 +192,30 @@ function TransactionView() {
         </div>
       ) : (
         <div className="flex flex-col lg:grid grid-cols-2 gap-x-10 gap-y-5">
-          {data?.map((data, index) => (
-            <div key={index}>
-              <p
-                className="font-semibold text-2xl mb-4 lining-nums"
-                suppressHydrationWarning
-              >
-                {fDayDate(data.date)}
-              </p>
-              <FormProvider {...methods}>
-                <TransactionCard
-                  data={data}
-                  isReload={isReload}
-                  setIsReload={setIsReload}
-                  productData={productData}
-                />
-              </FormProvider>
-            </div>
-          ))}
+          {data?.length === 0
+            ? "No data"
+            : data?.map((data, index) => (
+                <div key={index}>
+                  <p
+                    className="font-semibold text-2xl mb-4 lining-nums"
+                    suppressHydrationWarning
+                  >
+                    {fDayDate(data.date)}
+                  </p>
+                  <FormProvider {...methods}>
+                    <TransactionCard
+                      data={data}
+                      isReload={isReload}
+                      setIsReload={setIsReload}
+                      productData={productData}
+                    />
+                  </FormProvider>
+                </div>
+              ))}
         </div>
       )}
+
+      <ToastContainer />
 
       {/* Add transaction modal */}
       {flagProduct === true ? (

@@ -15,8 +15,10 @@ function TransactionNoProductForm({ onSubmit, data }: IProps) {
   const { setValue } = useFormContext();
 
   useEffect(() => {
-    setValue("transactionDate", data?.transactionDate);
-    setValue("transactionTotal", data?.transactionTotal);
+    if (data) {
+      setValue("transactionDate", data?.transactionDate);
+      setValue("transactionTotal", data?.transactionTotal);
+    }
   }, [data]);
 
   return (

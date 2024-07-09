@@ -18,6 +18,8 @@ import { IProductListResponse } from "@/types/responses/ProductResponse";
 import Button from "./button/Button";
 import { Cookies } from "react-cookie";
 import TransactionNoProductForm from "../organisms/forms/TransactionNoProductForm";
+import { showToast } from "@/utils/toast";
+import { ToastContainer } from "react-toastify";
 
 type IProps = {
   data: ITransactionDetailResponse;
@@ -26,7 +28,12 @@ type IProps = {
   productData: IProductListResponse[] | null;
 };
 
-function TransactionAccordion({ data, isReload, setIsReload, productData }: IProps) {
+function TransactionAccordion({
+  data,
+  isReload,
+  setIsReload,
+  productData,
+}: IProps) {
   const [open, setOpen] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState("");
@@ -100,8 +107,12 @@ function TransactionAccordion({ data, isReload, setIsReload, productData }: IPro
       setSelectedTransactionId("");
       setSelectedProducts([]);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Transaksi berhasil diubah", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -111,8 +122,12 @@ function TransactionAccordion({ data, isReload, setIsReload, productData }: IPro
       await TransactionRepository.DeleteTransaction(selectedTransactionId);
       setIsShowDeleteModal(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Transaksi berhasil dihapus", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -123,8 +138,12 @@ function TransactionAccordion({ data, isReload, setIsReload, productData }: IPro
       setIsShowEditModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Transaksi berhasil diubah", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -351,6 +370,8 @@ function TransactionAccordion({ data, isReload, setIsReload, productData }: IPro
         deleteTitle={deleteItem}
         onDelete={() => onDelete(selectedTransactionId!)}
       />
+
+      <ToastContainer />
     </div>
   );
 }
