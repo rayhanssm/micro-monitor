@@ -81,7 +81,7 @@ function LoginView() {
                 <LoginForm onSubmit={handleSubmit(onSubmit)} />
               </FormProvider>
               <Button
-                text={isSubmitting ? "Loading..." : "Masuk"}
+                text={isSubmitting ? "Memuat..." : "Masuk"}
                 btnStyle="filled"
                 onClick={handleSubmit(onSubmit)}
               />

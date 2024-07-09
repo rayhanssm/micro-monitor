@@ -7,9 +7,11 @@ import { profileField, profileSchema } from "@/data/AuthData";
 import { AuthRepository } from "@/repositories/AuthRepository";
 import { IProfileRequest } from "@/types/requests/AuthRequest";
 import { IProfileResponse } from "@/types/responses/AuthResponse";
+import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
 
 function ProfileView() {
   const [profile, setProfile] = useState<IProfileResponse | null>(null);
@@ -33,8 +35,12 @@ function ProfileView() {
       await AuthRepository.EditProfile(data);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Profil berhasil diperbarui", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -71,6 +77,8 @@ function ProfileView() {
           onClick={handleSubmit(onSubmit)}
         />
       </div>
+
+      <ToastContainer />
     </div>
   );
 }

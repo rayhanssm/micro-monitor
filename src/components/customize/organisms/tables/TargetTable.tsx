@@ -13,6 +13,8 @@ import { ITargetRequest } from "@/types/requests/TargetRequest";
 import { TargetRepository } from "@/repositories/TargetRepository";
 import { ITargetListResponse } from "@/types/responses/TargetResponse";
 import YearPicker from "../../molecules/date-picker/YearPicker";
+import { showToast } from "@/utils/toast";
+import { ToastContainer } from "react-toastify";
 
 const months = [
   "Januari",
@@ -74,8 +76,12 @@ function TargetTable() {
       setIsShowAddModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Target berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -87,8 +93,12 @@ function TargetTable() {
       setIsShowEditModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Target berhasil diubah", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -99,8 +109,12 @@ function TargetTable() {
       setIsShowDeleteModal(false);
       setIsReload(!isReload);
       reset();
-    } catch (e: any) {
-      console.log(e);
+      showToast("Target berhasil dihapus", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -246,7 +260,7 @@ function TargetTable() {
           open={isShowAddModal}
           setOpen={setIsShowAddModal}
           title="Tambah Target"
-          buttonText={isSubmitting ? "Loading..." : "Tambah"}
+          buttonText={isSubmitting ? "Memuat..." : "Tambah"}
           onClick={handleSubmit(onSubmit)}
         >
           <FormProvider {...methods}>
@@ -258,8 +272,8 @@ function TargetTable() {
         <ModalCard
           open={isShowEditModal}
           setOpen={setIsShowEditModal}
-          title="Edit Target"
-          buttonText={isSubmitting ? "Loading..." : "Edit"}
+          title="Ubah Target"
+          buttonText={isSubmitting ? "Memuat..." : "Ubah"}
         >
           <FormProvider {...methods}>
             <TargetForm onSubmit={handleSubmit(onEdit)} />
@@ -273,6 +287,8 @@ function TargetTable() {
           deleteTitle={"target " + deleteItem?.targetDate}
           onDelete={() => onDelete(deleteItem?.targetID)}
         />
+
+        <ToastContainer />
       </div>
     </>
   );

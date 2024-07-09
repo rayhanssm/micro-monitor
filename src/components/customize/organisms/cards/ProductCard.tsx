@@ -35,7 +35,10 @@ function ProductCard({ productData, isReload, setIsReload }: IProps) {
     mode: "onChange",
   });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
   const onSubmit = async (data: IProductRequest) => {
     try {
@@ -105,8 +108,8 @@ function ProductCard({ productData, isReload, setIsReload }: IProps) {
       <ModalCard
         open={isShowEditModal}
         setOpen={setIsShowEditModal}
-        title="Edit Produk"
-        buttonText="Edit"
+        title="Ubah Produk"
+        buttonText={isSubmitting ? "Memuat..." : "Ubah"}
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>

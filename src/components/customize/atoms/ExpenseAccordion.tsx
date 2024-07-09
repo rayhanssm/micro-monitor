@@ -10,6 +10,8 @@ import { FormProvider, useForm, useWatch } from "react-hook-form";
 import ModalCard from "../organisms/cards/ModalCard";
 import ExpenseForm from "../organisms/forms/ExpenseForm";
 import { fNum } from "@/utils/formatNumber";
+import { showToast } from "@/utils/toast";
+import { ToastContainer } from "react-toastify";
 
 type IProps = {
   detailData: IExpenseResponse;
@@ -52,8 +54,12 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
       await ExpenseRepository.EditExpense(data, selectedExpenseID);
       setIsShowEdit(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Pengeluaran berhasil diubah", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -63,8 +69,12 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
       await ExpenseRepository.DeleteExpense(id);
       setIsShowDelete(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Pengeluaran berhasil dihapus", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -159,8 +169,8 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
       <ModalCard
         open={isShowEdit}
         setOpen={setIsShowEdit}
-        title="Edit Pengeluaran"
-        buttonText={isSubmitting ? "Loading..." : "Edit"}
+        title="Ubah Pengeluaran"
+        buttonText={isSubmitting ? "Memuat..." : "Ubah"}
         onClick={handleSubmit(onEdit)}
       >
         <FormProvider {...methods}>
@@ -174,6 +184,8 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
         deleteTitle={selectedExpenseID}
         onDelete={() => onDelete(selectedExpenseID!)}
       />
+
+      <ToastContainer />
     </div>
   );
 }

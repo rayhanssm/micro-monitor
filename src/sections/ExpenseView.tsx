@@ -11,12 +11,14 @@ import { ExpenseRepository } from "@/repositories/ExpenseRepository";
 import { IExpenseRequest } from "@/types/requests/ExpenseRequest";
 import { IExpenseListResponse } from "@/types/responses/ExpenseResponse";
 import { fDayDate } from "@/utils/formatDate";
+import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
 import { CirclePlus, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
 
 function ExpenseView() {
   const [selected, setSelected] = useState<DateRange>();
@@ -50,8 +52,12 @@ function ExpenseView() {
       setIsShowAddModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Pengeluaran berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -113,21 +119,23 @@ function ExpenseView() {
         </div>
       ) : (
         <div className="flex flex-col lg:grid grid-cols-2 gap-x-10 gap-y-5">
-          {data?.map((data, index) => (
-            <div key={index}>
-              <p
-                className="font-semibold text-2xl mb-4 lining-nums"
-                suppressHydrationWarning
-              >
-                {fDayDate(data.date)}
-              </p>
-              <ExpenseCard
-                data={data}
-                isReload={isReload}
-                setIsReload={setIsReload}
-              />
-            </div>
-          ))}
+          {data?.length === 0
+            ? "Tidak ada data"
+            : data?.map((data, index) => (
+                <div key={index}>
+                  <p
+                    className="font-semibold text-2xl mb-4 lining-nums"
+                    suppressHydrationWarning
+                  >
+                    {fDayDate(data.date)}
+                  </p>
+                  <ExpenseCard
+                    data={data}
+                    isReload={isReload}
+                    setIsReload={setIsReload}
+                  />
+                </div>
+              ))}
         </div>
       )}
 
@@ -135,13 +143,15 @@ function ExpenseView() {
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
         title="Tambah Pengeluaran"
-        buttonText={isSubmitting ? "Loading..." : "Tambah"}
+        buttonText={isSubmitting ? "Memuat..." : "Tambah"}
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>
           <ExpenseForm onSubmit={handleSubmit(onSubmit)} />
         </FormProvider>
       </ModalCard>
+
+      <ToastContainer />
     </div>
   );
 }

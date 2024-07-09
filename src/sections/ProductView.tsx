@@ -104,7 +104,7 @@ function ProductView() {
         <>
           <div className="flex flex-col lg:grid grid-cols-4 gap-x-10 gap-y-5">
             {data?.length === 0
-              ? "No Data"
+              ? "Tidak ada data"
               : data?.map((product) => (
                   <ProductCard
                     key={product.productID}
@@ -129,7 +129,7 @@ function ProductView() {
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
         title="Tambah Produk"
-        buttonText={isSubmitting ? "Loading..." : "Tambah"}
+        buttonText={isSubmitting ? "Memuat..." : "Tambah"}
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>

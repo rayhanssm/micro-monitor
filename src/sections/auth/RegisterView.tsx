@@ -143,7 +143,7 @@ function RegisterView() {
                     onClick={handleClickPrev}
                   />
                   <Button
-                    text={isSubmitting ? "Loading..." : "Daftar"}
+                    text={isSubmitting ? "Memuat..." : "Daftar"}
                     btnStyle="filled"
                     onClick={handleSubmit(onSubmit)}
                   />

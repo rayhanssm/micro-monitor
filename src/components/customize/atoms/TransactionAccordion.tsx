@@ -298,7 +298,7 @@ function TransactionAccordion({
           <ModalCard
             open={isShowEditModal}
             setOpen={setIsShowEditModal}
-            title="Edit Transaksi"
+            title="Ubah Transaksi"
             onClick={handleSubmit(onEdit)}
             maxWidth="max-w-2xl"
           >
@@ -336,7 +336,7 @@ function TransactionAccordion({
                     onClick={() => setIsShowEditModal(false)}
                   />
                   <Button
-                    text="Edit"
+                    text="Ubah"
                     btnStyle="filled"
                     additionClassname="w-full"
                     onClick={handleSubmit(onEdit)}
@@ -349,8 +349,8 @@ function TransactionAccordion({
           <ModalCard
             open={isShowEditModal}
             setOpen={setIsShowEditModal}
-            title="Edit Transaksi"
-            buttonText={isSubmitting ? "Loading..." : "Edit"}
+            title="Ubah Transaksi"
+            buttonText={isSubmitting ? "Memuat..." : "Ubah"}
             onClick={handleSubmit(onSubmitNoProduct)}
           >
             <FormProvider {...methods}>

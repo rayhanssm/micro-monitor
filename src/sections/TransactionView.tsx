@@ -193,7 +193,7 @@ function TransactionView() {
       ) : (
         <div className="flex flex-col lg:grid grid-cols-2 gap-x-10 gap-y-5">
           {data?.length === 0
-            ? "No data"
+            ? "Tidak ada data"
             : data?.map((data, index) => (
                 <div key={index}>
                   <p
@@ -257,7 +257,7 @@ function TransactionView() {
                   onClick={() => setIsShowAddModal(false)}
                 />
                 <Button
-                  text={isSubmitting ? "Loading..." : "Tambah"}
+                  text={isSubmitting ? "Memuat..." : "Tambah"}
                   btnStyle="filled"
                   additionClassname="w-full"
                   onClick={handleSubmit(onSubmit)}
@@ -271,7 +271,7 @@ function TransactionView() {
           open={isShowAddModal}
           setOpen={setIsShowAddModal}
           title="Tambah Transaksi"
-          buttonText={isSubmitting ? "Loading..." : "Tambah"}
+          buttonText={isSubmitting ? "Memuat..." : "Tambah"}
           onClick={handleSubmit(onSubmitNoProduct)}
         >
           <FormProvider {...methods}>

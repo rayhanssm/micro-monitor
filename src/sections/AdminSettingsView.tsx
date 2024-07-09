@@ -11,6 +11,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import StaffView from "./StaffView";
+import { showToast } from "@/utils/toast";
+import { ToastContainer } from "react-toastify";
 
 function AdminSettingsView() {
   const [selected, setSelected] = useState(1);
@@ -36,8 +38,12 @@ function AdminSettingsView() {
       await AuthRepository.EditProfile(data);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Profil berhasil diperbarui", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -92,7 +98,7 @@ function AdminSettingsView() {
             </FormProvider>
 
             <Button
-              text={isSubmitting ? "Loading..." : "Simpan"}
+              text={isSubmitting ? "Memuat..." : "Simpan"}
               btnStyle="filled"
               additionClassname="w-full"
               onClick={handleSubmit(onSubmit)}
@@ -102,6 +108,8 @@ function AdminSettingsView() {
       ) : (
         <StaffView />
       )}
+
+      <ToastContainer />
     </div>
   );
 }
