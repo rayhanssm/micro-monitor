@@ -11,6 +11,8 @@ import { productSchema } from "@/data/ProductData";
 import { IProductRequest } from "@/types/requests/ProductRequest";
 import { FormProvider, useForm } from "react-hook-form";
 import { ProductRepository } from "@/repositories/ProductRepository";
+import { showToast } from "@/utils/toast";
+import { ToastContainer } from "react-toastify";
 
 type IProps = {
   productData: IProductListResponse;
@@ -41,9 +43,12 @@ function ProductCard({ productData, isReload, setIsReload }: IProps) {
       await ProductRepository.EditProduct(data, productData.productID);
       setIsShowEditModal(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
-      console.log(data);
+      showToast("Produk berhasil diubah", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -53,8 +58,12 @@ function ProductCard({ productData, isReload, setIsReload }: IProps) {
       await ProductRepository.DeleteProduct(id);
       setIsShowDeleteModal(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Produk berhasil dihapus", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -112,6 +121,8 @@ function ProductCard({ productData, isReload, setIsReload }: IProps) {
         deleteTitle={deleteItem?.name}
         onDelete={() => onDelete(deleteItem?.id!)}
       />
+
+      <ToastContainer />
     </div>
   );
 }

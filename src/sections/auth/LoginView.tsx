@@ -42,10 +42,13 @@ function LoginView() {
       cookies.set("flagExpense", loginRes.flagExpense);
       cookies.set("flagTarget", loginRes.flagTarget);
       cookies.set("flagProduct", loginRes.flagProduct);
-      showToast("Berhasil masuk", "success");
       push(paths.dashboard);
+      showToast("Berhasil masuk, sedang diarahkan ulang", "success");
     } catch (error: any) {
-      showToast(error.message, "error");
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 

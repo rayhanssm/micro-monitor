@@ -16,6 +16,7 @@ import { IProductRequest } from "@/types/requests/ProductRequest";
 import { ProductRepository } from "@/repositories/ProductRepository";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { showToast } from "@/utils/toast";
+import { ToastContainer } from "react-toastify";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
@@ -49,9 +50,12 @@ function ProductView() {
       setIsShowAddModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      showToast('Error bang', 'error')
-      console.log(e);
+      showToast("Produk berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -99,14 +103,16 @@ function ProductView() {
       ) : (
         <>
           <div className="flex flex-col lg:grid grid-cols-4 gap-x-10 gap-y-5">
-            {data?.map((product) => (
-              <ProductCard
-                key={product.productID}
-                productData={product}
-                isReload={isReload}
-                setIsReload={setIsReload}
-              />
-            ))}
+            {data?.length === 0
+              ? "No Data"
+              : data?.map((product) => (
+                  <ProductCard
+                    key={product.productID}
+                    productData={product}
+                    isReload={isReload}
+                    setIsReload={setIsReload}
+                  />
+                ))}
           </div>
 
           <div className="flex justify-center mt-14">
@@ -130,6 +136,8 @@ function ProductView() {
           <ProductForm onSubmit={handleSubmit(onSubmit)} />
         </FormProvider>
       </ModalCard>
+
+      <ToastContainer />
     </div>
   );
 }

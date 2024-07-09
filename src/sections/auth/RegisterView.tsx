@@ -18,7 +18,7 @@ import { ToastContainer } from "react-toastify";
 function RegisterView() {
   const push = useRouter().push;
 
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
 
   const methods = useForm({
     resolver: yupResolver(registerSchema),
@@ -42,7 +42,10 @@ function RegisterView() {
       );
       push(paths.auth.login);
     } catch (error: any) {
-      showToast(error.message, "error");
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
