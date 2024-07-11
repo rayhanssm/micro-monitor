@@ -7,6 +7,7 @@ import { Calendar } from "lucide-react";
 import { fDateSlash } from "@/utils/formatDate";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { id } from "date-fns/locale";
 
 const css = `
   .selected:not([disabled]) { 
@@ -60,6 +61,7 @@ function DatePicker({ selected, setSelected }: IProps) {
           modifiersClassNames={{
             selected: "selected",
           }}
+          locale={id}
         />
       </div>
     </div>

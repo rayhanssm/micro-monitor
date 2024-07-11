@@ -42,7 +42,17 @@ function DashboardButtonGroup({ selected, setSelected }: IProps) {
         }`}
         onClick={() => handleClick(3)}
       >
-        Keseluruhan
+        Tahunan
+      </button>
+      <button
+        className={`py-1 px-4 text-sm font-semibold leading-6 rounded-lg transition-all ${
+          selected === 4
+            ? "bg-white text-[#1C1C1C] shadow-md"
+            : "text-slate-500"
+        }`}
+        onClick={() => handleClick(4)}
+      >
+        Periode
       </button>
     </div>
   );

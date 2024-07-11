@@ -1,4 +1,4 @@
-export type IDashboardSummaryOverallResponse = {
+export type IDashboardSummaryPeriodicallyResponse = {
   achievement: number;
   averageSales: number;
   monthlySalesList: { label: Date | string; sales: number }[];
@@ -13,6 +13,26 @@ export type IDashboardSummaryOverallResponse = {
   totalSales: number;
   totalTarget: number;
   totalTransaction: number;
+};
+
+export type IDashboardSummaryYearlyResponse = {
+  achievement: number;
+  averageSales: number;
+  lastProductSoldList: { productDate: Date | string; productSold: number }[];
+  lastProfitList: { profitDate: Date | string; profitValue: number }[];
+  lastSalesList: { salesDate: Date | string; salesValue: number }[];
+  monthlySalesList: { label: Date | string; sales: number }[];
+  topProduct: string;
+  topProductSold: number;
+  totalExpense: number;
+  totalExpenseGrowth: number;
+  totalProductSold: number;
+  totalProfit: number;
+  totalSales: number;
+  totalSalesGrowth: number;
+  totalTarget: number;
+  totalTransaction: number;
+  totalTransactionGrowth: number;
 };
 
 export type IDashboardSummaryMonthlyResponse = {

@@ -1,4 +1,4 @@
-import { fMonth, fMonthYear } from "@/utils/formatDate";
+import { fDayDate, fMonth, fMonthYear } from "@/utils/formatDate";
 import React, { useEffect, useState } from "react";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
@@ -15,35 +15,45 @@ import {
 import DashboardSalesChartCard from "../../organisms/cards/DashboardSalesChartCard";
 import { summaryOverall } from "@/_dummyData/dashboard";
 import { fNum } from "@/utils/formatNumber";
-import { IDashboardSummaryOverallResponse } from "@/types/responses/DashboardResponse";
 import { DashboardRepository } from "@/repositories/DashboardRepository";
+import { IDashboardSummaryPeriodicallyResponse } from "@/types/responses/DashboardResponse";
+import RangeDatePicker from "../../molecules/date-picker/RangeDatePicker";
+import { DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
 
 type IProps = {
   selected: number;
 };
 
-function DashboardSummaryOverall({ selected }: IProps) {
+function DashboardSummaryPeriodically({ selected }: IProps) {
   const lastItem = summaryOverall.topProductList.length - 1;
 
   const summaryData = summaryOverall;
 
-  const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<DateRange>();
 
-  const [data, setData] = useState<IDashboardSummaryOverallResponse | null>(
-    null
-  );
+  const [data, setData] =
+    useState<IDashboardSummaryPeriodicallyResponse | null>(null);
 
-  const monthlySalesList = data?.monthlySalesList.map((l) => {
-    return {
-      label: fMonth(l.label),
-      sales: l.sales,
-    };
-  });
+  // const monthlySalesList = data?.monthlySalesList.map((l) => {
+  //   return {
+  //     label: fMonth(l.label),
+  //     sales: l.sales,
+  //   };
+  // });
+
+  useEffect(() => {
+    const to = new Date();
+    const from = addDays(to, -7);
+
+    setDate({ from: from, to: to });
+  }, []);
 
   const getData = async () => {
     try {
-      const res = await DashboardRepository.GetDashboardOverall({
-        salesDate: salesDate,
+      const res = await DashboardRepository.GetDashboardPeriodically({
+        startDate: date?.from,
+        endDate: date?.to,
       });
       setData(res.data);
     } catch (error) {
@@ -53,14 +63,17 @@ function DashboardSummaryOverall({ selected }: IProps) {
 
   useEffect(() => {
     getData();
-  }, [salesDate]);
+  }, [date]);
 
   return (
     <div>
       <div className="flex justify-between mb-6 linin">
-        <p className="text-slate-500 font-semibold text-2xl">
-          {fMonthYear(new Date())}
+        <p className="text-slate-500 font-semibold text-2xl lining-nums">
+          {date
+            ? `${fDayDate(date?.from)} - ${date.to ? fDayDate(date?.to) : ""}`
+            : "Pilih tanggal"}
         </p>
+        <RangeDatePicker selected={date} setSelected={setDate} />
       </div>
 
       {/* Summaries */}
@@ -127,15 +140,17 @@ function DashboardSummaryOverall({ selected }: IProps) {
             </div>
           }
         />
-        <DashboardSummaryCard
-          icon={<Medal color="#14B8A6" />}
-          title="Produk Teratas"
-          content={
-            <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              {data?.topProduct}
-            </p>
-          }
-        />
+        {data?.topProduct && (
+          <DashboardSummaryCard
+            icon={<Medal color="#14B8A6" />}
+            title="Produk Teratas"
+            content={
+              <p className="text-teal-500 text-3xl font-extrabold mt-4">
+                {data?.topProduct}
+              </p>
+            }
+          />
+        )}
         <DashboardSummaryCard
           icon={<HandCoins color="#14B8A6" />}
           title="Total Pengeluaran"
@@ -156,16 +171,6 @@ function DashboardSummaryOverall({ selected }: IProps) {
         />
       </div>
 
-      {/* Line Chart */}
-      <div className="mb-10">
-        <DashboardSalesChartCard
-          selected={selected}
-          data={monthlySalesList}
-          salesDate={salesDate}
-          setSalesDate={setSalesDate}
-        />
-      </div>
-
       {/* Summaries */}
       <div className="flex flex-col lg:grid lg:grid-cols-3 gap-5 lg:gap-10">
         <DashboardSummaryCard
@@ -174,7 +179,7 @@ function DashboardSummaryOverall({ selected }: IProps) {
             <div className="flex flex-col mt-7 gap-[10px]">
               <table className="table-auto w-full rounded-md">
                 <tbody>
-                  {data?.topProductList.map((item, index) => (
+                  {data?.topProductList?.map((item, index) => (
                     <tr key={index} className="border-t">
                       <td
                         className={`pt-2.5 pr-2  ${
@@ -202,4 +207,4 @@ function DashboardSummaryOverall({ selected }: IProps) {
   );
 }
 
-export default DashboardSummaryOverall;
+export default DashboardSummaryPeriodically;

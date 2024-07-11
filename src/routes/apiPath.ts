@@ -8,7 +8,8 @@ export const apiPath = {
   dashboard: {
     daily: "/dashboard/daily",
     monthly: "/dashboard/monthly",
-    overall: "/dashboard/overall",
+    yearly: "/dashboard/yearly",
+    period: "/dashboard/period",
   },
   staff: {
     list: "/staff",

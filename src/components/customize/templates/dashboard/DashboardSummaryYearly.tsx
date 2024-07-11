@@ -1,9 +1,7 @@
-import { fDateSlash, fDay, fDayDate } from "@/utils/formatDate";
+import { fMonth, fMonthYear, fYear } from "@/utils/formatDate";
 import React, { useEffect, useState } from "react";
-import DatePicker from "../../molecules/date-picker/DatePicker";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
-  CircleChevronDown,
   CircleChevronUp,
   DollarSign,
   FileText,
@@ -16,40 +14,38 @@ import {
   Trophy,
 } from "lucide-react";
 import DashboardSalesChartCard from "../../organisms/cards/DashboardSalesChartCard";
-import {
-  summaryDaily,
-  summaryRecentSales,
-  summaryTopProducts,
-} from "@/_dummyData/dashboard";
+import { summaryOverall } from "@/_dummyData/dashboard";
 import { fNum } from "@/utils/formatNumber";
-import { IDashboardSummaryDailyResponse } from "@/types/responses/DashboardResponse";
 import { DashboardRepository } from "@/repositories/DashboardRepository";
-import { subDays } from "date-fns";
+import { IDashboardSummaryYearlyResponse } from "@/types/responses/DashboardResponse";
+import YearIconPicker from "../../molecules/date-picker/YearIconPicker";
 
 type IProps = {
   selected: number;
 };
 
-function DashboardSummaryDaily({ selected }: IProps) {
-  const lastItem = summaryDaily.lastProductSoldList.length - 1;
+function DashboardSummaryYearly({ selected }: IProps) {
+  const lastItem = summaryOverall.topProductList.length - 1;
 
-  const summaryData = summaryDaily;
+  const summaryData = summaryOverall;
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
 
-  const [data, setData] = useState<IDashboardSummaryDailyResponse | null>(null);
+  const [data, setData] = useState<IDashboardSummaryYearlyResponse | null>(
+    null
+  );
 
-  const dailySalesList = data?.dailySalesList.map((l) => {
+  const monthlySalesList = data?.monthlySalesList.map((l) => {
     return {
-      label: fDay(l.label),
+      label: fMonth(l.label),
       sales: l.sales,
     };
   });
 
   const getData = async () => {
     try {
-      const res = await DashboardRepository.GetDashboardDaily({
+      const res = await DashboardRepository.GetDashboardYearly({
         date: date,
         salesDate: salesDate,
       });
@@ -67,9 +63,9 @@ function DashboardSummaryDaily({ selected }: IProps) {
     <div>
       <div className="flex justify-between mb-6">
         <p className="text-slate-500 font-semibold text-2xl lining-nums">
-          {fDayDate(date)}
+          {fYear(date)}
         </p>
-        <DatePicker selected={date} setSelected={setDate} />
+        <YearIconPicker selectedYear={date} setSelectedYear={setDate} />
       </div>
 
       {/* Summaries */}
@@ -82,7 +78,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
               {fNum(data?.totalTransaction)}
             </p>
           }
-          footer="Dari kemarin"
+          footer="Dari tahun lalu"
           footerIcon={
             data?.totalTransactionGrowth &&
             data?.totalTransactionGrowth <= 0 ? (
@@ -110,7 +106,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
               IDR {fNum(data?.totalSales)}
             </p>
           }
-          footer="Dari kemarin"
+          footer="Dari bulan lalu"
           footerIcon={
             data?.totalSalesGrowth && data?.totalSalesGrowth <= 0 ? (
               <div className="flex gap-1 items-center bg-red-100 rounded-full px-3 py-1 lining-nums">
@@ -137,7 +133,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
               IDR {fNum(data?.totalTarget)}
             </p>
           }
-          footer="Hari ini"
+          footer="Tahun ini"
         />
         <DashboardSummaryCard
           icon={<DollarSign color="#14B8A6" />}
@@ -147,17 +143,17 @@ function DashboardSummaryDaily({ selected }: IProps) {
               IDR {fNum(data?.totalProfit)}
             </p>
           }
-          footer="Hari ini"
+          footer="Tahun ini"
         />
         <DashboardSummaryCard
           icon={<SquareSlash color="#14B8A6" />}
           title="Rata-rata Penjualan"
           content={
             <p className="text-teal-500 text-3xl font-extrabold mt-4">
-              IDR {fNum(data?.averageSales)}
+              IDR {fNum(data?.averageSales)}/hari
             </p>
           }
-          footer="Hari ini"
+          footer="Dari tahun ini"
         />
         <DashboardSummaryCard
           icon={<Trophy color="#14B8A6" />}
@@ -175,18 +171,18 @@ function DashboardSummaryDaily({ selected }: IProps) {
               </div>
             </div>
           }
-          footer="Dari target hari ini"
+          footer="Tahun ini"
         />
         {data?.topProduct && (
           <DashboardSummaryCard
             icon={<Medal color="#14B8A6" />}
             title="Produk Teratas"
             content={
-              <p className="text-teal-500 text-3xl font-extrabold my-6">
+              <p className="text-teal-500 text-3xl font-extrabold mt-4">
                 {data?.topProduct}
               </p>
             }
-            footer={`${data?.topProductSold} terjual hari ini`}
+            footer={`${data?.topProductSold} terjual tahun ini`}
           />
         )}
         <DashboardSummaryCard
@@ -197,7 +193,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
               IDR {fNum(data?.totalExpense)}
             </p>
           }
-          footer="Dari kemarin"
+          footer="Dari tahun lalu"
           footerIcon={
             data?.totalExpenseGrowth && data?.totalExpenseGrowth <= 0 ? (
               <div className="flex gap-1 items-center bg-red-100 rounded-full px-3 py-1 lining-nums">
@@ -224,7 +220,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
               {fNum(data?.totalProductSold)}
             </p>
           }
-          footer="Stok terjual hari ini"
+          footer="Stok terjual tahun ini"
         />
       </div>
 
@@ -232,7 +228,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
       <div className="mb-10">
         <DashboardSalesChartCard
           selected={selected}
-          data={dailySalesList}
+          data={monthlySalesList}
           salesDate={salesDate}
           setSalesDate={setSalesDate}
         />
@@ -253,9 +249,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
                           index === lastItem ? "pb-0" : "pb-2.5"
                         }`}
                       >
-                        <p className="text-teal-900">
-                          {fDateSlash(l.salesDate)}
-                        </p>
+                        <p className="text-teal-900">{fMonth(l.salesDate)}</p>
                       </td>
                       <td
                         className={`pt-2.5 ${
@@ -285,9 +279,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
                           index === lastItem ? "pb-0" : "pb-2.5"
                         }`}
                       >
-                        <p className="text-teal-900">
-                          {fDateSlash(l.profitDate)}
-                        </p>
+                        <p className="text-teal-900">{fMonth(l.profitDate)}</p>
                       </td>
                       <td
                         className={`pt-2.5 pr-2 ${
@@ -319,9 +311,7 @@ function DashboardSummaryDaily({ selected }: IProps) {
                           index === lastItem ? "pb-0" : "pb-2.5"
                         }`}
                       >
-                        <p className="text-teal-900">
-                          {fDateSlash(l.productDate)}
-                        </p>
+                        <p className="text-teal-900">{fMonth(l.productDate)}</p>
                       </td>
                       <td
                         className={`pt-2.5 pr-2 ${
@@ -344,4 +334,4 @@ function DashboardSummaryDaily({ selected }: IProps) {
   );
 }
 
-export default DashboardSummaryDaily;
+export default DashboardSummaryYearly;

@@ -1,7 +1,6 @@
 import {
   IDashboardSummaryDailyResponse,
   IDashboardSummaryMonthlyResponse,
-  IDashboardSummaryOverallResponse,
 } from "@/types/responses/DashboardResponse";
 
 export const summaryDailyChart = [
@@ -194,7 +193,7 @@ export const summaryTopProducts = [
   { name: "Product 6", quantity: 3 },
 ];
 
-export const summaryOverall: IDashboardSummaryOverallResponse = {
+export const summaryOverall = {
   achievement: 7,
   averageSales: 116666,
   monthlySalesList: [

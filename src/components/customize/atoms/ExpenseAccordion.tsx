@@ -24,6 +24,7 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
   const [selectedExpenseID, setselectedExpenseID] = useState("");
   const [isShowEdit, setIsShowEdit] = useState(false);
   const [isShowDelete, setIsShowDelete] = useState(false);
+  const [expenseFile, setExpenseFile] = useState<File | string>("");
 
   const methods = useForm({
     resolver: yupResolver(expenseSchema),
@@ -174,7 +175,11 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
         onClick={handleSubmit(onEdit)}
       >
         <FormProvider {...methods}>
-          <ExpenseForm onSubmit={handleSubmit(onEdit)} />
+          <ExpenseForm
+            onSubmit={handleSubmit(onEdit)}
+            file={expenseFile}
+            setFile={setExpenseFile}
+          />
         </FormProvider>
       </ModalCard>
 

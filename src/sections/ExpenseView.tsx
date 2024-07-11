@@ -26,6 +26,7 @@ function ExpenseView() {
   const [data, setData] = useState<IExpenseListResponse[] | null>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isReload, setIsReload] = useState(false);
+  const [expenseFile, setExpenseFile] = useState<File | string>("");
 
   const methods = useForm({
     resolver: yupResolver(expenseSchema),
@@ -49,6 +50,13 @@ function ExpenseView() {
   const onSubmit = async (data: IExpenseRequest) => {
     try {
       await ExpenseRepository.AddExpense(data);
+      if (expenseFile && expenseFile instanceof File) {
+        const formData = new FormData();
+        console.log("Expense File:", expenseFile);
+        formData.set("expenseFile", expenseFile);
+
+        await ExpenseRepository.AddExpenseFile(formData);
+      }
       setIsShowAddModal(false);
       reset();
       setIsReload(!isReload);
@@ -60,6 +68,20 @@ function ExpenseView() {
       );
     }
   };
+  // const onSubmit = async (data: IExpenseRequest) => {
+  //   try {
+  //     await ExpenseRepository.AddExpense(data);
+  //     setIsShowAddModal(false);
+  //     reset();
+  //     setIsReload(!isReload);
+  //     showToast("Pengeluaran berhasil ditambahkan", "success");
+  //   } catch (error: any) {
+  //     showToast(
+  //       error.response?.data.error ? error.response.data.error : error.message,
+  //       "error"
+  //     );
+  //   }
+  // };
 
   useEffect(() => {
     const to = new Date();
@@ -147,7 +169,11 @@ function ExpenseView() {
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>
-          <ExpenseForm onSubmit={handleSubmit(onSubmit)} />
+          <ExpenseForm
+            onSubmit={handleSubmit(onSubmit)}
+            file={expenseFile}
+            setFile={setExpenseFile}
+          />
         </FormProvider>
       </ModalCard>
 

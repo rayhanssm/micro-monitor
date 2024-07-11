@@ -4,12 +4,15 @@ import TextField from "../../molecules/input-field/TextField";
 import DateTimeField from "../../molecules/input-field/DateTimeField";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import Button from "../../atoms/button/Button";
+import FileField from "../../molecules/input-field/FileField";
 
 type IProps = {
   onSubmit: () => void;
+  file: File | string;
+  setFile: (file: File) => void;
 };
 
-function ExpenseForm({ onSubmit }: IProps) {
+function ExpenseForm({ onSubmit, file, setFile }: IProps) {
   const { control } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
@@ -20,6 +23,8 @@ function ExpenseForm({ onSubmit }: IProps) {
   return (
     <form className="space-y-2 s mb-[30px]" onSubmit={onSubmit}>
       <DateTimeField label="Tanggal dan Jam" name="expenseDate" />
+
+      <FileField label="Bukti Pengeluaran" name="expenseFile" file={file} setFile={setFile} />
 
       <div className="max-h-80 flex flex-col gap-3 overflow-y-auto">
         {fields.map((field, index) => (

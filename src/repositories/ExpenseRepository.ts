@@ -1,7 +1,10 @@
 import { apiPath } from "@/routes/apiPath";
 import { IListResponse } from "@/types/BaseResponse";
 import { IExpenseRequest } from "@/types/requests/ExpenseRequest";
-import { IExpenseListResponse, IExpenseResponse } from "@/types/responses/ExpenseResponse";
+import {
+  IExpenseListResponse,
+  IExpenseResponse,
+} from "@/types/responses/ExpenseResponse";
 import CustomAxios from "@/utils/axios";
 import { AxiosResponse } from "axios";
 
@@ -13,6 +16,9 @@ export class ExpenseRepository {
 
   static AddExpense = (payload: IExpenseRequest) =>
     CustomAxios.Post(apiPath.expense.add, payload);
+
+  static AddExpenseFile = (formData: FormData): Promise<AxiosResponse> =>
+    CustomAxios.Post(apiPath.expense.add, formData);
 
   static EditExpense = (payload: IExpenseRequest, id: string) =>
     CustomAxios.Put(apiPath.expense.edit, payload, {}, id);

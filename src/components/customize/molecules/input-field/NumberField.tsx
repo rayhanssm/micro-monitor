@@ -1,6 +1,5 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import NumericFormat from "react-number-format";
 
 type IProps = {
   label: string;
@@ -21,13 +20,6 @@ function NumberField({ label, name, type = "number" }: IProps) {
             {label}
           </label>
           {type === "number" ? (
-            // TODO: adjust later
-            // <NumericFormat
-            //   {...field}
-            //   getInputRef={field.ref}
-            //   thousandSeparator={true}
-            //   className="w-full bg-white border border-slate-300 text-slate-900 text-sm rounded-lg px-3 py-2 lining-nums"
-            // />
             <input
               {...field}
               type="number"
@@ -38,12 +30,6 @@ function NumberField({ label, name, type = "number" }: IProps) {
               <p className="text-sm font-medium inline-block border border-slate-300 rounded-l-lg px-3 py-2">
                 IDR
               </p>
-              {/* <NumericFormat
-                {...field}
-                getInputRef={field.ref}
-                thousandSeparator={true}
-                className="w-full lining-nums leading-3 border border-slate-300 text-sm rounded-r-lg px-3 py-2"
-              /> */}
               <input
                 {...field}
                 type="number"

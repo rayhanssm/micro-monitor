@@ -1,5 +1,4 @@
-import { id } from "date-fns/locale";
-import { Calendar } from "lucide-react";
+import { Calendar, ChevronDown } from "lucide-react";
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,33 +18,37 @@ const css = `
     background-color: #FFFFFF;
     border-bottom: none
   }
-  .react-datepicker__month-text--selected {
+  .react-datepicker__year-text--selected {
     background-color: #14B8A6;
   }
 `;
 
 type IProps = {
-  selectedDate: any;
-  setSelectedDate: any;
+  selectedYear: any;
+  setSelectedYear: any;
 };
 
-function MonthYearPicker({ selectedDate, setSelectedDate }: IProps) {
+function YearIconPicker({ selectedYear, setSelectedYear }: IProps) {
+  const handleYearChange = (date: Date) => {
+    const selectedDate = new Date(date.getFullYear(), 0, 1);
+    setSelectedYear(selectedDate);
+  };
+
   return (
     <div>
       <style>{css}</style>
       <DatePicker
         showIcon
-        selected={selectedDate}
-        onChange={(date: Date | null) => setSelectedDate(date)}
-        showMonthYearPicker
-        dateFormat="MM/yyyy"
-        className="flex text-teal-700 text-sm font-medium border border-slate-400 max-w-28 rounded-lg cursor-pointer lining-nums"
+        selected={selectedYear}
+        onChange={(date) => handleYearChange(date as Date)}
+        showYearPicker
+        dateFormat="yyyy"
+        className="flex justify-center py-2 px-3 border text-teal-700 text-sm font-medium border-slate-400 max-w-20 rounded-lg cursor-pointer lining-nums"
         icon={<Calendar color="#0F766E" size={24} />}
         disabledKeyboardNavigation
-        locale={id}
       />
     </div>
   );
 }
 
-export default MonthYearPicker;
+export default YearIconPicker;
