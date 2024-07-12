@@ -9,16 +9,18 @@ import CustomAxios from "@/utils/axios";
 import { AxiosResponse } from "axios";
 
 export class ExpenseRepository {
-  static GetExpenseList = (
+  static GetExpenseDailyList = (
     params: any
   ): Promise<AxiosResponse<IListResponse<IExpenseListResponse>>> =>
-    CustomAxios.Get(apiPath.expense.list, params);
+    CustomAxios.Get(apiPath.expense.daily, params);
 
-  static AddExpense = (payload: IExpenseRequest) =>
+  static GetExpenseMonthlyList = (
+    params: any
+  ): Promise<AxiosResponse<IListResponse<IExpenseListResponse>>> =>
+    CustomAxios.Get(apiPath.expense.monthly, params);
+
+  static AddExpense = (payload: FormData) =>
     CustomAxios.Post(apiPath.expense.add, payload);
-
-  static AddExpenseFile = (formData: FormData): Promise<AxiosResponse> =>
-    CustomAxios.Post(apiPath.expense.add, formData);
 
   static EditExpense = (payload: IExpenseRequest, id: string) =>
     CustomAxios.Put(apiPath.expense.edit, payload, {}, id);

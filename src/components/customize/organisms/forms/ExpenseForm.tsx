@@ -23,8 +23,13 @@ function ExpenseForm({ onSubmit, file, setFile }: IProps) {
   return (
     <form className="space-y-2 s mb-[30px]" onSubmit={onSubmit}>
       <DateTimeField label="Tanggal dan Jam" name="expenseDate" />
-
-      <FileField label="Bukti Pengeluaran" name="expenseFile" file={file} setFile={setFile} />
+      <TextField label="Kategori" name="expenseCategory" disabled />
+      <FileField
+        label="Bukti Pengeluaran"
+        name="expenseFile"
+        file={file}
+        setFile={setFile}
+      />
 
       <div className="max-h-80 flex flex-col gap-3 overflow-y-auto">
         {fields.map((field, index) => (

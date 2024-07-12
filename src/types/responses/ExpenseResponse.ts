@@ -6,6 +6,7 @@ export type IExpenseResponse = {
   }[];
   expenseTotal: number;
   expenseDate: Date | string;
+  expenseFile: File | string;
 };
 
 export type IExpenseListResponse = {

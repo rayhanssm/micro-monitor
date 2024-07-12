@@ -10,6 +10,7 @@ export const expenseField = (): IExpenseRequest => ({
   ],
   expenseDate: new Date(),
   expenseTotal: 0,
+  expenseCategory: "",
 });
 
 export const expenseSchema = object({
@@ -34,4 +35,7 @@ export const expenseSchema = object({
   expenseDate: date()
     .typeError("Masukkan tanggal dan jam")
     .required("Masukkan tanggal dan jam"),
+  expenseCategory: string()
+    .typeError("Masukkan kategori")
+    .required("Masukkan kategori"),
 });

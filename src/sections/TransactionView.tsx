@@ -215,8 +215,6 @@ function TransactionView() {
         </div>
       )}
 
-      <ToastContainer />
-
       {/* Add transaction modal */}
       {flagProduct === true ? (
         <ModalCard

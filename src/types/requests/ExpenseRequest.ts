@@ -6,5 +6,6 @@ export type IExpenseDetailRequest = {
 export type IExpenseRequest = {
   expenseDate: Date;
   expenseTotal: number;
+  expenseCategory: string;
   details: IExpenseDetailRequest[];
 };

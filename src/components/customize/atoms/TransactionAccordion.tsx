@@ -234,14 +234,8 @@ function TransactionAccordion({
           {open ? <ChevronUp /> : <ChevronDown />}
           <div className="flex flex-col items-start lg:flex-row lg:items-center gap-3 ml-2">
             <div className="px-2 py-1 rounded-xl text-white text-base font-bold lining-nums bg-teal-700">
-              #{data.transactionID}
-            </div>
-            <p
-              className="text-sm lining-nums text-slate-500"
-              suppressHydrationWarning
-            >
               {fTime(data.transactionDate)} - {data.userName}
-            </p>
+            </div>
           </div>
         </button>
         <div className="flex gap-2">
@@ -370,8 +364,6 @@ function TransactionAccordion({
         deleteTitle={deleteItem}
         onDelete={() => onDelete(selectedTransactionId!)}
       />
-
-      <ToastContainer />
     </div>
   );
 }

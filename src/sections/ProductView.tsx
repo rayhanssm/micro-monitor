@@ -136,8 +136,6 @@ function ProductView() {
           <ProductForm onSubmit={handleSubmit(onSubmit)} />
         </FormProvider>
       </ModalCard>
-
-      <ToastContainer />
     </div>
   );
 }

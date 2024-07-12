@@ -33,7 +33,8 @@ export const apiPath = {
     delete: "/transaction/{}",
   },
   expense: {
-    list: "/expense",
+    daily: "/expense/daily",
+    monthly: "/expense/monthly",
     detail: "/expense/{}",
     add: "/expense",
     edit: "/expense/{}",

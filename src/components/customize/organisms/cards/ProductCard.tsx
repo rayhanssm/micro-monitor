@@ -124,8 +124,6 @@ function ProductCard({ productData, isReload, setIsReload }: IProps) {
         deleteTitle={deleteItem?.name}
         onDelete={() => onDelete(deleteItem?.id!)}
       />
-
-      <ToastContainer />
     </div>
   );
 }
