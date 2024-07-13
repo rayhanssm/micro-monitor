@@ -4,12 +4,20 @@ import { IExpenseRequest } from "@/types/requests/ExpenseRequest";
 import { IExpenseResponse } from "@/types/responses/ExpenseResponse";
 import { fTime } from "@/utils/formatDate";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ChevronDown, ChevronUp, Pencil, Trash2 } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  FileSearch,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import ModalCard from "../organisms/cards/ModalCard";
 import ExpenseForm from "../organisms/forms/ExpenseForm";
 import { fNum } from "@/utils/formatNumber";
+import { showToast } from "@/utils/toast";
+import Link from "next/link";
 
 type IProps = {
   detailData: IExpenseResponse;
@@ -22,6 +30,7 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
   const [selectedExpenseID, setselectedExpenseID] = useState("");
   const [isShowEdit, setIsShowEdit] = useState(false);
   const [isShowDelete, setIsShowDelete] = useState(false);
+  const [expenseFile, setExpenseFile] = useState<File | string>("");
 
   const methods = useForm({
     resolver: yupResolver(expenseSchema),
@@ -52,8 +61,12 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
       await ExpenseRepository.EditExpense(data, selectedExpenseID);
       setIsShowEdit(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Pengeluaran berhasil diubah", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -63,8 +76,12 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
       await ExpenseRepository.DeleteExpense(id);
       setIsShowDelete(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Pengeluaran berhasil dihapus", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -80,6 +97,7 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
         expenseDate: detailData.expenseDate
           ? new Date(detailData.expenseDate)
           : new Date(),
+        expenseCategory: detailData.expenseCategory,
       });
     }
   }, [detailData, isShowEdit]);
@@ -102,17 +120,20 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
           {open ? <ChevronUp /> : <ChevronDown />}
           <div className="flex flex-col items-start lg:flex-row lg:items-center gap-3 ml-2">
             <div className="px-2 py-1 rounded-xl text-white text-base font-bold lining-nums bg-teal-700">
-              #{detailData.expenseID}
-            </div>
-            <p
-              className="text-sm lining-nums text-slate-500"
-              suppressHydrationWarning
-            >
               {fTime(detailData.expenseDate)}
-            </p>
+            </div>
           </div>
         </button>
         <div className="flex gap-2">
+          <button
+            onClick={() => {
+              detailData.expenseFile
+                ? window.open(detailData.expenseFile.toString(), "_blank")
+                : showToast("Tidak ada dokumen", "error");
+            }}
+          >
+            <FileSearch size={20} color="#0F766E" />
+          </button>
           <button
             onClick={() => {
               setIsShowEdit(true);
@@ -159,12 +180,16 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
       <ModalCard
         open={isShowEdit}
         setOpen={setIsShowEdit}
-        title="Edit Pengeluaran"
-        buttonText={isSubmitting ? "Loading..." : "Edit"}
+        title="Ubah Pengeluaran"
+        buttonText={isSubmitting ? "Memuat..." : "Ubah"}
         onClick={handleSubmit(onEdit)}
       >
         <FormProvider {...methods}>
-          <ExpenseForm onSubmit={handleSubmit(onEdit)} />
+          <ExpenseForm
+            onSubmit={handleSubmit(onEdit)}
+            file={expenseFile}
+            setFile={setExpenseFile}
+          />
         </FormProvider>
       </ModalCard>
 

@@ -19,13 +19,14 @@ import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { ITransactionListResponse } from "@/types/responses/TransactionResponse";
 import { fDayDate } from "@/utils/formatDate";
 import { fNum } from "@/utils/formatNumber";
+import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDays } from "date-fns";
 import { CirclePlus, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { DateRange } from "react-day-picker";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 function TransactionView() {
   const [selected, setSelected] = useState<DateRange>();
@@ -63,8 +64,12 @@ function TransactionView() {
       reset();
       setSelectedProducts([]);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Transaksi berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -74,8 +79,12 @@ function TransactionView() {
       setIsShowAddModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Transaksi berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -182,23 +191,26 @@ function TransactionView() {
         </div>
       ) : (
         <div className="flex flex-col lg:grid grid-cols-2 gap-x-10 gap-y-5">
-          {data?.map((data, index) => (
-            <div key={index}>
-              <p
-                className="font-semibold text-2xl mb-4 lining-nums"
-                suppressHydrationWarning
-              >
-                {fDayDate(data.date)}
-              </p>
-              <FormProvider {...methods}>
-                <TransactionCard
-                  data={data}
-                  isReload={isReload}
-                  setIsReload={setIsReload}
-                />
-              </FormProvider>
-            </div>
-          ))}
+          {data?.length === 0
+            ? "Tidak ada data"
+            : data?.map((data, index) => (
+                <div key={index}>
+                  <p
+                    className="font-semibold text-2xl mb-4 lining-nums"
+                    suppressHydrationWarning
+                  >
+                    {fDayDate(data.date)}
+                  </p>
+                  <FormProvider {...methods}>
+                    <TransactionCard
+                      data={data}
+                      isReload={isReload}
+                      setIsReload={setIsReload}
+                      productData={productData}
+                    />
+                  </FormProvider>
+                </div>
+              ))}
         </div>
       )}
 
@@ -242,7 +254,7 @@ function TransactionView() {
                   onClick={() => setIsShowAddModal(false)}
                 />
                 <Button
-                  text={isSubmitting ? "Loading..." : "Tambah"}
+                  text={isSubmitting ? "Memuat..." : "Tambah"}
                   btnStyle="filled"
                   additionClassname="w-full"
                   onClick={handleSubmit(onSubmit)}
@@ -256,7 +268,7 @@ function TransactionView() {
           open={isShowAddModal}
           setOpen={setIsShowAddModal}
           title="Tambah Transaksi"
-          buttonText={isSubmitting ? "Loading..." : "Tambah"}
+          buttonText={isSubmitting ? "Memuat..." : "Tambah"}
           onClick={handleSubmit(onSubmitNoProduct)}
         >
           <FormProvider {...methods}>

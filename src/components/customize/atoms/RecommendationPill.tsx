@@ -4,12 +4,11 @@ type IProps = {
   text: string;
   textColor: string;
   bgColor: string;
-  borderColor: string;
 };
 
-function RecommendationPill({ text, textColor, bgColor, borderColor }: IProps) {
+function RecommendationPill({ text, textColor, bgColor }: IProps) {
   return (
-    <div className={`w-fit px-3 py-1 border rounded-xl  ${bgColor} ${borderColor}`}>
+    <div className={`w-fit px-3 py-1 rounded-xl  ${bgColor}`}>
       <p className={`text-[8px] ${textColor} font-semibold`}>{text}</p>
     </div>
   );

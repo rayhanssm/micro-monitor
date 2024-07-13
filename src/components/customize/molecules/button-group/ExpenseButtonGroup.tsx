@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
 type IProps = {
   selected: number;
   setSelected: (selected: number) => void;
 };
 
-function DashboardButtonGroup({ selected, setSelected }: IProps) {
+function ExpenseButtonGroup({ selected, setSelected }: IProps) {
   const handleClick = (selected: number) => {
     setSelected(selected);
   };
@@ -34,28 +34,8 @@ function DashboardButtonGroup({ selected, setSelected }: IProps) {
       >
         Bulanan
       </button>
-      <button
-        className={`py-1 px-4 text-sm font-semibold leading-6 rounded-lg transition-all ${
-          selected === 3
-            ? "bg-white text-[#1C1C1C] shadow-md"
-            : "text-slate-500"
-        }`}
-        onClick={() => handleClick(3)}
-      >
-        Tahunan
-      </button>
-      <button
-        className={`py-1 px-4 text-sm font-semibold leading-6 rounded-lg transition-all ${
-          selected === 4
-            ? "bg-white text-[#1C1C1C] shadow-md"
-            : "text-slate-500"
-        }`}
-        onClick={() => handleClick(4)}
-      >
-        Periode
-      </button>
     </div>
   );
 }
 
-export default DashboardButtonGroup;
+export default ExpenseButtonGroup;

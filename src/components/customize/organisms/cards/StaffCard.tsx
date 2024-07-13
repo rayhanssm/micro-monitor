@@ -15,6 +15,7 @@ import { staffEditSchema, staffSchema } from "@/data/AuthData";
 import { AuthRepository } from "@/repositories/AuthRepository";
 import { IStaffEditRequest } from "@/types/requests/AuthRequest";
 import StaffEditForm from "../forms/StaffEditForm";
+import { showToast } from "@/utils/toast";
 
 type IProps = {
   staffData: IStaffListResponse;
@@ -46,8 +47,12 @@ function StaffCard({ staffData, isReload, setIsReload }: IProps) {
       await AuthRepository.EditStaff(data, staffData.userID);
       setIsShowEditModal(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Staf berhasil diubah", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -57,8 +62,12 @@ function StaffCard({ staffData, isReload, setIsReload }: IProps) {
       await AuthRepository.DeleteStaff(id);
       setIsShowDeleteModal(false);
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Staf berhasil dihapus", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -94,8 +103,8 @@ function StaffCard({ staffData, isReload, setIsReload }: IProps) {
       <ModalCard
         open={isShowEditModal}
         setOpen={setIsShowEditModal}
-        title="Edit Staff"
-        buttonText={isSubmitting ? "Loading..." : "Edit"}
+        title="Ubah Staff"
+        buttonText={isSubmitting ? "Memuat..." : "Ubah"}
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>

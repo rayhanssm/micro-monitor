@@ -8,11 +8,11 @@ import { fCurrency } from "@/utils/formatNumber";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { targetField, targetSchema } from "@/data/TargetData";
-import { targetList } from "@/_dummyData/target";
 import { ITargetRequest } from "@/types/requests/TargetRequest";
 import { TargetRepository } from "@/repositories/TargetRepository";
 import { ITargetListResponse } from "@/types/responses/TargetResponse";
 import YearPicker from "../../molecules/date-picker/YearPicker";
+import { showToast } from "@/utils/toast";
 
 const months = [
   "Januari",
@@ -51,7 +51,6 @@ function TargetTable() {
   const [currentYear, setCurrentYear] = useState(
     new Date(new Date().getFullYear(), 0, 1)
   );
-  // const [selectedMonth, setSelectedMonth] = useState("");
 
   const [tableData, setTableData] = useState<ITargetListResponse[]>([]);
 
@@ -74,21 +73,30 @@ function TargetTable() {
       setIsShowAddModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Target berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
-  // TODO: edit target error, add target on january added january on prev year, tp lainnya aman?
   const onEdit = async (data: ITargetRequest) => {
+    console.log("On Edit:", data, selectedId);
     try {
-      if (!selectedId) return;
-      await TargetRepository.EditTarget(data, selectedId);
-      setIsShowEditModal(false);
-      reset();
-      setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      if (selectedId) {
+        await TargetRepository.EditTarget(data, selectedId);
+        setIsShowEditModal(false);
+        reset();
+        setIsReload(!isReload);
+        showToast("Target berhasil diubah", "success");
+      }
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -99,13 +107,16 @@ function TargetTable() {
       setIsShowDeleteModal(false);
       setIsReload(!isReload);
       reset();
-    } catch (e: any) {
-      console.log(e);
+      showToast("Target berhasil dihapus", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
   const handleAddClick = (month: string) => {
-    // setSelectedMonth(month);
     const targetDate = new Date(
       currentYear.getFullYear(),
       months.indexOf(month),
@@ -115,14 +126,15 @@ function TargetTable() {
     setIsShowAddModal(true);
   };
 
-  const handleEditClick = (month: string) => {
-    // setSelectedMonth(month);
+  const handleEditClick = (month: string, value: number, id: string) => {
     const targetDate = new Date(
       currentYear.getFullYear(),
       months.indexOf(month),
       1
     );
+    setSelectedId(id);
     setValue("targetDate", targetDate);
+    setValue("targetValue", value);
     setIsShowEditModal(true);
   };
 
@@ -208,8 +220,11 @@ function TargetTable() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => {
-                            handleEditClick(content.targetDate.toString());
-                            setSelectedId(content.targetID);
+                            handleEditClick(
+                              content.targetDate.toString(),
+                              content.targetValue,
+                              content.targetID
+                            );
                           }}
                         >
                           <Pencil size={20} color="#0F766E" />
@@ -246,7 +261,7 @@ function TargetTable() {
           open={isShowAddModal}
           setOpen={setIsShowAddModal}
           title="Tambah Target"
-          buttonText={isSubmitting ? "Loading..." : "Tambah"}
+          buttonText={isSubmitting ? "Memuat..." : "Tambah"}
           onClick={handleSubmit(onSubmit)}
         >
           <FormProvider {...methods}>
@@ -258,8 +273,9 @@ function TargetTable() {
         <ModalCard
           open={isShowEditModal}
           setOpen={setIsShowEditModal}
-          title="Edit Target"
-          buttonText={isSubmitting ? "Loading..." : "Edit"}
+          title="Ubah Target"
+          buttonText={isSubmitting ? "Memuat..." : "Ubah"}
+          onClick={handleSubmit(onEdit)}
         >
           <FormProvider {...methods}>
             <TargetForm onSubmit={handleSubmit(onEdit)} />

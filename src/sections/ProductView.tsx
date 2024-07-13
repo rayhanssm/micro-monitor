@@ -15,6 +15,7 @@ import { productField, productSchema } from "@/data/ProductData";
 import { IProductRequest } from "@/types/requests/ProductRequest";
 import { ProductRepository } from "@/repositories/ProductRepository";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
+import { showToast } from "@/utils/toast";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
@@ -48,8 +49,12 @@ function ProductView() {
       setIsShowAddModal(false);
       reset();
       setIsReload(!isReload);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Produk berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -97,14 +102,16 @@ function ProductView() {
       ) : (
         <>
           <div className="flex flex-col lg:grid grid-cols-4 gap-x-10 gap-y-5">
-            {data?.map((product) => (
-              <ProductCard
-                key={product.productID}
-                productData={product}
-                isReload={isReload}
-                setIsReload={setIsReload}
-              />
-            ))}
+            {data?.length === 0
+              ? "Tidak ada data"
+              : data?.map((product) => (
+                  <ProductCard
+                    key={product.productID}
+                    productData={product}
+                    isReload={isReload}
+                    setIsReload={setIsReload}
+                  />
+                ))}
           </div>
 
           <div className="flex justify-center mt-14">
@@ -121,7 +128,7 @@ function ProductView() {
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
         title="Tambah Produk"
-        buttonText={isSubmitting ? "Loading..." : "Tambah"}
+        buttonText={isSubmitting ? "Memuat..." : "Tambah"}
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>

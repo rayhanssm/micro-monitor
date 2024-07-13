@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 function Expense() {
-  return <ExpenseView/>;
+  return <ExpenseView />;
 }
 
 export default Expense;

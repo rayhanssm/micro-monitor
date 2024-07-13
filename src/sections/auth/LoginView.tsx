@@ -7,6 +7,7 @@ import { loginField, loginSchema } from "@/data/AuthData";
 import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
 import { ILoginRequest } from "@/types/requests/AuthRequest";
+import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -41,13 +42,18 @@ function LoginView() {
       cookies.set("flagTarget", loginRes.flagTarget);
       cookies.set("flagProduct", loginRes.flagProduct);
       push(paths.dashboard);
+      showToast("Berhasil masuk, sedang diarahkan ulang", "success");
     } catch (error: any) {
-      console.log(error);
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
   return (
     <AuthTemplate
+      pageType="login"
       content={
         <div className="relative">
           <div className="hidden lg:flex absolute top-8 right-10 items-center gap-4">
@@ -74,7 +80,7 @@ function LoginView() {
                 <LoginForm onSubmit={handleSubmit(onSubmit)} />
               </FormProvider>
               <Button
-                text={isSubmitting ? "Loading..." : "Masuk"}
+                text={isSubmitting ? "Memuat..." : "Masuk"}
                 btnStyle="filled"
                 onClick={handleSubmit(onSubmit)}
               />

@@ -7,6 +7,7 @@ import { registerField, registerSchema } from "@/data/AuthData";
 import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
 import { IRegisterRequest } from "@/types/requests/AuthRequest";
+import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -34,9 +35,16 @@ function RegisterView() {
     try {
       await AuthRepository.PostRegister(data);
       console.log("success");
-      push(paths.dashboard);
+      showToast(
+        "Akun berhasil dibuat, silakan masuk terlebih dahulu",
+        "success"
+      );
+      push(paths.auth.login);
     } catch (error: any) {
-      console.log(error);
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -53,8 +61,10 @@ function RegisterView() {
 
   return (
     <AuthTemplate
+      pageType="register"
+      registerStep={step}
       content={
-        <div className="relative">
+        <div className={`relative ${step === 2 && "col-span-2"}`}>
           <div className="hidden lg:flex absolute top-8 right-10 items-center gap-4">
             <p className="text-slate-500 text-base">Sudah memiliki akun?</p>
             <Button
@@ -75,19 +85,25 @@ function RegisterView() {
             </div>
 
             <div className="flex justify-center items-center">
-              <div className="w-8 h-8 bg-teal-700 rounded-full flex justify-center items-center">
-                <p className="text-base text-white font-bold">1</p>
+              <div
+                className={`w-8 h-8 bg-teal-${
+                  step === 2 ? `100` : `700`
+                } rounded-full flex justify-center items-center transition-all`}
+              >
+                <p
+                  className={`text-base text-${
+                    step === 2 ? "teal-700" : "white"
+                  } font-bold transition-all`}
+                >
+                  1
+                </p>
                 <p className="text-xs text-slate-500 absolute text-center translate-y-10">
                   Informasi
                   <br />
                   Pengguna dan UMKM
                 </p>
               </div>
-              <div
-                className={`w-28 h-1 bg-teal-${
-                  step === 1 ? `100` : `700`
-                } transition-all`}
-              />
+              <div className={`w-28 h-1 bg-teal-100 transition-all`} />
               <div
                 className={`w-8 h-8 bg-teal-${
                   step === 1 ? `100` : `700`
@@ -126,7 +142,7 @@ function RegisterView() {
                     onClick={handleClickPrev}
                   />
                   <Button
-                    text={isSubmitting ? "Loading..." : "Daftar"}
+                    text={isSubmitting ? "Memuat..." : "Daftar"}
                     btnStyle="filled"
                     onClick={handleSubmit(onSubmit)}
                   />

@@ -3,7 +3,8 @@
 import DashboardButtonGroup from "@/components/customize/molecules/button-group/DashboardButtonGroup";
 import DashboardSummaryDaily from "@/components/customize/templates/dashboard/DashboardSummaryDaily";
 import DashboardSummaryMonthly from "@/components/customize/templates/dashboard/DashboardSummaryMonthly";
-import DashboardSummaryOverall from "@/components/customize/templates/dashboard/DashboardSummaryOverall";
+import DashboardSummaryPeriodically from "@/components/customize/templates/dashboard/DashboardSummaryPeriodically";
+import DashboardSummaryYearly from "@/components/customize/templates/dashboard/DashboardSummaryYearly";
 import { paths } from "@/routes/paths";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ function DashboardView() {
     if (role === "staff") {
       router.push(paths.transaction);
     }
-  }, []);
+  }, [cookies]);
 
   const dashboardSummary = () => {
     switch (selected) {
@@ -28,7 +29,9 @@ function DashboardView() {
       case 2:
         return <DashboardSummaryMonthly selected={selected} />;
       case 3:
-        return <DashboardSummaryOverall selected={selected} />;
+        return <DashboardSummaryYearly selected={selected} />;
+      case 4:
+        return <DashboardSummaryPeriodically selected={selected} />;
       default:
         return null;
     }
