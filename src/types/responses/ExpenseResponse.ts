@@ -7,6 +7,7 @@ export type IExpenseResponse = {
   expenseTotal: number;
   expenseDate: Date | string;
   expenseFile: File | string;
+  expenseCategory: string;
 };
 
 export type IExpenseListResponse = {

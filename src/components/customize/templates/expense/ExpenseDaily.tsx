@@ -80,13 +80,6 @@ function ExpenseDaily({
     }
   };
 
-  useEffect(() => {
-    const to = new Date();
-    const from = addDays(to, -7);
-
-    setSelected({ from: from, to: to });
-  }, []);
-
   const getData = async () => {
     try {
       setIsLoadingData(true);
@@ -117,6 +110,10 @@ function ExpenseDaily({
   }, [watchedDetails]);
 
   useEffect(() => {
+    const to = new Date();
+    const from = addDays(to, -7);
+
+    setSelected({ from: from, to: to });
     setValue("expenseCategory", "Harian");
   }, []);
 

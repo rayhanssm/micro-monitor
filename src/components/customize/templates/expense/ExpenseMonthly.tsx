@@ -108,6 +108,10 @@ function ExpenseMonthly({
     setValue("expenseTotal", total);
   }, [watchedDetails]);
 
+  useEffect(() => {
+    setValue("expenseCategory", "Bulanan");
+  }, []);
+
   return (
     <div>
       {isLoadingData ? (

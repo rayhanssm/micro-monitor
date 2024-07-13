@@ -17,6 +17,7 @@ import ModalCard from "../organisms/cards/ModalCard";
 import ExpenseForm from "../organisms/forms/ExpenseForm";
 import { fNum } from "@/utils/formatNumber";
 import { showToast } from "@/utils/toast";
+import Link from "next/link";
 
 type IProps = {
   detailData: IExpenseResponse;
@@ -96,6 +97,7 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
         expenseDate: detailData.expenseDate
           ? new Date(detailData.expenseDate)
           : new Date(),
+        expenseCategory: detailData.expenseCategory,
       });
     }
   }, [detailData, isShowEdit]);
@@ -118,12 +120,18 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
           {open ? <ChevronUp /> : <ChevronDown />}
           <div className="flex flex-col items-start lg:flex-row lg:items-center gap-3 ml-2">
             <div className="px-2 py-1 rounded-xl text-white text-base font-bold lining-nums bg-teal-700">
-              #{fTime(detailData.expenseDate)}
+              {fTime(detailData.expenseDate)}
             </div>
           </div>
         </button>
         <div className="flex gap-2">
-          <button onClick={() => {}}>
+          <button
+            onClick={() => {
+              detailData.expenseFile
+                ? window.open(detailData.expenseFile.toString(), "_blank")
+                : showToast("Tidak ada dokumen", "error");
+            }}
+          >
             <FileSearch size={20} color="#0F766E" />
           </button>
           <button

@@ -8,6 +8,7 @@ export const expenseList: IExpenseListResponse[] = [
     date: "2024-06-11T07:00:00+07:00",
     expenses: [
       {
+        expenseCategory: "Harian",
         expenseFile: "",
         expenseID: "CPQKMTTLQFU3RE7TKBAG",
         expenseDate: "2024-06-11T17:00:00+07:00",
@@ -31,7 +32,8 @@ export const expenseDetail: IExpenseResponse = {
   expenseID: "CPQKMTTLQFU3RE7TKBAG",
   expenseDate: "2024-06-11T17:00:00+07:00",
   expenseTotal: 60000,
-  expenseFile: '',
+  expenseFile: "",
+  expenseCategory: "",
   details: [
     {
       description: "test update 1",
