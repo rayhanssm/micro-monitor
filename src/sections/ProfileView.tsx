@@ -11,7 +11,6 @@ import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
 
 function ProfileView() {
   const [profile, setProfile] = useState<IProfileResponse | null>(null);
@@ -77,8 +76,6 @@ function ProfileView() {
           onClick={handleSubmit(onSubmit)}
         />
       </div>
-
-      <ToastContainer />
     </div>
   );
 }

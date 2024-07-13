@@ -13,7 +13,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CirclePlus, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
 
 function StaffView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
@@ -122,8 +121,6 @@ function StaffView() {
           <StaffForm onSubmit={handleSubmit(onSubmit)} />
         </FormProvider>
       </ModalCard>
-
-      <ToastContainer />
     </div>
   );
 }

@@ -12,7 +12,6 @@ import { IProductRequest } from "@/types/requests/ProductRequest";
 import { FormProvider, useForm } from "react-hook-form";
 import { ProductRepository } from "@/repositories/ProductRepository";
 import { showToast } from "@/utils/toast";
-import { ToastContainer } from "react-toastify";
 
 type IProps = {
   productData: IProductListResponse;

@@ -14,7 +14,6 @@ import { TargetRepository } from "@/repositories/TargetRepository";
 import { ITargetListResponse } from "@/types/responses/TargetResponse";
 import YearPicker from "../../molecules/date-picker/YearPicker";
 import { showToast } from "@/utils/toast";
-import { ToastContainer } from "react-toastify";
 
 const months = [
   "Januari",
@@ -287,8 +286,6 @@ function TargetTable() {
           deleteTitle={"target " + deleteItem?.targetDate}
           onDelete={() => onDelete(deleteItem?.targetID)}
         />
-
-        <ToastContainer />
       </div>
     </>
   );

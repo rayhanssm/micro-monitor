@@ -19,7 +19,6 @@ import Button from "./button/Button";
 import { Cookies } from "react-cookie";
 import TransactionNoProductForm from "../organisms/forms/TransactionNoProductForm";
 import { showToast } from "@/utils/toast";
-import { ToastContainer } from "react-toastify";
 
 type IProps = {
   data: ITransactionDetailResponse;

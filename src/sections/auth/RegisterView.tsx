@@ -13,7 +13,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
 
 function RegisterView() {
   const push = useRouter().push;
@@ -155,8 +154,6 @@ function RegisterView() {
             <p className="text-slate-500 text-base">Sudah memiliki akun?</p>
             <Link href={paths.auth.login}>Masuk</Link>
           </div>
-
-          <ToastContainer />
         </div>
       }
     />

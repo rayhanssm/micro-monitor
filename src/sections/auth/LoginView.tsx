@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { Cookies } from "react-cookie";
 import { FormProvider, useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
 
 function LoginView() {
   const push = useRouter().push;
@@ -91,8 +90,6 @@ function LoginView() {
               <Link href={paths.auth.register}>Daftar</Link>
             </div>
           </div>
-
-          <ToastContainer />
         </div>
       }
     />

@@ -12,7 +12,6 @@ import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import StaffView from "./StaffView";
 import { showToast } from "@/utils/toast";
-import { ToastContainer } from "react-toastify";
 
 function AdminSettingsView() {
   const [selected, setSelected] = useState(1);
@@ -108,8 +107,6 @@ function AdminSettingsView() {
       ) : (
         <StaffView />
       )}
-
-      <ToastContainer />
     </div>
   );
 }

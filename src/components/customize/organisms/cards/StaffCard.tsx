@@ -16,7 +16,6 @@ import { AuthRepository } from "@/repositories/AuthRepository";
 import { IStaffEditRequest } from "@/types/requests/AuthRequest";
 import StaffEditForm from "../forms/StaffEditForm";
 import { showToast } from "@/utils/toast";
-import { ToastContainer } from "react-toastify";
 
 type IProps = {
   staffData: IStaffListResponse;
@@ -120,8 +119,6 @@ function StaffCard({ staffData, isReload, setIsReload }: IProps) {
         deleteTitle={deleteItem?.name}
         onDelete={() => onDelete(deleteItem?.id!)}
       />
-
-      <ToastContainer />
     </div>
   );
 }

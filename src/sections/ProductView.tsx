@@ -16,7 +16,6 @@ import { IProductRequest } from "@/types/requests/ProductRequest";
 import { ProductRepository } from "@/repositories/ProductRepository";
 import { IProductListResponse } from "@/types/responses/ProductResponse";
 import { showToast } from "@/utils/toast";
-import { ToastContainer } from "react-toastify";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
