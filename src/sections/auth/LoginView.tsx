@@ -35,14 +35,17 @@ function LoginView() {
       const res = await AuthRepository.PostLogin(data);
       const loginRes = res.data;
 
-      cookies.set("expiresAt", loginRes.expiresAt);
-      cookies.set("token", loginRes.token);
-      cookies.set("role", loginRes.role);
-      cookies.set("flagExpense", loginRes.flagExpense);
-      cookies.set("flagTarget", loginRes.flagTarget);
-      cookies.set("flagProduct", loginRes.flagProduct);
-      push(paths.dashboard);
+      cookies.set("expiresAt", loginRes.expiresAt, { path: "/" });
+      cookies.set("token", loginRes.token, { path: "/" });
+      cookies.set("role", loginRes.role, { path: "/" });
+      cookies.set("flagExpense", loginRes.flagExpense, { path: "/" });
+      cookies.set("flagTarget", loginRes.flagTarget, { path: "/" });
+      cookies.set("flagProduct", loginRes.flagProduct, { path: "/" });
+      localStorage.setItem("token", loginRes.token);
+
       showToast("Berhasil masuk, sedang diarahkan ulang", "success");
+
+      push(paths.dashboard);
     } catch (error: any) {
       showToast(
         error.response?.data.error ? error.response.data.error : error.message,

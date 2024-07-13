@@ -3,9 +3,7 @@ import { ExpenseRepository } from "@/repositories/ExpenseRepository";
 import { IExpenseListResponse } from "@/types/responses/ExpenseResponse";
 import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addDays } from "date-fns";
 import React, { useEffect, useState } from "react";
-import { DateRange } from "react-day-picker";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
 import { fDayDate } from "@/utils/formatDate";
@@ -63,7 +61,7 @@ function ExpenseMonthly({
         formData.append(`details[${index}][value]`, detail.value.toString());
       });
 
-      formData.append("expenseFile", expenseFile);
+      formData.append("file", expenseFile);
 
       await ExpenseRepository.AddExpense(formData);
 
