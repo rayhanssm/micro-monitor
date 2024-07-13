@@ -75,7 +75,7 @@ function DashboardSummaryMonthly({ selected }: IProps) {
           icon={<FileText color="#14B8A6" />}
           title="Total Transaksi"
           content={
-            <p className="text-teal-500 text-5xl font-extrabold mt-8 mb-6">
+            <p className="text-teal-500 text-3xl font-extrabold mt-8 mb-6">
               {fNum(data?.totalTransaction)}
             </p>
           }
@@ -174,16 +174,18 @@ function DashboardSummaryMonthly({ selected }: IProps) {
           }
           footer="Bulan ini"
         />
-        <DashboardSummaryCard
-          icon={<Medal color="#14B8A6" />}
-          title="Produk Teratas"
-          content={
-            <p className="text-teal-500 text-3xl font-extrabold my-6">
-              {data?.topProduct}
-            </p>
-          }
-          footer={`${data?.topProductSold} terjual bulan ini`}
-        />
+        {data?.topProduct && (
+          <DashboardSummaryCard
+            icon={<Medal color="#14B8A6" />}
+            title="Produk Teratas"
+            content={
+              <p className="text-teal-500 text-3xl font-extrabold my-6">
+                {data?.topProduct}
+              </p>
+            }
+            footer={`${data?.topProductSold} terjual bulan ini`}
+          />
+        )}
         <DashboardSummaryCard
           icon={<HandCoins color="#14B8A6" />}
           title="Total Pengeluaran"

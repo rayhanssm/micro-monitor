@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import LayoutProvider from "@/components/provider/LayoutProvider";
 
@@ -7,6 +8,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <LayoutProvider>{children}</LayoutProvider>
+    <LayoutProvider>
+      {children}
+      <ToastContainer />
+    </LayoutProvider>
   );
 }

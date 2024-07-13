@@ -8,6 +8,7 @@ import { staffField, staffSchema } from "@/data/AuthData";
 import { AuthRepository } from "@/repositories/AuthRepository";
 import { IStaffRequest } from "@/types/requests/AuthRequest";
 import { IStaffListResponse } from "@/types/responses/AuthResponse";
+import { showToast } from "@/utils/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CirclePlus, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -33,7 +34,6 @@ function StaffView() {
     handleSubmit,
     reset,
     formState: { isSubmitting },
-    setValue,
   } = methods;
 
   const onSubmit = async (data: IStaffRequest) => {
@@ -42,8 +42,12 @@ function StaffView() {
       reset();
       setIsReload(!isReload);
       setIsShowAddModal(false);
-    } catch (e: any) {
-      console.log(e);
+      showToast("Staf berhasil ditambahkan", "success");
+    } catch (error: any) {
+      showToast(
+        error.response?.data.error ? error.response.data.error : error.message,
+        "error"
+      );
     }
   };
 
@@ -85,14 +89,16 @@ function StaffView() {
         </div>
       ) : (
         <div className="flex flex-col lg:grid grid-cols-3 gap-x-5 gap-y-5">
-          {data?.map((staff) => (
-            <StaffCard
-              key={staff.userID}
-              staffData={staff}
-              isReload={isReload}
-              setIsReload={setIsReload}
-            />
-          ))}
+          {data?.length === 0
+            ? "Tidak ada data"
+            : data?.map((staff) => (
+                <StaffCard
+                  key={staff.userID}
+                  staffData={staff}
+                  isReload={isReload}
+                  setIsReload={setIsReload}
+                />
+              ))}
         </div>
       )}
 
@@ -108,7 +114,7 @@ function StaffView() {
         open={isShowAddModal}
         setOpen={setIsShowAddModal}
         title="Tambah Staff"
-        buttonText={isSubmitting ? "Loading..." : "Tambah"}
+        buttonText={isSubmitting ? "Memuat..." : "Tambah"}
         onClick={handleSubmit(onSubmit)}
       >
         <FormProvider {...methods}>

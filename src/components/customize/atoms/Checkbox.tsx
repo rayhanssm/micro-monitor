@@ -6,9 +6,17 @@ type IProps = {
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
+  recommendation?: any;
 };
 
-function Checkbox({ label, description, checked, onChange, disabled }: IProps) {
+function Checkbox({
+  label,
+  description,
+  checked,
+  onChange,
+  disabled,
+  recommendation,
+}: IProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);
   };
@@ -16,7 +24,7 @@ function Checkbox({ label, description, checked, onChange, disabled }: IProps) {
   return (
     <div
       className={`${
-        disabled ? "bg-slate-200" : ""
+        disabled ? "bg-slate-100" : ""
       } flex items-center gap-4 border rounded-lg p-4 w-full`}
     >
       <input
@@ -26,9 +34,12 @@ function Checkbox({ label, description, checked, onChange, disabled }: IProps) {
         onChange={handleChange}
         disabled={disabled}
       />
-      <div>
-        <p className="text-sm font-semibold lining-nums">{label}</p>
-        <p className="text-xs text-slate-500 lining-nums">{description}</p>
+      <div className="flex flex-col gap-2">
+        <div>
+          <p className="text-sm font-semibold">{label}</p>
+          <p className="text-xs text-slate-500">{description}</p>
+        </div>
+        {recommendation && recommendation}
       </div>
     </div>
   );
