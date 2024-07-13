@@ -1,7 +1,9 @@
 "use client";
 
 import useClickOutsideElement from "@/hooks/useClickOutsideElement";
+import { AuthRepository } from "@/repositories/AuthRepository";
 import { paths } from "@/routes/paths";
+import { IProfileResponse } from "@/types/responses/AuthResponse";
 import { Bolt, LogOut, Menu } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -14,6 +16,7 @@ function Navbar() {
   const cookies = new Cookies();
 
   const [filteredNavItems, setFilteredNavItems] = useState<any[]>([]);
+  const [profile, setProfile] = useState<IProfileResponse | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenNavMobile, setIsOpenNavMobile] = useState(false);
@@ -28,6 +31,14 @@ function Navbar() {
     cookies.remove("flagTarget");
     cookies.remove("flagExpense");
     cookies.remove("flagProduct");
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("expiresAt");
+    localStorage.removeItem("flagTarget");
+    localStorage.removeItem("flagExpense");
+    localStorage.removeItem("flagProduct");
+
     push(paths.auth.login);
   };
 
@@ -71,6 +82,19 @@ function Navbar() {
     setFilteredNavItems(filteredItems);
   }, []);
 
+  const getProfile = async () => {
+    try {
+      const res = await AuthRepository.GetProfile();
+      setProfile(res.data);
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   return (
     <nav className="px-4 lg:px-[116px] py-4 w-full bg-white fixed backdrop-blur-2xl flex items-center justify-between z-10">
       <div className="flex gap-14 items-center">
@@ -97,17 +121,23 @@ function Navbar() {
       </div>
 
       <div className="hidden lg:block w-10 h-10 cursor-pointer">
-        <img
+        <div
           onClick={() => setIsOpen(true)}
-          className="w-10 h-10 rounded-full bg-cover bg-no-repeat bg-center hover:brightness-50 transition-all"
-          src="/assets/image-placeholder.png"
-        />
+          className="w-10 h-10 flex justify-center items-center rounded-full bg-teal-500 transition-all"
+        >
+          <p className="text-white font-bold text-xl">
+            {profile?.userName ? profile?.userName[0] : "-"}
+          </p>
+        </div>
         <div
           ref={menuRef}
           className={`${
             isOpen ? "scale-100 opacity-100" : "scale-90 invisible"
           } absolute z-50 mt-2 right-[116px] p-4 w-[212px] gap-2 flex flex-col bg-white border-2 rounded-lg shadow-md transition-all`}
         >
+          <p className="font-bold text-center">
+            {profile?.userName ? profile.userName : "User"}
+          </p>
           <button
             className="flex items-center gap-2 bg-transparent hover:bg-[#1C1C1C] text-sm text-[#1C1C1C] hover:text-white font-medium py-2 px-4 rounded-md transition ease-in"
             onClick={() => {

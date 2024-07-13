@@ -64,7 +64,7 @@ function ExpenseDaily({
         formData.append(`details[${index}][value]`, detail.value.toString());
       });
 
-      formData.append("expenseFile", expenseFile);
+      formData.append("file", expenseFile);
 
       await ExpenseRepository.AddExpense(formData);
 

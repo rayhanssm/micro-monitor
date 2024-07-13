@@ -17,7 +17,6 @@ import ModalCard from "../organisms/cards/ModalCard";
 import ExpenseForm from "../organisms/forms/ExpenseForm";
 import { fNum } from "@/utils/formatNumber";
 import { showToast } from "@/utils/toast";
-import Link from "next/link";
 
 type IProps = {
   detailData: IExpenseResponse;
@@ -58,7 +57,20 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
   const onEdit = async (data: IExpenseRequest) => {
     try {
       if (!selectedExpenseID) return;
-      await ExpenseRepository.EditExpense(data, selectedExpenseID);
+      const formData = new FormData();
+      formData.append("expenseDate", data.expenseDate.toISOString());
+      formData.append("expenseTotal", data.expenseTotal.toString());
+      formData.append("expenseCategory", data.expenseCategory);
+
+      data.details.forEach((detail, index) => {
+        formData.append(`details[${index}][description]`, detail.description);
+        if (!detail.value) return;
+        formData.append(`details[${index}][value]`, detail.value.toString());
+      });
+
+      formData.append("file", expenseFile);
+
+      await ExpenseRepository.EditExpense(formData, selectedExpenseID);
       setIsShowEdit(false);
       setIsReload(!isReload);
       showToast("Pengeluaran berhasil diubah", "success");

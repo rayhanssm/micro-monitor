@@ -1,8 +1,6 @@
 import axios from "axios";
-import { Cookies } from "react-cookie";
 
-const cookies = new Cookies();
-const token = cookies.get("token");
+const token = typeof window !== "undefined" && localStorage.getItem("token");
 
 const customAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
