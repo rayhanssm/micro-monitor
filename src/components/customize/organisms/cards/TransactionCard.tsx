@@ -8,9 +8,16 @@ type IProps = {
   isReload: any;
   setIsReload: any;
   productData: IProductListResponse[] | null;
+  setSearchText: any;
 };
 
-function TransactionCard({ data, isReload, setIsReload, productData }: IProps) {
+function TransactionCard({
+  data,
+  isReload,
+  setIsReload,
+  productData,
+  setSearchText,
+}: IProps) {
   return (
     <div className="flex flex-col gap-6 p-4 border rounded-xl shadow-md">
       {data.transactions.map((transaction) => (
@@ -20,6 +27,7 @@ function TransactionCard({ data, isReload, setIsReload, productData }: IProps) {
           productData={productData}
           isReload={isReload}
           setIsReload={setIsReload}
+          setSearchText={setSearchText}
         />
       ))}
     </div>

@@ -25,6 +25,7 @@ type IProps = {
   isReload: any;
   setIsReload: any;
   productData: IProductListResponse[] | null;
+  setSearchText: any;
 };
 
 function TransactionAccordion({
@@ -32,6 +33,7 @@ function TransactionAccordion({
   isReload,
   setIsReload,
   productData,
+  setSearchText,
 }: IProps) {
   const [open, setOpen] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
@@ -295,10 +297,9 @@ function TransactionAccordion({
             onClick={handleSubmit(onEdit)}
             maxWidth="max-w-2xl"
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col lg:grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
-                <SearchField name="productSearch" setSearchText={() => {}} />
-                {/* {productList.map((product) => ( */}
+                <SearchField name="productSearch" setSearchText={setSearchText} />
                 {productData?.map((product) => (
                   <Checkbox
                     key={product.productID}
