@@ -174,7 +174,7 @@ function TransactionView() {
   return (
     <div className="px-4 py-[112px] lg:px-[116px]">
       <div className="flex justify-between lg:justify-end mb-6">
-        <div className="flex gap-6">
+        <div className="w-full lg:w-auto flex flex-col gap-4 lg:flex-row lg:gap-6">
           <RangeDatePicker selected={selected} setSelected={setSelected} />
           <IconButton
             icon={<CirclePlus />}
@@ -207,6 +207,7 @@ function TransactionView() {
                       isReload={isReload}
                       setIsReload={setIsReload}
                       productData={productData}
+                      setSearchText={setSearchText}
                     />
                   </FormProvider>
                 </div>

@@ -1,6 +1,5 @@
-import { addDays } from "date-fns";
-import { Calendar, ChevronDown } from "lucide-react";
-import React, { useState } from "react";
+import { Calendar } from "lucide-react";
+import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -29,7 +28,7 @@ const css = `
     background-color: #14B8A650!important;
   }
   .react-datepicker__year-wrapper {
-    max-width: 140px;
+    width: 100%;
   }
 `;
 
@@ -57,16 +56,6 @@ function RangeYearPicker({ yearRange, setYearRange }: IProps) {
         }}
         className="flex justify-center py-2 px-3 border text-teal-700 text-sm font-medium border-slate-400 max-w-32 rounded-lg cursor-pointer lining-nums"
       />
-      {/* <DatePicker
-        showIcon
-        selected={selectedYear}
-        onChange={(date) => handleYearChange(date as Date)}
-        showYearPicker
-        dateFormat="yyyy"
-        className="flex justify-center py-2 px-3 border text-teal-700 text-sm font-medium border-slate-400 max-w-20 rounded-lg cursor-pointer lining-nums"
-        icon={<Calendar color="#0F766E" size={24} />}
-        disabledKeyboardNavigation
-      /> */}
     </div>
   );
 }

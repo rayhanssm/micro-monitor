@@ -47,12 +47,12 @@ function ExpenseView() {
 
   return (
     <div className="px-4 py-[112px] lg:px-[116px]">
-      <div className="flex justify-between mb-6">
+      <div className="flex flex-col lg:flex-row lg:justify-between mb-6">
         <ExpenseButtonGroup
           selected={selectedExpense}
           setSelected={setSelectedExpense}
         />
-        <div className="flex gap-6">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
           {selectedExpense === 1 ? (
             <RangeDatePicker selected={dateRange} setSelected={setDateRange} />
           ) : (

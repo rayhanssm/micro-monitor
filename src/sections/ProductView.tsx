@@ -82,7 +82,7 @@ function ProductView() {
 
   return (
     <div className="px-4 py-[112px] lg:px-[116px]">
-      <div className="flex justify-between mb-6">
+      <div className="flex flex-col gap-4 lg:flex-row lg:justify-between mb-6">
         <SearchField name="productSearch" setSearchText={setSearchText} />
 
         <div className="flex gap-6">
