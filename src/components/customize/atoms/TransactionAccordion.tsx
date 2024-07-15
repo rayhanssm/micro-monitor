@@ -298,22 +298,27 @@ function TransactionAccordion({
             maxWidth="max-w-2xl"
           >
             <div className="flex flex-col lg:grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2 overflow-y-scroll max-h-80 w-full">
-                <SearchField name="productSearch" setSearchText={setSearchText} />
-                {productData?.map((product) => (
-                  <Checkbox
-                    key={product.productID}
-                    label={product.productName}
-                    description={"IDR " + fNum(product.productPrice)}
-                    checked={selectedProducts.some(
-                      (p: IProductListResponse) =>
-                        p.productID === product.productID
-                    )}
-                    onChange={() => handleProductChange(product)}
-                  />
-                ))}
+              <div className="flex flex-col gap-2 overflow-y-auto max-h-80 w-full">
+                <SearchField
+                  name="productSearch"
+                  setSearchText={setSearchText}
+                />
+                {productData?.length === 0 || productData === null
+                  ? "Tidak ada data"
+                  : productData?.map((product) => (
+                      <Checkbox
+                        key={product.productID}
+                        label={product.productName}
+                        description={"IDR " + fNum(product.productPrice)}
+                        checked={selectedProducts.some(
+                          (p: IProductListResponse) =>
+                            p.productID === product.productID
+                        )}
+                        onChange={() => handleProductChange(product)}
+                      />
+                    ))}
               </div>
-              <div className="overflow-y-scroll max-h-80">
+              <div className="overflow-y-auto max-h-80">
                 <FormProvider {...methods}>
                   <TransactionEditForm
                     onSubmit={handleSubmit(onEdit)}

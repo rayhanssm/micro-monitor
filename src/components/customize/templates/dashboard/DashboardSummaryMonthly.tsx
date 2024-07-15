@@ -25,7 +25,7 @@ type IProps = {
 };
 
 function DashboardSummaryMonthly({ selected }: IProps) {
-  const lastItem = summaryMonthly.lastSalesList.length - 1;
+  const lastItem = 4;
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());

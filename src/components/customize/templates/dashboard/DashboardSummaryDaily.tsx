@@ -15,9 +15,7 @@ import {
   Trophy,
 } from "lucide-react";
 import DashboardSalesChartCard from "../../organisms/cards/DashboardSalesChartCard";
-import {
-  summaryDaily,
-} from "@/_dummyData/dashboard";
+import { summaryDaily } from "@/_dummyData/dashboard";
 import { fNum } from "@/utils/formatNumber";
 import { IDashboardSummaryDailyResponse } from "@/types/responses/DashboardResponse";
 import { DashboardRepository } from "@/repositories/DashboardRepository";
@@ -27,7 +25,7 @@ type IProps = {
 };
 
 function DashboardSummaryDaily({ selected }: IProps) {
-  const lastItem = summaryDaily.lastProductSoldList.length - 1;
+  const lastItem = 4;
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());

@@ -70,7 +70,7 @@ function AdminSettingsView() {
         <button
           className={`${
             selected === 1 ? "border border-slate-300 font-semibold" : ""
-          } flex items-center gap-2 w-full bg-transparent hover:bg-slate-50 text-sm text-[#1C1C1C] font-medium py-2 px-4 rounded-md transition ease-in`}
+          } flex items-center gap-2 bg-transparent hover:bg-slate-50 text-sm text-[#1C1C1C] font-medium py-2 px-4 rounded-md transition ease-in`}
           onClick={() => {
             setSelected(1);
           }}
@@ -80,7 +80,7 @@ function AdminSettingsView() {
         <button
           className={`${
             selected === 2 ? "border border-slate-300 font-semibold" : ""
-          } flex items-center gap-2 w-full bg-transparent hover:bg-slate-50 text-sm text-[#1C1C1C] font-medium py-2 px-4 rounded-md transition ease-in`}
+          } flex items-center gap-2 bg-transparent hover:bg-slate-50 text-sm text-[#1C1C1C] font-medium py-2 px-4 rounded-md transition ease-in`}
           onClick={() => {
             setSelected(2);
           }}

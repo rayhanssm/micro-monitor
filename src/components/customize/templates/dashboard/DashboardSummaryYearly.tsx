@@ -25,9 +25,7 @@ type IProps = {
 };
 
 function DashboardSummaryYearly({ selected }: IProps) {
-  const lastItem = summaryOverall.topProductList.length - 1;
-
-  const summaryData = summaryOverall;
+  const lastItem = 4;
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());

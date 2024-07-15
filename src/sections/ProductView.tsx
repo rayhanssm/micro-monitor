@@ -1,6 +1,5 @@
 "use client";
 
-import { productList } from "@/_dummyData/product";
 import IconButton from "@/components/customize/atoms/button/IconButton";
 import SearchField from "@/components/customize/molecules/input-field/SearchField";
 import Pagination from "@/components/customize/molecules/pagination/Pagination";
@@ -19,9 +18,7 @@ import { showToast } from "@/utils/toast";
 
 function ProductView() {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
-  // const dataLength = productList.length;
   const [totalData, setTotalData] = useState(0);
-  // const pageCount = Math.ceil(dataLength / 12);
   const [currPage, setCurrPage] = useState<number>(1);
   const [searchText, setSearchText] = useState("");
   const [isLoadingData, setIsLoadingData] = useState(false);

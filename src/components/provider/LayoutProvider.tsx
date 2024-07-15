@@ -14,11 +14,17 @@ function LayoutProvider({ children }: IProps) {
   const path = usePathname();
   const redirect = useRouter().push;
 
-  const [cookies] = useCookies(["token"]);
+  const [cookies] = useCookies(["token", "role"]);
 
   useEffect(() => {
     if (path === "/login" || path == "/register") return;
     redirect(!cookies.token ? paths.auth.login : path!);
+  }, [path, cookies.token]);
+
+  useEffect(() => {
+    if (path === "/dashboard" && cookies.role === "staff") {
+      redirect(paths.transaction);
+    }
   }, [path, cookies.token]);
 
   return (

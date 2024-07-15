@@ -94,7 +94,9 @@ function ExpenseMonthly({
   };
 
   useEffect(() => {
-    getData();
+    if (selected) {
+      getData();
+    }
   }, [selected, isReload]);
 
   useEffect(() => {
@@ -118,7 +120,7 @@ function ExpenseMonthly({
         </div>
       ) : (
         <div className="flex flex-col lg:grid grid-cols-2 gap-x-10 gap-y-5">
-          {data?.length === 0
+          {data?.length === 0 || data === null
             ? "Tidak ada data"
             : data?.map((data, index) => (
                 <div key={index}>

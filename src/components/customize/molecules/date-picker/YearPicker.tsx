@@ -11,6 +11,16 @@ const css = `
     display: flex;
     align-items: center;
   }
+  .react-datepicker-year-header {
+    color: #14B8A6;
+  }
+  .react-datepicker__header {
+    background-color: #FFFFFF;
+    border-bottom: none
+  }
+  .react-datepicker__year-text--selected {
+    background-color: #14B8A6;
+  }
 `;
 
 type IProps = {

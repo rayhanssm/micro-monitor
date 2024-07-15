@@ -48,7 +48,9 @@ function DashboardSummaryPeriodically() {
   };
 
   useEffect(() => {
-    getData();
+    if (date) {
+      getData();
+    }
   }, [date]);
 
   return (
@@ -68,7 +70,7 @@ function DashboardSummaryPeriodically() {
           icon={<FileText color="#14B8A6" />}
           title="Total Transaksi"
           content={
-            <p className="text-teal-500 text-5xl font-extrabold mt-4">
+            <p className="text-teal-500 text-3xl font-extrabold mt-4">
               {fNum(data?.totalTransaction)}
             </p>
           }
@@ -77,7 +79,7 @@ function DashboardSummaryPeriodically() {
           icon={<ShoppingBasket color="#14B8A6" />}
           title="Total Penjualan"
           content={
-            <p className="text-teal-500 text-4xl font-extrabold mt-4">
+            <p className="text-teal-500 text-3xl font-extrabold mt-4">
               IDR {fNum(data?.totalSales)}
             </p>
           }
@@ -86,7 +88,7 @@ function DashboardSummaryPeriodically() {
           icon={<Target color="#14B8A6" />}
           title="Target"
           content={
-            <p className="text-teal-500 text-4xl font-extrabold mt-4">
+            <p className="text-teal-500 text-3xl font-extrabold mt-4">
               IDR {fNum(data?.totalTarget)}
             </p>
           }
@@ -165,24 +167,29 @@ function DashboardSummaryPeriodically() {
             <div className="flex flex-col mt-7 gap-[10px]">
               <table className="table-auto w-full rounded-md">
                 <tbody>
-                  {data?.topProductList?.map((item, index) => (
-                    <tr key={index} className="border-t">
-                      <td
-                        className={`pt-2.5 pr-2  ${
-                          index === lastItem ? "pb-0" : "pb-2.5"
-                        }`}
-                      >
-                        <p className="text-teal-900">{item.productName}</p>
-                      </td>
-                      <td
-                        className={`pt-2.5 ${
-                          index === lastItem ? "pb-0" : "pb-2.5"
-                        }`}
-                      >
-                        <p className="text-right">{fNum(item.productSold)}</p>
-                      </td>
-                    </tr>
-                  ))}
+                  {data?.topProductList?.length === 0 ||
+                  data?.topProductList === null
+                    ? "Tidak ada data"
+                    : data?.topProductList?.map((item, index) => (
+                        <tr key={index} className="border-t">
+                          <td
+                            className={`pt-2.5 pr-2  ${
+                              index === lastItem ? "pb-0" : "pb-2.5"
+                            }`}
+                          >
+                            <p className="text-teal-900">{item.productName}</p>
+                          </td>
+                          <td
+                            className={`pt-2.5 ${
+                              index === lastItem ? "pb-0" : "pb-2.5"
+                            }`}
+                          >
+                            <p className="text-right">
+                              {fNum(item.productSold)}
+                            </p>
+                          </td>
+                        </tr>
+                      ))}
                 </tbody>
               </table>
             </div>
