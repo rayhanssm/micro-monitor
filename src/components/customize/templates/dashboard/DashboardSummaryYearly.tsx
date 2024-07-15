@@ -1,4 +1,4 @@
-import { fMonth, fMonthYear, fYear } from "@/utils/formatDate";
+import { fMonth, fYear } from "@/utils/formatDate";
 import React, { useEffect, useState } from "react";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
@@ -61,7 +61,7 @@ function DashboardSummaryYearly({ selected }: IProps) {
 
   return (
     <div>
-      <div className="flex justify-between mb-6">
+      <div className="flex justify-between mb-6 items-center">
         <p className="text-slate-500 font-semibold text-2xl lining-nums">
           {fYear(date)}
         </p>

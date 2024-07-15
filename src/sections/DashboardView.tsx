@@ -31,7 +31,7 @@ function DashboardView() {
       case 3:
         return <DashboardSummaryYearly selected={selected} />;
       case 4:
-        return <DashboardSummaryPeriodically selected={selected} />;
+        return <DashboardSummaryPeriodically />;
       default:
         return null;
     }

@@ -1,17 +1,22 @@
 import React from "react";
-import ProfileField from "../../molecules/input-field/ProfileField";
 import TextField from "../../molecules/input-field/TextField";
+import { IProfileResponse } from "@/types/responses/AuthResponse";
 
 type IProps = {
   onSubmit: () => void;
   role: string;
+  profile: IProfileResponse | null;
 };
 
-function ProfileForm({ onSubmit, role = "staff" }: IProps) {
+function ProfileForm({ onSubmit, role = "staff", profile }: IProps) {
   return (
     <form className="space-y-2 s mb-[30px]" onSubmit={onSubmit}>
       <div className="mb-6 flex justify-center">
-        <ProfileField />
+        <div className="w-20 h-20 flex justify-center items-center rounded-full bg-teal-500 transition-all">
+          <p className="text-white font-bold text-4xl">
+            {profile?.userName ? profile?.userName[0] : "-"}
+          </p>
+        </div>
       </div>
 
       <TextField

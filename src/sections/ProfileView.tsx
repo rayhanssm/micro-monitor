@@ -1,6 +1,5 @@
 "use client";
 
-import { profileStaffDetail } from "@/_dummyData/auth";
 import Button from "@/components/customize/atoms/button/Button";
 import ProfileForm from "@/components/customize/organisms/forms/ProfileForm";
 import { profileField, profileSchema } from "@/data/AuthData";
@@ -66,11 +65,15 @@ function ProfileView() {
     <div className="pt-[124px] px-[116px] flex justify-center">
       <div className="p-[25px] w-[400px] border border-slate-200 rounded-lg shadow">
         <FormProvider {...methods}>
-          <ProfileForm onSubmit={handleSubmit(onSubmit)} role="staff" />
+          <ProfileForm
+            onSubmit={handleSubmit(onSubmit)}
+            role="staff"
+            profile={profile}
+          />
         </FormProvider>
 
         <Button
-          text="Simpan"
+          text={isSubmitting ? "Memuat..." : "Simpan"}
           btnStyle="filled"
           additionClassname="w-full"
           onClick={handleSubmit(onSubmit)}

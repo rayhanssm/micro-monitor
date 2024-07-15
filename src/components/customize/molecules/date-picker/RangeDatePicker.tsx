@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconButton from "../../atoms/button/IconButton";
 import { Calendar } from "lucide-react";
 import "react-day-picker/dist/style.css";
@@ -26,11 +26,25 @@ type IProps = {
 
 function RangeDatePicker({ selected, setSelected }: IProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
   const datePickerRef = useClickOutsideElement(setIsOpen);
 
   const handleClickDatePicker = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const footer = (
     <div className="mt-3 flex gap-2 justify-end">
@@ -85,10 +99,10 @@ function RangeDatePicker({ selected, setSelected }: IProps) {
           mode="range"
           selected={selected}
           onSelect={setSelected}
-          numberOfMonths={2}
+          numberOfMonths={isDesktop ? 2 : 1}
           showOutsideDays
           captionLayout="dropdown-buttons"
-          fromYear={2010}
+          fromYear={2018}
           toYear={new Date().getFullYear()}
           modifiersClassNames={{
             selected: "selected",
