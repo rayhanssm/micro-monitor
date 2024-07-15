@@ -2,7 +2,6 @@ import { fMonth, fMonthYear } from "@/utils/formatDate";
 import React, { useEffect, useState } from "react";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
-  CircleChevronDown,
   CircleChevronUp,
   DollarSign,
   FileText,
@@ -30,8 +29,6 @@ function DashboardSummaryMonthly({ selected }: IProps) {
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
-
-  const summaryData = summaryMonthly;
 
   const [data, setData] = useState<IDashboardSummaryMonthlyResponse | null>(
     null
@@ -62,7 +59,7 @@ function DashboardSummaryMonthly({ selected }: IProps) {
 
   return (
     <div>
-      <div className="flex justify-between mb-6 lining-nums">
+      <div className="flex justify-between items-center mb-6 lining-nums">
         <p className="text-slate-500 font-semibold text-2xl">
           {fMonthYear(date)}
         </p>

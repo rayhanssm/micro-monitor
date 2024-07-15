@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import DatePicker from "../../molecules/date-picker/DatePicker";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
-  CircleChevronDown,
   CircleChevronUp,
   DollarSign,
   FileText,
@@ -18,13 +17,10 @@ import {
 import DashboardSalesChartCard from "../../organisms/cards/DashboardSalesChartCard";
 import {
   summaryDaily,
-  summaryRecentSales,
-  summaryTopProducts,
 } from "@/_dummyData/dashboard";
 import { fNum } from "@/utils/formatNumber";
 import { IDashboardSummaryDailyResponse } from "@/types/responses/DashboardResponse";
 import { DashboardRepository } from "@/repositories/DashboardRepository";
-import { subDays } from "date-fns";
 
 type IProps = {
   selected: number;
@@ -32,8 +28,6 @@ type IProps = {
 
 function DashboardSummaryDaily({ selected }: IProps) {
   const lastItem = summaryDaily.lastProductSoldList.length - 1;
-
-  const summaryData = summaryDaily;
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [salesDate, setSalesDate] = useState<Date | undefined>(new Date());
@@ -65,8 +59,8 @@ function DashboardSummaryDaily({ selected }: IProps) {
 
   return (
     <div>
-      <div className="flex justify-between mb-6">
-        <p className="text-slate-500 font-semibold text-2xl lining-nums">
+      <div className="flex justify-between items-center mb-6">
+        <p className="text-slate-500 font-semibold text-lg lg:text-2xl lining-nums">
           {fDayDate(date)}
         </p>
         <DatePicker selected={date} setSelected={setDate} />

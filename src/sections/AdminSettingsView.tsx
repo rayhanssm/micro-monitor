@@ -1,6 +1,5 @@
 "use client";
 
-import { profileAdminDetail } from "@/_dummyData/auth";
 import Button from "@/components/customize/atoms/button/Button";
 import ProfileForm from "@/components/customize/organisms/forms/ProfileForm";
 import { profileField, profileSchema } from "@/data/AuthData";
@@ -93,7 +92,7 @@ function AdminSettingsView() {
         <div className="flex flex-col">
           <div className="p-[25px] w-[400px] border border-slate-200 rounded-lg shadow">
             <FormProvider {...methods}>
-              <ProfileForm onSubmit={handleSubmit(onSubmit)} role={"admin"} />
+              <ProfileForm onSubmit={handleSubmit(onSubmit)} role={"admin"} profile={profile} />
             </FormProvider>
 
             <Button

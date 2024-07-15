@@ -1,4 +1,4 @@
-import { fDayDate, fMonth, fMonthYear } from "@/utils/formatDate";
+import { fDayDate } from "@/utils/formatDate";
 import React, { useEffect, useState } from "react";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
@@ -12,7 +12,6 @@ import {
   Target,
   Trophy,
 } from "lucide-react";
-import DashboardSalesChartCard from "../../organisms/cards/DashboardSalesChartCard";
 import { summaryOverall } from "@/_dummyData/dashboard";
 import { fNum } from "@/utils/formatNumber";
 import { DashboardRepository } from "@/repositories/DashboardRepository";
@@ -21,26 +20,13 @@ import RangeDatePicker from "../../molecules/date-picker/RangeDatePicker";
 import { DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
 
-type IProps = {
-  selected: number;
-};
-
-function DashboardSummaryPeriodically({ selected }: IProps) {
+function DashboardSummaryPeriodically() {
   const lastItem = summaryOverall.topProductList.length - 1;
-
-  const summaryData = summaryOverall;
 
   const [date, setDate] = useState<DateRange>();
 
   const [data, setData] =
     useState<IDashboardSummaryPeriodicallyResponse | null>(null);
-
-  // const monthlySalesList = data?.monthlySalesList.map((l) => {
-  //   return {
-  //     label: fMonth(l.label),
-  //     sales: l.sales,
-  //   };
-  // });
 
   useEffect(() => {
     const to = new Date();
@@ -67,8 +53,8 @@ function DashboardSummaryPeriodically({ selected }: IProps) {
 
   return (
     <div>
-      <div className="flex justify-between mb-6 linin">
-        <p className="text-slate-500 font-semibold text-2xl lining-nums">
+      <div className="flex flex-col lg:flex-row gap-4 justify-between mb-6 items-center">
+        <p className="text-slate-500 font-semibold text-lg lg:text-2xl lining-nums">
           {date
             ? `${fDayDate(date?.from)} - ${date.to ? fDayDate(date?.to) : ""}`
             : "Pilih tanggal"}

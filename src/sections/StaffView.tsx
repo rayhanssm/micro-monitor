@@ -1,4 +1,3 @@
-import { staffList } from "@/_dummyData/auth";
 import IconButton from "@/components/customize/atoms/button/IconButton";
 import Pagination from "@/components/customize/molecules/pagination/Pagination";
 import ModalCard from "@/components/customize/organisms/cards/ModalCard";
@@ -74,7 +73,7 @@ function StaffView() {
 
   return (
     <div className="flex flex-col w-full gap-6">
-      <div>
+      <div className="w-full lg:w-fit">
         <IconButton
           icon={<CirclePlus />}
           text="Tambah"

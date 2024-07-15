@@ -1,17 +1,12 @@
 "use client";
 
-import { IProductListResponse } from "@/types/responses/ProductResponse";
-import { fCurrency } from "@/utils/formatNumber";
 import { Pencil, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import ModalCard from "./ModalCard";
-import ProductForm from "../forms/ProductForm";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IProductRequest } from "@/types/requests/ProductRequest";
 import { FormProvider, useForm } from "react-hook-form";
-import { ProductRepository } from "@/repositories/ProductRepository";
 import { IStaffListResponse } from "@/types/responses/AuthResponse";
-import { staffEditSchema, staffSchema } from "@/data/AuthData";
+import { staffEditSchema } from "@/data/AuthData";
 import { AuthRepository } from "@/repositories/AuthRepository";
 import { IStaffEditRequest } from "@/types/requests/AuthRequest";
 import StaffEditForm from "../forms/StaffEditForm";
@@ -75,7 +70,14 @@ function StaffCard({ staffData, isReload, setIsReload }: IProps) {
     <div className="p-4 border rounded-md shadow-md min-w-10">
       <div className="flex flex-col gap-1">
         <div className="flex justify-between">
-          <p className="text-sm font-semibold">{staffData.userName}</p>
+          <div className="flex gap-4 items-center">
+            <div className="w-10 h-10 flex justify-center items-center rounded-full bg-teal-500 transition-all">
+              <p className="text-white font-bold text-xl">
+                {staffData?.userName ? staffData?.userName[0] : "-"}
+              </p>
+            </div>
+            <p className="text-sm font-semibold">{staffData.userName}</p>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={() => {
