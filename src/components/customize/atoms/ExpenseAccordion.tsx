@@ -2,7 +2,7 @@ import { expenseField, expenseSchema } from "@/data/ExpenseData";
 import { ExpenseRepository } from "@/repositories/ExpenseRepository";
 import { IExpenseRequest } from "@/types/requests/ExpenseRequest";
 import { IExpenseResponse } from "@/types/responses/ExpenseResponse";
-import { fTime } from "@/utils/formatDate";
+import { fDateSlash, fTime } from "@/utils/formatDate";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   ChevronDown,
@@ -132,7 +132,11 @@ function ExpenseAccordion({ detailData, isReload, setIsReload }: IProps) {
           {open ? <ChevronUp /> : <ChevronDown />}
           <div className="flex flex-col items-start lg:flex-row lg:items-center gap-3 ml-2">
             <div className="px-2 py-1 rounded-xl text-white text-base font-bold lining-nums bg-teal-700">
-              {fTime(detailData.expenseDate)}
+              {detailData.expenseCategory === "Harian"
+                ? fTime(detailData.expenseDate)
+                : `${fDateSlash(detailData.expenseDate)} - ${fTime(
+                    detailData.expenseDate
+                  )}`}
             </div>
           </div>
         </button>

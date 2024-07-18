@@ -21,7 +21,7 @@ import { DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
 
 function DashboardSummaryPeriodically() {
-  const lastItem = summaryOverall.topProductList.length - 1;
+  const lastItem = 4;
 
   const [date, setDate] = useState<DateRange>();
 
