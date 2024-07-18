@@ -1,4 +1,4 @@
-import { fMonth, fYear } from "@/utils/formatDate";
+import { fMonth, fMonthYear, fYear } from "@/utils/formatDate";
 import React, { useEffect, useState } from "react";
 import DashboardSummaryCard from "../../organisms/cards/DashboardSummaryCard";
 import {
@@ -61,7 +61,7 @@ function DashboardSummaryYearly({ selected }: IProps) {
     <div>
       <div className="flex justify-between mb-6 items-center">
         <p className="text-slate-500 font-semibold text-2xl lining-nums">
-          {fYear(date)}
+          {fMonthYear(date)}
         </p>
         <YearIconPicker selectedYear={date} setSelectedYear={setDate} />
       </div>
@@ -104,7 +104,7 @@ function DashboardSummaryYearly({ selected }: IProps) {
               IDR {fNum(data?.totalSales)}
             </p>
           }
-          footer="Dari bulan lalu"
+          footer="Dari tahun lalu"
           footerIcon={
             data?.totalSalesGrowth && data?.totalSalesGrowth <= 0 ? (
               <div className="flex gap-1 items-center bg-red-100 rounded-full px-3 py-1 lining-nums">
