@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
-import { fDayDate } from "@/utils/formatDate";
+import { fMonthYear } from "@/utils/formatDate";
 import ExpenseCard from "../../organisms/cards/ExpenseCard";
 import ModalCard from "../../organisms/cards/ModalCard";
 import ExpenseForm from "../../organisms/forms/ExpenseForm";
@@ -128,7 +128,7 @@ function ExpenseMonthly({
                     className="font-semibold text-2xl mb-4 lining-nums"
                     suppressHydrationWarning
                   >
-                    {fDayDate(data.date)}
+                    {fMonthYear(data.date)}
                   </p>
                   <ExpenseCard
                     data={data}
