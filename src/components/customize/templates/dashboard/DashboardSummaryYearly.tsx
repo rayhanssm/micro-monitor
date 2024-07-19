@@ -247,7 +247,7 @@ function DashboardSummaryYearly({ selected }: IProps) {
                           index === lastItem ? "pb-0" : "pb-2.5"
                         }`}
                       >
-                        <p className="text-teal-900">{fMonth(l.salesDate)}</p>
+                        <p className="text-teal-900">{fYear(l.salesDate)}</p>
                       </td>
                       <td
                         className={`pt-2.5 ${
@@ -277,7 +277,7 @@ function DashboardSummaryYearly({ selected }: IProps) {
                           index === lastItem ? "pb-0" : "pb-2.5"
                         }`}
                       >
-                        <p className="text-teal-900">{fMonth(l.profitDate)}</p>
+                        <p className="text-teal-900">{fYear(l.profitDate)}</p>
                       </td>
                       <td
                         className={`pt-2.5 pr-2 ${
@@ -309,7 +309,7 @@ function DashboardSummaryYearly({ selected }: IProps) {
                           index === lastItem ? "pb-0" : "pb-2.5"
                         }`}
                       >
-                        <p className="text-teal-900">{fMonth(l.productDate)}</p>
+                        <p className="text-teal-900">{fYear(l.productDate)}</p>
                       </td>
                       <td
                         className={`pt-2.5 pr-2 ${
