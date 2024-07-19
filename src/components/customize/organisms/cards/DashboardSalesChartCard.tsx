@@ -42,7 +42,9 @@ function DashboardSalesChartCard({
   return (
     <div className="p-6 rounded-lg shadow-md border">
       <div className="flex justify-between ">
-        <p className="text-2xl font-semibold">Penjualan Bulanan</p>
+        <p className="text-2xl font-semibold">
+          {selected === 1 ? "Penjualan Harian" : "Penjualan Bulanan"}
+        </p>
         {selected === 1 ? (
           <MonthPicker
             selectedDate={salesDate}
